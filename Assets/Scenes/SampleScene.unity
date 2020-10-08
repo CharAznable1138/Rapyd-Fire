@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d319402deb8614c439915f4c88c51353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1168802095}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -545,7 +546,7 @@ GameObject:
   - component: {fileID: 1168802100}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -676,6 +677,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpForce: 10
+  bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
+    type: 3}
 --- !u!1 &1328001363
 GameObject:
   m_ObjectHideFlags: 0

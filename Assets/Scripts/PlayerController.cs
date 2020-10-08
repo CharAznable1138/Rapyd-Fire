@@ -6,14 +6,20 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 10;
     [SerializeField] private float jumpForce = 10;
+
+    [SerializeField] private GameObject bulletPrefab;
+
     private float horizontalInput;
-    private bool isOnGround = false;
+    private bool onGround = false;
+    internal bool FacingRight { get; private set; }
 
     private Rigidbody2D rigidbody2D;
+    private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -23,10 +29,14 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
-        if(Input.GetKeyDown("space") && isOnGround)
+        if(Input.GetKeyDown("space") && onGround)
         {
-            isOnGround = false;
+            onGround = false;
             Jump();
+        }
+        if(Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bulletPrefab, gameObject.transform);
         }
     }
 
@@ -34,12 +44,22 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Ground"))
         {
-            isOnGround = true;
+            onGround = true;
         }
     }
 
     private void Move()
     {
+        if(FacingRight && horizontalInput < 0)
+        {
+            spriteRenderer.flipX = true;
+            FacingRight = false;
+        }
+        if(!FacingRight && horizontalInput > 0)
+        {
+            spriteRenderer.flipX = false;
+            FacingRight = true;
+        }
         rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
     }
 
