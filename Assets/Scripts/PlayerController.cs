@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalInput;
     private bool onGround = false;
-    private bool facingRight = true;
+    internal bool FacingRight { get; private set; }
 
     private Rigidbody2D rigidbody2D;
     private SpriteRenderer spriteRenderer;
@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour
             onGround = false;
             Jump();
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bulletPrefab, gameObject.transform);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,15 +50,15 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if(facingRight && horizontalInput < 0)
+        if(FacingRight && horizontalInput < 0)
         {
             spriteRenderer.flipX = true;
-            facingRight = false;
+            FacingRight = false;
         }
-        if(!facingRight && horizontalInput > 0)
+        if(!FacingRight && horizontalInput > 0)
         {
             spriteRenderer.flipX = false;
-            facingRight = true;
+            FacingRight = true;
         }
         rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
     }
