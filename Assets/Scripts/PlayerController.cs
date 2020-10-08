@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed = 10;
     [SerializeField] private float jumpForce = 10;
 
+    [SerializeField] private GameObject bulletPrefab;
+
     private float horizontalInput;
     private bool onGround = false;
     private bool facingRight = true;
