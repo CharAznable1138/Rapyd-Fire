@@ -19,7 +19,15 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed , rigidbody2D.velocity.y);
+        if (horizontalInput != 0)
+        {
+            Move();
+        }
+        if(Input.GetKeyDown("space") && isOnGround)
+        {
+            isOnGround = false;
+            Jump();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -28,5 +36,15 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
         }
+    }
+
+    private void Move()
+    {
+        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+    }
+
+    private void Jump()
+    {
+        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
     }
 }
