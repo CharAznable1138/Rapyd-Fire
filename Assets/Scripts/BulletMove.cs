@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class BulletMove : MonoBehaviour
 {
-    [SerializeField] private float bulletSpeed = 50;
-    [SerializeField] private float selfDestructCountdown = 1;
+    [SerializeField]
+    private float bulletSpeed = 50;
+
+    [SerializeField]
+    private float selfDestructCountdown = 1;
 
     private Rigidbody2D rigidbody2D;
 
     private GameObject player;
     private PlayerController playerController;
 
-    private float movementDirection;
+    private Vector2 movementVector;
 
     private void Start()
     {
@@ -28,15 +31,26 @@ public class BulletMove : MonoBehaviour
 
     private void Shoot()
     {
-        if(playerController.FacingRight)
+        if(playerController.AimingUp)
         {
-            movementDirection = 1;
+            movementVector = new Vector2(rigidbody2D.velocity.x, bulletSpeed);
+        }
+        else if(playerController.AimingDown)
+        {
+            movementVector = new Vector2(rigidbody2D.velocity.x, -bulletSpeed);
         }
         else
         {
-            movementDirection = -1;
+            if (playerController.FacingRight)
+            {
+                movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
+            }
+            else
+            {
+                movementVector = new Vector2(-bulletSpeed, rigidbody2D.velocity.y);
+            }
         }
-        rigidbody2D.velocity = new Vector2(movementDirection * bulletSpeed, rigidbody2D.velocity.y);
+        rigidbody2D.velocity = movementVector;
     }
 
     private IEnumerator SelfDestruct()

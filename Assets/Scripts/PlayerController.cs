@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,9 +19,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 jumpVector;
     private float horizontalInput;
+    private float verticalInput;
     private bool onGround = false;
     private bool canShoot = true;
     internal bool FacingRight { get; private set; }
+    internal bool AimingUp { get; private set; }
+    internal bool AimingDown { get; private set; }
 
     private Rigidbody2D rigidbody2D;
     private SpriteRenderer spriteRenderer;
@@ -29,14 +33,26 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        AimingDown = false;
+        AimingUp = false;
     }
 
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
         if (horizontalInput != 0)
         {
             Move();
+        }
+        if(verticalInput != 0)
+        {
+            Aim();
+        }
+        else
+        {
+            AimingDown = false;
+            AimingUp = false;
         }
         if(Input.GetKeyDown("space") && onGround)
         {
@@ -78,6 +94,18 @@ public class PlayerController : MonoBehaviour
             FacingRight = true;
         }
         rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+    }
+
+    private void Aim()
+    {
+        if(!onGround && verticalInput < 0)
+        {
+            AimingDown = true;
+        }
+        if(verticalInput > 0)
+        {
+            AimingUp = true;
+        }
     }
 
     private void Jump()
