@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
+//Credit for raycast jumping logic: https://kylewbanks.com/blog/unity-2d-checking-if-a-character-or-object-is-on-the-ground-using-raycasts
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,15 +15,20 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 10;
 
     [SerializeField]
+    private float groundCheckDistance = 1;
+
+    [SerializeField]
     private float cooldownTime = 0.5f;
 
     [SerializeField]
     private GameObject bulletPrefab;
 
+    [SerializeField]
+    private LayerMask groundLayer;
+
     private Vector2 jumpVector;
     private float horizontalInput;
     private float verticalInput;
-    private bool onGround = false;
     private bool canShoot = true;
     internal bool FacingRight { get; private set; }
     internal bool AimingUp { get; private set; }
@@ -35,6 +43,21 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         AimingDown = false;
         AimingUp = false;
+    }
+
+    private bool IsOnGround()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = groundCheckDistance;
+
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+        if(hit.collider != null)
+        {
+            return true;
+        }
+        return false;
+
     }
 
     private void Update()
@@ -54,9 +77,8 @@ public class PlayerController : MonoBehaviour
             AimingDown = false;
             AimingUp = false;
         }
-        if(Input.GetKeyDown("space") && onGround)
+        if(Input.GetKeyDown("space") && IsOnGround())
         {
-            onGround = false;
             Jump();
         }
         if(Input.GetMouseButtonDown(0) && canShoot)
@@ -71,14 +93,6 @@ public class PlayerController : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Ground"))
-        {
-            onGround = true;
-        }
     }
 
     private void Move()
@@ -98,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     private void Aim()
     {
-        if(!onGround && verticalInput < 0)
+        if(!IsOnGround() && verticalInput < 0)
         {
             AimingDown = true;
         }

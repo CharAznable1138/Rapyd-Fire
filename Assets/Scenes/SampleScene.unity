@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 723082569}
   - component: {fileID: 723082568}
   - component: {fileID: 723082570}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1136,9 +1136,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpForce: 600
+  groundCheckDistance: 0.6
   cooldownTime: 0.1
   bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
     type: 3}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1328001363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1199,7 @@ GameObject:
   - component: {fileID: 1583823826}
   - component: {fileID: 1583823828}
   - component: {fileID: 1583823827}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
