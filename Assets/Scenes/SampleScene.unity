@@ -677,6 +677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpForce: 10
+  cooldownTime: 0.2
   bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
     type: 3}
 --- !u!1 &1328001363

@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 10;
-    [SerializeField] private float jumpForce = 10;
+    [SerializeField]
+    private float movementSpeed = 10;
 
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField]
+    private float jumpForce = 10;
+
+    [SerializeField]
+    private float cooldownTime = 0.5f;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
 
     private float horizontalInput;
     private bool onGround = false;
+    private bool canShoot = true;
     internal bool FacingRight { get; private set; }
 
     private Rigidbody2D rigidbody2D;
@@ -34,10 +42,18 @@ public class PlayerController : MonoBehaviour
             onGround = false;
             Jump();
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && canShoot)
         {
-            Instantiate(bulletPrefab, gameObject.transform);
+            StartCoroutine("Shoot");
         }
+    }
+
+    private IEnumerator Shoot()
+    {
+        Instantiate(bulletPrefab, gameObject.transform);
+        canShoot = false;
+        yield return new WaitForSeconds(cooldownTime);
+        canShoot = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
