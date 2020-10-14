@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject bulletPrefab;
 
+    private Vector2 jumpVector;
     private float horizontalInput;
     private bool onGround = false;
     private bool canShoot = true;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
+        jumpVector = new Vector2(0, jumpForce);
+        rigidbody2D.AddForce(jumpVector);
     }
 }
