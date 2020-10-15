@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletMove : MonoBehaviour
+public class EnemyBulletMove : MonoBehaviour
 {
     [SerializeField]
     private float bulletSpeed = 50;
@@ -12,14 +12,19 @@ public class BulletMove : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
+    private GameObject enemy;
+    private EnemyBehavior enemyBehavior;
+
     private GameObject player;
     private PlayerController playerController;
 
     private Vector2 movementVector;
-
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
+        enemyBehavior = enemy.GetComponent<EnemyBehavior>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -28,20 +33,15 @@ public class BulletMove : MonoBehaviour
 
         StartCoroutine("SelfDestruct");
     }
-
     private void Shoot()
     {
-        if(playerController.AimingUp)
+        if (enemyBehavior.AimingUp)
         {
             movementVector = new Vector2(rigidbody2D.velocity.x, bulletSpeed);
         }
-        else if(playerController.AimingDown)
-        {
-            movementVector = new Vector2(rigidbody2D.velocity.x, -bulletSpeed);
-        }
         else
         {
-            if (playerController.FacingRight)
+            if (enemyBehavior.FacingRight)
             {
                 movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
             }
@@ -58,16 +58,15 @@ public class BulletMove : MonoBehaviour
         yield return new WaitForSeconds(selfDestructCountdown);
         Destroy(gameObject);
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
+            playerController.enabled = false;
         }
     }
 }
