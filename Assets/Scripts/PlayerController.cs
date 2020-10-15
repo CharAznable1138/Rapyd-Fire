@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 //Credit for raycast jumping logic: https://kylewbanks.com/blog/unity-2d-checking-if-a-character-or-object-is-on-the-ground-using-raycasts
 
@@ -21,7 +23,16 @@ public class PlayerController : MonoBehaviour
     private float cooldownTime = 0.5f;
 
     [SerializeField]
+    private float powerupStrength = 2;
+
+    [SerializeField]
+    private float powerupTime = 8;
+
+    [SerializeField]
     private GameObject bulletPrefab;
+
+    [SerializeField]
+    private GameObject powerupText;
 
     [SerializeField]
     private LayerMask groundLayer;
@@ -41,6 +52,8 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        powerupText.SetActive(false);
+        FacingRight = true;
         AimingDown = false;
         AimingUp = false;
     }
@@ -126,5 +139,23 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Powerup"))
+        {
+            StartCoroutine("Powerup");
+        }
+    }
+
+    private IEnumerator Powerup()
+    {
+        float normalCooldownTime = cooldownTime;
+        cooldownTime /= powerupStrength;
+        powerupText.SetActive(true);
+        yield return new WaitForSeconds(powerupTime);
+        cooldownTime = normalCooldownTime;
+        powerupText.SetActive(false);
     }
 }
