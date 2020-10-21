@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //Credit for raycast jumping logic: https://kylewbanks.com/blog/unity-2d-checking-if-a-character-or-object-is-on-the-ground-using-raycasts
 
@@ -97,6 +98,10 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && canShoot)
         {
             StartCoroutine("Shoot");
+        }
+        if(Input.GetKeyDown("r"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
