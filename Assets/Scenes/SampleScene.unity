@@ -1299,8 +1299,8 @@ GameObject:
   - component: {fileID: 1168802097}
   - component: {fileID: 1168802096}
   - component: {fileID: 1168802098}
-  - component: {fileID: 1168802099}
   - component: {fileID: 1168802100}
+  - component: {fileID: 1168802099}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -1394,8 +1394,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &1168802099
-BoxCollider2D:
+--- !u!70 &1168802099
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1407,19 +1407,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0009849072, y: -0.14086914}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.37938738, y: 0.7182617}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.019397259, y: -0.14283419}
+  m_Size: {x: 0.46745777, y: 0.7143316}
+  m_Direction: 0
 --- !u!114 &1168802100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6016,14 +6006,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1817792749, guid: 6d4588a99591b0e4db8dbf5748be4672, type: 3}
-      propertyPath: movementSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817792749, guid: 6d4588a99591b0e4db8dbf5748be4672, type: 3}
-      propertyPath: cooldownTime
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2580037140621418827, guid: 6d4588a99591b0e4db8dbf5748be4672,
         type: 3}
       propertyPath: m_Name
