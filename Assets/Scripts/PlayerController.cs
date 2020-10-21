@@ -112,12 +112,12 @@ public class PlayerController : MonoBehaviour
     {
         if(FacingRight && horizontalInput < 0)
         {
-            Flip();
+            spriteRenderer.flipX = true;
             FacingRight = false;
         }
         if(!FacingRight && horizontalInput > 0)
         {
-            Flip();
+            spriteRenderer.flipX = false;
             FacingRight = true;
         }
         rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
@@ -157,10 +157,5 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(powerupTime);
         cooldownTime = normalCooldownTime;
         powerupText.SetActive(false);
-    }
-
-    private void Flip()
-    {
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 }
