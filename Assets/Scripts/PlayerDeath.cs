@@ -19,9 +19,22 @@ public class PlayerDeath : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy Bullet"))
         {
-            powerUpText.SetActive(false);
-            gameOverPanel.SetActive(true);
-            Destroy(gameObject);
+            KillPlayer();
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Bounds"))
+        {
+            KillPlayer();
+        }
+    }
+
+    private void KillPlayer()
+    {
+        powerUpText.SetActive(false);
+        gameOverPanel.SetActive(true);
+        Destroy(gameObject);
     }
 }
