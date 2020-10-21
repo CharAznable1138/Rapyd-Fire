@@ -12,7 +12,6 @@ public class BulletMove : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
-    private GameObject player;
     private PlayerController playerController;
 
     private Vector2 movementVector;
@@ -21,8 +20,7 @@ public class BulletMove : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerController>();
+        playerController = GetComponentInParent<PlayerController>();
 
         Shoot();
 

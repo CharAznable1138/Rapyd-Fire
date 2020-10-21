@@ -12,7 +12,6 @@ public class EnemyBulletMove : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
-    private GameObject enemy;
     private EnemyBehavior enemyBehavior;
 
     private GameObject player;
@@ -23,8 +22,7 @@ public class EnemyBulletMove : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
-        enemyBehavior = enemy.GetComponent<EnemyBehavior>();
+        enemyBehavior = GetComponentInParent<EnemyBehavior>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
