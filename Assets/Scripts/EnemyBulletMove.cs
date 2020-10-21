@@ -14,18 +14,13 @@ public class EnemyBulletMove : MonoBehaviour
 
     private EnemyBehavior enemyBehavior;
 
-    private GameObject player;
-    private PlayerController playerController;
-
     private Vector2 movementVector;
+
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
 
         enemyBehavior = GetComponentInParent<EnemyBehavior>();
-
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerController>();
 
         Shoot();
 
@@ -61,10 +56,6 @@ public class EnemyBulletMove : MonoBehaviour
         if (!collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
-        }
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            playerController.enabled = false;
         }
     }
 }
