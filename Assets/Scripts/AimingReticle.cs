@@ -18,6 +18,12 @@ public class AimingReticle : MonoBehaviour
     [SerializeField]
     private Vector3 aimingDownVector;
 
+    [SerializeField]
+    private Vector3 aimingUpRightVector;
+
+    [SerializeField]
+    private Vector3 aimingUpLeftVector;
+
     private void Start()
     {
         playerController = GetComponentInParent<PlayerController>();
@@ -25,24 +31,30 @@ public class AimingReticle : MonoBehaviour
 
     private void Update()
     {
-        if(playerController.AimingUp)
+        switch(playerController.AimingDirection)
         {
-            transform.localPosition = aimingUpVector;
+            case PlayerController.AimingDirectionState.Up:
+                SetLocalPosition(aimingUpVector);
+                break;
+            case PlayerController.AimingDirectionState.Down:
+                SetLocalPosition(aimingDownVector);
+                break;
+            case PlayerController.AimingDirectionState.Left:
+                SetLocalPosition(aimingLeftVector);
+                break;
+            case PlayerController.AimingDirectionState.Right:
+                SetLocalPosition(aimingRightVector);
+                break;
+            case PlayerController.AimingDirectionState.UpLeft:
+                SetLocalPosition(aimingUpLeftVector);
+                break;
+            case PlayerController.AimingDirectionState.UpRight:
+                SetLocalPosition(aimingUpRightVector);
+                break;
         }
-        else if(playerController.AimingDown)
-        {
-            transform.localPosition = aimingDownVector;
-        }
-        else
-        {
-            if(playerController.FacingRight)
-            {
-                transform.localPosition = aimingRightVector;
-            }
-            else
-            {
-                transform.localPosition = aimingLeftVector;
-            }
-        }
+    }
+    private void SetLocalPosition(Vector3 _target)
+    {
+        transform.localPosition = _target;
     }
 }

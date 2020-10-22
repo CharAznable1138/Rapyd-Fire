@@ -476,6 +476,8 @@ MonoBehaviour:
   aimingLeftVector: {x: -0.6, y: -0.2, z: 0}
   aimingUpVector: {x: 0, y: 0.5, z: 0}
   aimingDownVector: {x: 0, y: -0.8, z: 0}
+  aimingUpRightVector: {x: 0.6, y: 0.5, z: 0}
+  aimingUpLeftVector: {x: -0.6, y: 0.5, z: 0}
 --- !u!212 &520919962
 SpriteRenderer:
   m_ObjectHideFlags: 0
