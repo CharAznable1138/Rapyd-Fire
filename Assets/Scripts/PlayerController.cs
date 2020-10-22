@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //Credit for raycast jumping logic: https://kylewbanks.com/blog/unity-2d-checking-if-a-character-or-object-is-on-the-ground-using-raycasts
 
@@ -41,9 +41,17 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private bool canShoot = true;
-    internal bool FacingRight { get; private set; }
-    internal bool AimingUp { get; private set; }
-    internal bool AimingDown { get; private set; }
+    private bool facingRight;
+    internal enum AimingDirectionState
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+        UpLeft,
+        UpRight
+    }
+    internal AimingDirectionState AimingDirection { get; private set; }
 
     private Rigidbody2D rigidbody2D;
     private SpriteRenderer spriteRenderer;
@@ -53,9 +61,7 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         powerupText.SetActive(false);
-        FacingRight = true;
-        AimingDown = false;
-        AimingUp = false;
+        facingRight = true;
     }
 
     private bool IsOnGround()
@@ -81,15 +87,7 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
-        if(verticalInput != 0)
-        {
-            Aim();
-        }
-        else
-        {
-            AimingDown = false;
-            AimingUp = false;
-        }
+        AimingDirection = Aim();
         if(Input.GetKeyDown("space") && IsOnGround())
         {
             Jump();
@@ -97,6 +95,10 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && canShoot)
         {
             StartCoroutine("Shoot");
+        }
+        if(Input.GetKeyDown("r"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -110,29 +112,18 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if(FacingRight && horizontalInput < 0)
+        if(facingRight && horizontalInput < 0)
         {
             spriteRenderer.flipX = true;
-            FacingRight = false;
+            facingRight = false;
         }
-        if(!FacingRight && horizontalInput > 0)
+        if(!facingRight && horizontalInput > 0)
         {
             spriteRenderer.flipX = false;
-            FacingRight = true;
+            facingRight = true;
         }
-        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
-    }
 
-    private void Aim()
-    {
-        if(!IsOnGround() && verticalInput < 0)
-        {
-            AimingDown = true;
-        }
-        if(verticalInput > 0)
-        {
-            AimingUp = true;
-        }
+        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
     }
 
     private void Jump()
@@ -157,5 +148,39 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(powerupTime);
         cooldownTime = normalCooldownTime;
         powerupText.SetActive(false);
+    }
+
+    private AimingDirectionState Aim()
+    {
+        if(verticalInput > 0)
+        {
+            if(horizontalInput > 0)
+            {
+                return AimingDirectionState.UpRight;
+            }
+            else if(horizontalInput < 0)
+            {
+                return AimingDirectionState.UpLeft;
+            }
+            else
+            {
+                return AimingDirectionState.Up;
+            }
+        }
+        else if(verticalInput < 0 && !IsOnGround())
+        {
+            return AimingDirectionState.Down;
+        }
+        else
+        {
+            if(facingRight)
+            {
+                return AimingDirectionState.Right;
+            }
+            else
+            {
+                return AimingDirectionState.Left;
+            }
+        }
     }
 }

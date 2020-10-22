@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class BulletMove : MonoBehaviour
@@ -12,7 +13,6 @@ public class BulletMove : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
 
-    private GameObject player;
     private PlayerController playerController;
 
     private Vector2 movementVector;
@@ -21,8 +21,7 @@ public class BulletMove : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerController>();
+        playerController = GetComponentInParent<PlayerController>();
 
         Shoot();
 
@@ -31,24 +30,26 @@ public class BulletMove : MonoBehaviour
 
     private void Shoot()
     {
-        if(playerController.AimingUp)
+        switch(playerController.AimingDirection)
         {
-            movementVector = new Vector2(rigidbody2D.velocity.x, bulletSpeed);
-        }
-        else if(playerController.AimingDown)
-        {
-            movementVector = new Vector2(rigidbody2D.velocity.x, -bulletSpeed);
-        }
-        else
-        {
-            if (playerController.FacingRight)
-            {
-                movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
-            }
-            else
-            {
+            case PlayerController.AimingDirectionState.Up:
+                movementVector = new Vector2(rigidbody2D.velocity.x, bulletSpeed);
+                break;
+            case PlayerController.AimingDirectionState.Down:
+                movementVector = new Vector2(rigidbody2D.velocity.x, -bulletSpeed);
+                break;
+            case PlayerController.AimingDirectionState.Left:
                 movementVector = new Vector2(-bulletSpeed, rigidbody2D.velocity.y);
-            }
+                break;
+            case PlayerController.AimingDirectionState.Right:
+                movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
+                break;
+            case PlayerController.AimingDirectionState.UpLeft:
+                movementVector = new Vector2(-bulletSpeed, bulletSpeed);
+                break;
+            case PlayerController.AimingDirectionState.UpRight:
+                movementVector = new Vector2(bulletSpeed, bulletSpeed);
+                break;
         }
         rigidbody2D.velocity = movementVector;
     }
@@ -61,13 +62,9 @@ public class BulletMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Bounds"))
         {
             Destroy(gameObject);
-        }
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Destroy(collision.gameObject);
         }
     }
 }
