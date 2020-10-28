@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class BulletMove : MonoBehaviour
+public class PlayerBulletBehavior : MonoBehaviour
 {
     [SerializeField]
     private float bulletSpeed = 50;
