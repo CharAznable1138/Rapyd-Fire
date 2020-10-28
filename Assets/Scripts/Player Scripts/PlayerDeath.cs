@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject gameOverPanel;
-
-    [SerializeField]
-    private GameObject powerUpText;
-
+    internal bool PlayerIsDead { get; private set; }
     private void Start()
     {
-        gameOverPanel.SetActive(false);
+        PlayerIsDead = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,8 +28,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void KillPlayer()
     {
-        powerUpText.SetActive(false);
-        gameOverPanel.SetActive(true);
+        PlayerIsDead = true;
         Destroy(gameObject);
     }
 }
