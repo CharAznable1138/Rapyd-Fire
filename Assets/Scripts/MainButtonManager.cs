@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class MainButtonManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject player;
+
+    private GameObject spawnPoint;
+
+    private PlayerSpawner playerSpawner;
+
     public void QuitToDesktop()
     {
         #if UNITY_EDITOR
@@ -19,10 +26,17 @@ public class MainButtonManager : MonoBehaviour
     }
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SpawnPlayer();
     }
     public void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    private void SpawnPlayer()
+    {
+        spawnPoint = GameObject.FindGameObjectWithTag("Spawnpoint");
+        playerSpawner = spawnPoint.GetComponent<PlayerSpawner>();
+        playerSpawner.SpawnPlayer();
     }
 }
