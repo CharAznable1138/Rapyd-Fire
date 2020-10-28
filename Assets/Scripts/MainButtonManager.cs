@@ -5,13 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainButtonManager : MonoBehaviour
 {
-    public void QuitGame()
+    public void QuitToDesktop()
     {
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
         Application.Quit();
         #endif
+    }
+    public void QuitToTitle()
+    {
+        SceneManager.LoadScene(0);
     }
     public void Retry()
     {
