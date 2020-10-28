@@ -32,9 +32,6 @@ public class PlayerController : MonoBehaviour
     private GameObject bulletPrefab;
 
     [SerializeField]
-    private GameObject powerupText;
-
-    [SerializeField]
     private LayerMask groundLayer;
 
     private Vector2 jumpVector;
@@ -42,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private bool canShoot = true;
     private bool facingRight;
+    internal bool IsPoweredUp { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -60,7 +58,6 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        powerupText.SetActive(false);
         facingRight = true;
     }
 
@@ -144,10 +141,10 @@ public class PlayerController : MonoBehaviour
     {
         float normalCooldownTime = cooldownTime;
         cooldownTime /= powerupStrength;
-        powerupText.SetActive(true);
+        IsPoweredUp = true;
         yield return new WaitForSeconds(powerupTime);
+        IsPoweredUp = false;
         cooldownTime = normalCooldownTime;
-        powerupText.SetActive(false);
     }
 
     private AimingDirectionState Aim()
