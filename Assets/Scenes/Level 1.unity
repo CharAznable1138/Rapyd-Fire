@@ -6880,7 +6880,7 @@ PrefabInstance:
     - target: {fileID: 2262267351082390128, guid: 7a3e8d5661b8f454c9ca7e9fef2eaaa8,
         type: 3}
       propertyPath: m_Name
-      value: Button Manager
+      value: Main Button Manager
       objectReference: {fileID: 0}
     - target: {fileID: 2262267351082390134, guid: 7a3e8d5661b8f454c9ca7e9fef2eaaa8,
         type: 3}
