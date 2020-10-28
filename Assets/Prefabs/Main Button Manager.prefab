@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2262267351082390134}
   - component: {fileID: 2262267351082390135}
   m_Layer: 0
-  m_Name: Button Manager
+  m_Name: Main Button Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 218843f8c1a1ec54d8b4a1d3f43e856f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 3858356602500371672, guid: 25c7205317993c747bb7ee8ec41e98bb,
+    type: 3}
+  player: {fileID: 5044158608656115661, guid: c9e62590e0424564b999cdd4ee6e8459, type: 3}
