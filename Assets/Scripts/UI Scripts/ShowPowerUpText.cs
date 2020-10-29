@@ -13,17 +13,23 @@ public class ShowPowerUpText : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
     }
     private void Update()
     {
-        if(playerController.IsPoweredUp)
+        if (playerController != null)
         {
-            powerupText.SetActive(true);
-        }
-        else
-        {
-            powerupText.SetActive(false);
+            if (playerController.IsPoweredUp)
+            {
+                powerupText.SetActive(true);
+            }
+            else
+            {
+                powerupText.SetActive(false);
+            }
         }
     }
 }

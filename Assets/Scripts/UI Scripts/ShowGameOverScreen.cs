@@ -13,17 +13,23 @@ public class ShowGameOverScreen : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerDeath = player.GetComponent<PlayerDeath>();
+        if (player != null)
+        {
+            playerDeath = player.GetComponent<PlayerDeath>();
+        }
     }
     private void Update()
     {
-        if (playerDeath.PlayerIsDead)
+        if (playerDeath != null)
         {
-            gameOverPanel.SetActive(true);
-        }
-        else
-        {
-            gameOverPanel.SetActive(false);
+            if (playerDeath.PlayerIsDead)
+            {
+                gameOverPanel.SetActive(true);
+            }
+            else
+            {
+                gameOverPanel.SetActive(false);
+            }
         }
     }
 }
