@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 254310655651858862}
   - component: {fileID: 254310655651858860}
   - component: {fileID: 254310655651858863}
+  - component: {fileID: 4149979763973284099}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -329,6 +330,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverPanel: {fileID: 254310656830016840}
+--- !u!114 &4149979763973284099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254310655651858849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfce95d185bfa34d942508308717afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointText: {fileID: 6871126336223151465}
 --- !u!1 &254310655679217943
 GameObject:
   m_ObjectHideFlags: 0
