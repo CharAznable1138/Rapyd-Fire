@@ -20,7 +20,7 @@ public class PlayerSpawner : MonoBehaviour
 
     internal void SpawnPlayer()
     {
-        Instantiate(player, gameObject.transform);
+        Instantiate(player, gameObject.transform.position, player.transform.rotation);
         Instantiate(canvas);
         Instantiate(mainCamera);
     }
