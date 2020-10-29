@@ -1659,10 +1659,10 @@ RectTransform:
   m_Father: {fileID: 1823069348}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.2, y: 0.11014661}
-  m_AnchorMax: {x: 0.80200005, y: 0.68038225}
-  m_AnchoredPosition: {x: -0.33947754, y: -0.05000305}
-  m_SizeDelta: {x: -0.807251, y: 0.5491333}
+  m_AnchorMin: {x: 0.2, y: 0.21470682}
+  m_AnchorMax: {x: 0.799, y: 0.78223556}
+  m_AnchoredPosition: {x: 0.66049194, y: 0.5090027}
+  m_SizeDelta: {x: 1.192749, y: 1.5491333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277433545
 MonoBehaviour:
@@ -1692,11 +1692,16 @@ MonoBehaviour:
     Left
     Click - Shoot
 
+    Right Click - Lock Movement
+
+    (Notes: You cannot lock while
+    in midair)
+
 
     Objective:
 
-    Eliminate as many enemies as possible and
-    reach finish line'
+    Eliminate as many enemies as possible and reach
+    finish line'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1723,8 +1728,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2071,10 +2076,10 @@ RectTransform:
   m_Father: {fileID: 1823069348}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.35300002, y: 0.7092356}
-  m_AnchorMax: {x: 0.6474728, y: 0.84014666}
-  m_AnchoredPosition: {x: 0, y: 0.40000153}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.36036375, y: 0.8113246}
+  m_AnchorMax: {x: 0.6474728, y: 0.9446178}
+  m_AnchoredPosition: {x: -2.3209763, y: 0.5}
+  m_SizeDelta: {x: 5, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638252588
 MonoBehaviour:
