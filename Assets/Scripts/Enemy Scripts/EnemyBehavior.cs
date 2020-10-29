@@ -66,6 +66,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         Vector2 position = transform.position;
         Vector2 direction;
+        float distance = firingRange;
         if(FacingRight)
         {
             direction = Vector2.right;
@@ -75,14 +76,10 @@ public class EnemyBehavior : MonoBehaviour
             direction = Vector2.left;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, playerLayer);
-        if(hit.collider != null)
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, playerLayer);
+        if (hit.collider != null)
         {
-            float distance = Math.Abs(hit.point.x - transform.position.x);
-            if(distance <= firingRange)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }

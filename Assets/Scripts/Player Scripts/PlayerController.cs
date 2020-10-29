@@ -32,16 +32,20 @@ public class PlayerController : MonoBehaviour
     private GameObject bulletPrefab;
 
     [SerializeField]
-    private GameObject powerupText;
+    private LayerMask groundLayer;
 
     [SerializeField]
-    private LayerMask groundLayer;
+    private float powerupPoints = 5;
 
     private Vector2 jumpVector;
     private float horizontalInput;
     private float verticalInput;
     private bool canShoot = true;
     private bool facingRight;
+    private bool locked = false;
+    private GameObject scoreTrackerObject;
+    private ScoreTracker scoreTrackerScript;
+    internal bool IsPoweredUp { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -60,8 +64,9 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        powerupText.SetActive(false);
         facingRight = true;
+        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
+        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
 
     private bool IsOnGround()
@@ -100,6 +105,15 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        if(Input.GetMouseButton(1) && IsOnGround())
+        {
+            locked = true;
+            Freeze();
+        }
+        else
+        {
+            locked = false;
+        }
     }
 
     private IEnumerator Shoot()
@@ -122,8 +136,14 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = false;
             facingRight = true;
         }
-
-        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+        if (!locked)
+        {
+            rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+        }
+    }
+    private void Freeze()
+    {
+        rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
     }
 
     private void Jump()
@@ -144,10 +164,14 @@ public class PlayerController : MonoBehaviour
     {
         float normalCooldownTime = cooldownTime;
         cooldownTime /= powerupStrength;
-        powerupText.SetActive(true);
+        if (!IsPoweredUp)
+        {
+            scoreTrackerScript.Score += powerupPoints;
+            IsPoweredUp = true;
+        }
         yield return new WaitForSeconds(powerupTime);
+        IsPoweredUp = false;
         cooldownTime = normalCooldownTime;
-        powerupText.SetActive(false);
     }
 
     private AimingDirectionState Aim()
