@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        if (horizontalInput != 0 && !locked)
+        if (horizontalInput != 0)
         {
             Move();
         }
@@ -129,8 +129,10 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = false;
             facingRight = true;
         }
-
-        rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+        if (!locked)
+        {
+            rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+        }
     }
     private void Freeze()
     {
