@@ -13,6 +13,7 @@ TagManager:
   - Canvas
   - Spawnpoint
   - Checkpoint
+  - Finish Line
   layers:
   - Default
   - TransparentFX
