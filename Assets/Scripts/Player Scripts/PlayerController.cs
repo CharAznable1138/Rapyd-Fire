@@ -34,12 +34,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    [SerializeField]
+    private float powerupPoints = 5;
+
     private Vector2 jumpVector;
     private float horizontalInput;
     private float verticalInput;
     private bool canShoot = true;
     private bool facingRight;
     private bool locked = false;
+    private GameObject scoreTrackerObject;
+    private ScoreTracker scoreTrackerScript;
     internal bool IsPoweredUp { get; private set; }
     internal enum AimingDirectionState
     {
@@ -60,6 +65,8 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         facingRight = true;
+        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
+        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
 
     private bool IsOnGround()
@@ -157,7 +164,11 @@ public class PlayerController : MonoBehaviour
     {
         float normalCooldownTime = cooldownTime;
         cooldownTime /= powerupStrength;
-        IsPoweredUp = true;
+        if (!IsPoweredUp)
+        {
+            scoreTrackerScript.Score += powerupPoints;
+            IsPoweredUp = true;
+        }
         yield return new WaitForSeconds(powerupTime);
         IsPoweredUp = false;
         cooldownTime = normalCooldownTime;
