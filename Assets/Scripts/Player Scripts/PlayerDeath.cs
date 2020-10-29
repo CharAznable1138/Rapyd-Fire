@@ -12,15 +12,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy Bullet"))
-        {
-            KillPlayer();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.gameObject.CompareTag("Bounds"))
+        if (collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Bounds"))
         {
             KillPlayer();
         }
