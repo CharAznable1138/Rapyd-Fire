@@ -12,6 +12,8 @@ public class MainButtonManager : MonoBehaviour
 
     private PlayerSpawner playerSpawner;
 
+    private GameObject scoreTracker;
+
     public void QuitToDesktop()
     {
         #if UNITY_EDITOR
@@ -22,6 +24,8 @@ public class MainButtonManager : MonoBehaviour
     }
     public void QuitToTitle()
     {
+        scoreTracker = GameObject.FindGameObjectWithTag("Score Tracker");
+        Destroy(scoreTracker);
         SceneManager.LoadScene(0);
     }
     public void Retry()
