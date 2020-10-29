@@ -12,6 +12,7 @@ TagManager:
   - Bounds
   - Canvas
   - Spawnpoint
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
