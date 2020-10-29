@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private bool canShoot = true;
     private bool facingRight;
+    private bool locked = false;
     internal bool IsPoweredUp { get; private set; }
     internal enum AimingDirectionState
     {
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        if (horizontalInput != 0)
+        if (horizontalInput != 0 && !locked)
         {
             Move();
         }
@@ -96,6 +97,15 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown("r"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        if(Input.GetMouseButton(1) && IsOnGround())
+        {
+            locked = true;
+            Freeze();
+        }
+        else
+        {
+            locked = false;
         }
     }
 
@@ -121,6 +131,10 @@ public class PlayerController : MonoBehaviour
         }
 
         rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
+    }
+    private void Freeze()
+    {
+        rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
     }
 
     private void Jump()
