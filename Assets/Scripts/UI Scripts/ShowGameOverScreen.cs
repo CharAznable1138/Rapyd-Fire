@@ -9,6 +9,9 @@ public class ShowGameOverScreen : MonoBehaviour
     [SerializeField]
     private GameObject gameOverPanel;
 
+    [SerializeField]
+    private GameObject victoryPanel;
+
     private void Update()
     {
         if (PlayerExists())
@@ -17,7 +20,10 @@ public class ShowGameOverScreen : MonoBehaviour
         }
         else
         {
-            gameOverPanel.SetActive(true);
+            if (victoryPanel.activeSelf == false)
+            {
+                gameOverPanel.SetActive(true);
+            }
         }
     }
     private bool PlayerExists()

@@ -678,6 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverPanel: {fileID: 80767788275016010}
+  victoryPanel: {fileID: 3623179157339138756}
 --- !u!114 &4255408286367599873
 MonoBehaviour:
   m_ObjectHideFlags: 0
