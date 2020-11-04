@@ -88,33 +88,32 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        if (horizontalInput != 0)
+        if (Time.timeScale > 0)
         {
-            Move();
-        }
-        AimingDirection = Aim();
-        if(Input.GetKeyDown("space") && IsOnGround())
-        {
-            isJumping = true;
-        }
-        if(Input.GetMouseButtonDown(0) && canShoot)
-        {
-            StartCoroutine("Shoot");
-        }
-        if(Input.GetKeyDown("r"))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        if(Input.GetMouseButton(1) && IsOnGround())
-        {
-            locked = true;
-            Freeze();
-        }
-        else
-        {
-            locked = false;
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
+            if (horizontalInput != 0)
+            {
+                Move();
+            }
+            AimingDirection = Aim();
+            if (Input.GetKeyDown("space") && IsOnGround())
+            {
+                isJumping = true;
+            }
+            if (Input.GetMouseButtonDown(0) && canShoot)
+            {
+                StartCoroutine("Shoot");
+            }
+            if (Input.GetMouseButton(1) && IsOnGround())
+            {
+                locked = true;
+                Freeze();
+            }
+            else
+            {
+                locked = false;
+            }
         }
     }
     private void FixedUpdate()
