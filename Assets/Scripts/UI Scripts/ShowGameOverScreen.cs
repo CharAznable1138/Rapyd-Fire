@@ -13,10 +13,7 @@ public class ShowGameOverScreen : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerDeath = player.GetComponent<PlayerDeath>();
-        }
+        playerDeath = player.GetComponent<PlayerDeath>();
     }
     private void Update()
     {

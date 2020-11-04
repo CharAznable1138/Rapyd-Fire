@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool canShoot = true;
     private bool facingRight;
     private bool locked = false;
+    private bool isJumping = false;
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
     internal bool IsPoweredUp { get; private set; }
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         facingRight = true;
+        isJumping = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour
         AimingDirection = Aim();
         if(Input.GetKeyDown("space") && IsOnGround())
         {
-            Jump();
+            isJumping = true;
         }
         if(Input.GetMouseButtonDown(0) && canShoot)
         {
@@ -113,6 +115,14 @@ public class PlayerController : MonoBehaviour
         else
         {
             locked = false;
+        }
+    }
+    private void FixedUpdate()
+    {
+        if(isJumping)
+        {
+            Jump();
+            isJumping = false;
         }
     }
 
@@ -149,7 +159,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
-        rigidbody2D.AddForce(jumpVector);
+        rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
