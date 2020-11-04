@@ -10,9 +10,12 @@ public class PlayerDeath : MonoBehaviour
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
 
+    private PlayerController playerController;
+
     private bool playerIsDead;
     private void Start()
     {
+        playerController = GetComponent<PlayerController>();
         playerIsDead = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
@@ -20,7 +23,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Bounds"))
+        if ((collision.gameObject.CompareTag("Enemy Bullet") && !playerController.IsShielded) || collision.gameObject.CompareTag("Bounds"))
         {
             KillPlayer();
         }

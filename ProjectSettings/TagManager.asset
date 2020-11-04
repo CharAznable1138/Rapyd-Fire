@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Powerup
   - Enemy
   - Player Bullet
   - Enemy Bullet
@@ -16,6 +15,7 @@ TagManager:
   - Score Display
   - Score Tracker
   - HUD
+  - Shield
   layers:
   - Default
   - TransparentFX

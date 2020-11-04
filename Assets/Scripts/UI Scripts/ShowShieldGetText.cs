@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowPowerUpText : MonoBehaviour
+public class ShowShieldGetText : MonoBehaviour
 {
     private GameObject player;
     private PlayerController playerController;
 
     [SerializeField]
-    private GameObject powerupText;
+    private GameObject shieldGetText;
 
     private void Update()
     {
         if (PlayerExists())
         {
-            if (playerController.IsPoweredUp)
+            if (playerController.IsShielded)
             {
-                powerupText.SetActive(true);
+                shieldGetText.SetActive(true);
             }
             else
             {
-                powerupText.SetActive(false);
+                shieldGetText.SetActive(false);
             }
         }
         else
         {
-            powerupText.SetActive(false);
+            shieldGetText.SetActive(false);
         }
     }
     private bool PlayerExists()

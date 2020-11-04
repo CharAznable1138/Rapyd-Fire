@@ -23,10 +23,7 @@ public class PlayerController : MonoBehaviour
     private float cooldownTime = 0.5f;
 
     [SerializeField]
-    private float powerupStrength = 2;
-
-    [SerializeField]
-    private float powerupTime = 8;
+    private float shieldTime = 8;
 
     [SerializeField]
     private GameObject bulletPrefab;
@@ -35,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
-    private float powerupPoints = 5;
+    private float shieldGetPoints = 5;
 
     private Vector2 jumpVector;
     private float horizontalInput;
@@ -46,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
-    internal bool IsPoweredUp { get; private set; }
+    internal bool IsShielded { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -163,24 +160,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Powerup"))
+        if(collision.gameObject.CompareTag("Shield"))
         {
-            StartCoroutine("Powerup");
+            StartCoroutine("CherryShieldGet");
         }
     }
 
-    private IEnumerator Powerup()
+    private IEnumerator CherryShieldGet()
     {
-        float normalCooldownTime = cooldownTime;
-        cooldownTime /= powerupStrength;
-        if (!IsPoweredUp)
+        Color32 normalSpriteColor = spriteRenderer.color;
+        if (!IsShielded)
         {
-            scoreTrackerScript.Score += powerupPoints;
-            IsPoweredUp = true;
+            spriteRenderer.color = new Color32(255, 25, 155, 255);
+            scoreTrackerScript.Score += shieldGetPoints;
+            IsShielded = true;
         }
-        yield return new WaitForSeconds(powerupTime);
-        IsPoweredUp = false;
-        cooldownTime = normalCooldownTime;
+        yield return new WaitForSeconds(shieldTime);
+        IsShielded = false;
+        spriteRenderer.color = normalSpriteColor;
     }
 
     private AimingDirectionState Aim()
