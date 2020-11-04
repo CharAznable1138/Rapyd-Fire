@@ -23,7 +23,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.CompareTag("Enemy Bullet") && !playerController.IsShielded) || collision.gameObject.CompareTag("Bounds"))
+        if (((collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Hazard")) && !playerController.IsShielded) || collision.gameObject.CompareTag("Bounds"))
         {
             KillPlayer();
         }

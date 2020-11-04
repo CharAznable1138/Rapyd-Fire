@@ -16,6 +16,7 @@ TagManager:
   - Score Tracker
   - HUD
   - Shield
+  - Hazard
   layers:
   - Default
   - TransparentFX
