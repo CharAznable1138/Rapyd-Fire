@@ -10,10 +10,10 @@ public class PlayerDeath : MonoBehaviour
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
 
-    internal bool PlayerIsDead { get; private set; }
+    private bool playerIsDead;
     private void Start()
     {
-        PlayerIsDead = false;
+        playerIsDead = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
@@ -28,9 +28,9 @@ public class PlayerDeath : MonoBehaviour
 
     private void KillPlayer()
     {
-        if (!PlayerIsDead)
+        if (!playerIsDead)
         {
-            PlayerIsDead = true;
+            playerIsDead = true;
             scoreTrackerScript.Score -= playerDeathDemerits;
             if (scoreTrackerScript.Score < 0)
             {

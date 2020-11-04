@@ -10,17 +10,9 @@ public class ShowPowerUpText : MonoBehaviour
     [SerializeField]
     private GameObject powerupText;
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerController = player.GetComponent<PlayerController>();
-        }
-    }
     private void Update()
     {
-        if (playerController != null)
+        if (PlayerExists())
         {
             if (playerController.IsPoweredUp)
             {
@@ -30,6 +22,23 @@ public class ShowPowerUpText : MonoBehaviour
             {
                 powerupText.SetActive(false);
             }
+        }
+        else
+        {
+            powerupText.SetActive(false);
+        }
+    }
+    private bool PlayerExists()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

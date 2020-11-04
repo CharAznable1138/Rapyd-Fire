@@ -5,25 +5,31 @@ using UnityEngine;
 public class ShowGameOverScreen : MonoBehaviour
 {
     private GameObject player;
-    private PlayerDeath playerDeath;
 
     [SerializeField]
     private GameObject gameOverPanel;
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerDeath = player.GetComponent<PlayerDeath>();
-    }
     private void Update()
     {
-        if (playerDeath.PlayerIsDead)
+        if (PlayerExists())
         {
-            gameOverPanel.SetActive(true);
+            gameOverPanel.SetActive(false);
         }
         else
         {
-            gameOverPanel.SetActive(false);
+            gameOverPanel.SetActive(true);
+        }
+    }
+    private bool PlayerExists()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

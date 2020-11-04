@@ -10,27 +10,20 @@ public class PauseGame : MonoBehaviour
     private bool isPaused = false;
 
     private GameObject player;
-    private PlayerDeath playerDeath;
 
     private void Update()
     {
-        if(Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && PlayerExists())
         {
-            if (PlayerExists())
+            if (isPaused)
             {
-                if (!playerDeath.PlayerIsDead)
-                {
-                    if (isPaused)
-                    {
-                        Unpause();
-                        isPaused = false;
-                    }
-                    else
-                    {
-                        Pause();
-                        isPaused = true;
-                    }
-                }
+                Unpause();
+                isPaused = false;
+            }
+            else
+            {
+                Pause();
+                isPaused = true;
             }
         }
     }
@@ -50,7 +43,6 @@ public class PauseGame : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            playerDeath = player.GetComponent<PlayerDeath>();
             return true;
         }
         else
