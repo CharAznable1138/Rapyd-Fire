@@ -20,13 +20,16 @@ public class ShowGameOverScreen : MonoBehaviour
     }
     private void Update()
     {
-        if (playerDeath.PlayerIsDead)
+        if (playerDeath != null)
         {
-            gameOverPanel.SetActive(true);
-        }
-        else
-        {
-            gameOverPanel.SetActive(false);
+            if (playerDeath.PlayerIsDead)
+            {
+                gameOverPanel.SetActive(true);
+            }
+            else
+            {
+                gameOverPanel.SetActive(false);
+            }
         }
     }
 }
