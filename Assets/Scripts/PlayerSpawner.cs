@@ -13,9 +13,6 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField]
     private GameObject HUD;
 
-    [SerializeField]
-    private GameObject mainCamera;
-
     private void Start()
     {
         SpawnPlayer();
@@ -26,6 +23,5 @@ public class PlayerSpawner : MonoBehaviour
         Instantiate(player, gameObject.transform.position, player.transform.rotation);
         var createHUD = Instantiate(HUD, canvas.transform.position, canvas.transform.rotation);
         createHUD.transform.SetParent(canvas.transform);
-        Instantiate(mainCamera);
     }
 }
