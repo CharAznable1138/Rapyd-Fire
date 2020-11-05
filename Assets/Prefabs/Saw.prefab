@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5073198361814007888}
   - component: {fileID: 5073198361814007889}
-  - component: {fileID: 5073198361814007902}
   - component: {fileID: 5073198361814007903}
+  - component: {fileID: 7980758923581266946}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Hazard
@@ -83,55 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &5073198361814007902
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5073198361814007900}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.38, y: 0.38}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.34363624, y: 0.39626792}
-      - {x: 0.13206494, y: 0.33113217}
-      - {x: 0.16172233, y: 0.4936123}
-      - {x: -0.055093765, y: 0.4734125}
-      - {x: -0.17425013, y: 0.31465578}
-      - {x: -0.25753585, y: 0.46167445}
-      - {x: -0.37217128, y: 0.29623723}
-      - {x: -0.33877972, y: 0.12645945}
-      - {x: -0.48083735, y: 0.13693786}
-      - {x: -0.45300674, y: -0.07925844}
-      - {x: -0.3185575, y: -0.20042491}
-      - {x: -0.4616747, y: -0.2654549}
-      - {x: -0.32945096, y: -0.371902}
-      - {x: -0.15200993, y: -0.33877996}
-      - {x: -0.1624881, y: -0.48722506}
-      - {x: 0.037333846, y: -0.46973372}
-      - {x: 0.18165064, y: -0.3083732}
-      - {x: 0.25011984, y: -0.46576542}
-      - {x: 0.3594736, y: -0.28385162}
-      - {x: 0.3455838, y: -0.109350204}
-      - {x: 0.49726415, y: -0.1540339}
-      - {x: 0.43642366, y: 0.062133074}
-      - {x: 0.31199777, y: 0.19906092}
-      - {x: 0.44251204, y: 0.2766985}
 --- !u!114 &5073198361814007903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +96,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spinningSpeed: 10
+--- !u!58 &7980758923581266946
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073198361814007900}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0062921047, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.364722
