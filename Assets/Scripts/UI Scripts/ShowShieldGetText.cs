@@ -2,39 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowGameOverScreen : MonoBehaviour
+public class ShowShieldGetText : MonoBehaviour
 {
     private GameObject player;
+    private PlayerController playerController;
 
     [SerializeField]
-    private GameObject gameOverPanel;
-
-    [SerializeField]
-    private GameObject victoryPanel;
+    private GameObject shieldGetText;
 
     private void Update()
     {
         if (PlayerExists())
         {
-            gameOverPanel.SetActive(false);
-        }
-        else
-        {
-            if (victoryPanel.activeSelf == false)
+            if (playerController.IsShielded)
             {
-                gameOverPanel.SetActive(true);
+                shieldGetText.SetActive(true);
             }
             else
             {
-                gameOverPanel.SetActive(false);
+                shieldGetText.SetActive(false);
             }
+        }
+        else
+        {
+            shieldGetText.SetActive(false);
         }
     }
     private bool PlayerExists()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if(player != null)
         {
+            playerController = player.GetComponent<PlayerController>();
             return true;
         }
         else

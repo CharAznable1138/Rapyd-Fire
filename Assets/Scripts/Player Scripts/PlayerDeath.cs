@@ -10,17 +10,20 @@ public class PlayerDeath : MonoBehaviour
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
 
-    internal bool PlayerIsDead { get; private set; }
+    private PlayerController playerController;
+
+    private bool playerIsDead;
     private void Start()
     {
-        PlayerIsDead = false;
+        playerController = GetComponent<PlayerController>();
+        playerIsDead = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Bounds"))
+        if (((collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Hazard")) && !playerController.IsShielded) || collision.gameObject.CompareTag("Bounds"))
         {
             KillPlayer();
         }
@@ -28,10 +31,14 @@ public class PlayerDeath : MonoBehaviour
 
     private void KillPlayer()
     {
-        if (!PlayerIsDead)
+        if (!playerIsDead)
         {
-            PlayerIsDead = true;
+            playerIsDead = true;
             scoreTrackerScript.Score -= playerDeathDemerits;
+            if (scoreTrackerScript.Score < 0)
+            {
+                scoreTrackerScript.Score = 0;
+            }
         }
         Destroy(gameObject);
     }

@@ -5,17 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Powerup
   - Enemy
   - Player Bullet
   - Enemy Bullet
   - Bounds
-  - Canvas
   - Spawnpoint
   - Checkpoint
   - Finish Line
   - Score Display
   - Score Tracker
+  - HUD
+  - Shield
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Ground
   - Background
   - Player
-  - 
+  - Enemies
   - 
   - 
   - 

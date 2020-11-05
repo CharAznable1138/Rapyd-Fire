@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4955129411682980159}
   - component: {fileID: 1635039722893735785}
   - component: {fileID: 7604407655762859173}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1817792749
 MonoBehaviour:
@@ -122,8 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 2
   groundCheckDistance: 1
+  enemyContactCheckDistance: 1
   cooldownTime: 2
-  firingRange: 50
+  firingRange: 5
   bulletPrefab: {fileID: 4900100024533356526, guid: 58ea259098d3afc4e83fbcdadb427505,
     type: 3}
   groundLayer:
@@ -132,6 +133,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!70 &4955129411682980159
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -160,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36320e9193cfdf64e84de444cda2d8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPoints: 10
 --- !u!61 &7604407655762859173
 BoxCollider2D:
   m_ObjectHideFlags: 0

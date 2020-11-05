@@ -12,6 +12,9 @@ public class EnemyBehavior : MonoBehaviour
     private float groundCheckDistance = 1;
 
     [SerializeField]
+    private float enemyContactCheckDistance = 1;
+
+    [SerializeField]
     private float cooldownTime = 0.5f;
 
     [SerializeField]
@@ -25,6 +28,9 @@ public class EnemyBehavior : MonoBehaviour
 
     [SerializeField]
     private LayerMask playerLayer;
+
+    [SerializeField]
+    private LayerMask enemyLayer;
 
     private bool canShoot = true;
     internal bool FacingRight { get; private set; }
@@ -103,6 +109,25 @@ public class EnemyBehavior : MonoBehaviour
         }
         return false;
     }
+    private bool IsTouchingOtherEnemy()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction;
+        if (FacingRight)
+        {
+            direction = Vector2.right;
+        }
+        else
+        {
+            direction = Vector2.left;
+        }
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, enemyContactCheckDistance, enemyLayer);
+        if(hit.collider != null)
+        {
+            return true;
+        }
+        return false;
+    }
 
     private IEnumerator Shoot()
     {
@@ -114,7 +139,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Move()
     {
-        if(!IsOnEdge())
+        if(!IsOnEdge() && !IsTouchingOtherEnemy())
         {
             if (FacingRight)
             {

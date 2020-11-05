@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class ScoreTracker : Singleton<MonoBehaviour>
 {
+    [SerializeField]
+    private float starterScore = 0;
+
     private float score;
     internal float Score { get { return score; } set { score = value; } }
-    private void Update()
+
+    private void Start()
     {
-        if(score < 0)
-        {
-            score = 0;
-        }
+        score = starterScore;
     }
 }

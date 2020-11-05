@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     private float movementSpeed = 10;
 
     [SerializeField]
+    private float maxSpeed = 20;
+
+    [SerializeField]
     private float jumpForce = 10;
 
     [SerializeField]
@@ -23,10 +26,7 @@ public class PlayerController : MonoBehaviour
     private float cooldownTime = 0.5f;
 
     [SerializeField]
-    private float powerupStrength = 2;
-
-    [SerializeField]
-    private float powerupTime = 8;
+    private float shieldTime = 8;
 
     [SerializeField]
     private GameObject bulletPrefab;
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
-    private float powerupPoints = 5;
+    private float shieldGetPoints = 5;
 
     private Vector2 jumpVector;
     private float horizontalInput;
@@ -43,9 +43,10 @@ public class PlayerController : MonoBehaviour
     private bool canShoot = true;
     private bool facingRight;
     private bool locked = false;
+    private bool isJumping = false;
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
-    internal bool IsPoweredUp { get; private set; }
+    internal bool IsShielded { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         facingRight = true;
+        isJumping = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
@@ -86,33 +88,62 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale > 0)
+        {
+            AimingDirection = Aim();
+            if (Input.GetKeyDown("space") && IsOnGround())
+            {
+                isJumping = true;
+            }
+            if (Input.GetMouseButtonDown(0) && canShoot)
+            {
+                StartCoroutine("Shoot");
+            }
+            if (Input.GetMouseButton(1) && IsOnGround())
+            {
+                locked = true;
+                //Freeze();
+            }
+            else
+            {
+                locked = false;
+            }
+        }
+    }
+    private void FixedUpdate()
+    {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        if (horizontalInput != 0)
+        /*if (horizontalInput != 0)
         {
             Move();
+        }*/
+        if(Input.GetKey("left") || Input.GetKey("a"))
+        {
+            if (facingRight)
+            {
+                Flip();
+            }
+            if (rigidbody2D.velocity.x > -maxSpeed && !locked)
+            {
+                rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
+            }
         }
-        AimingDirection = Aim();
-        if(Input.GetKeyDown("space") && IsOnGround())
+        if(Input.GetKey("right") || Input.GetKey("d"))
+        {
+            if(!facingRight)
+            {
+                Flip();
+            }
+            if (rigidbody2D.velocity.x < maxSpeed && !locked)
+            {
+                rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
+            }
+        }
+        if (isJumping)
         {
             Jump();
-        }
-        if(Input.GetMouseButtonDown(0) && canShoot)
-        {
-            StartCoroutine("Shoot");
-        }
-        if(Input.GetKeyDown("r"))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        if(Input.GetMouseButton(1) && IsOnGround())
-        {
-            locked = true;
-            Freeze();
-        }
-        else
-        {
-            locked = false;
+            isJumping = false;
         }
     }
 
@@ -123,8 +154,21 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
     }
+    private void Flip()
+    {
+        if (facingRight)
+        {
+            spriteRenderer.flipX = true;
+            facingRight = false;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+            facingRight = true;
+        }
+    }
 
-    private void Move()
+    /*private void Move()
     {
         if(facingRight && horizontalInput < 0)
         {
@@ -140,38 +184,38 @@ public class PlayerController : MonoBehaviour
         {
             rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
         }
-    }
-    private void Freeze()
+    }*/
+    /*private void Freeze()
     {
         rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
-    }
+    }*/
 
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
-        rigidbody2D.AddForce(jumpVector);
+        rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Powerup"))
+        if(collision.gameObject.CompareTag("Shield"))
         {
-            StartCoroutine("Powerup");
+            StartCoroutine("CherryShieldGet");
         }
     }
 
-    private IEnumerator Powerup()
+    private IEnumerator CherryShieldGet()
     {
-        float normalCooldownTime = cooldownTime;
-        cooldownTime /= powerupStrength;
-        if (!IsPoweredUp)
+        Color32 normalSpriteColor = spriteRenderer.color;
+        if (!IsShielded)
         {
-            scoreTrackerScript.Score += powerupPoints;
-            IsPoweredUp = true;
+            spriteRenderer.color = new Color32(255, 25, 155, 255);
+            scoreTrackerScript.Score += shieldGetPoints;
+            IsShielded = true;
         }
-        yield return new WaitForSeconds(powerupTime);
-        IsPoweredUp = false;
-        cooldownTime = normalCooldownTime;
+        yield return new WaitForSeconds(shieldTime);
+        IsShielded = false;
+        spriteRenderer.color = normalSpriteColor;
     }
 
     private AimingDirectionState Aim()
