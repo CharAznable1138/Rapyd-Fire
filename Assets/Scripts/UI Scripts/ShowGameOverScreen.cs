@@ -24,6 +24,10 @@ public class ShowGameOverScreen : MonoBehaviour
             {
                 gameOverPanel.SetActive(true);
             }
+            else
+            {
+                gameOverPanel.SetActive(false);
+            }
         }
     }
     private bool PlayerExists()
