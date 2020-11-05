@@ -123,7 +123,7 @@ MonoBehaviour:
   movementSpeed: 2
   groundCheckDistance: 1
   cooldownTime: 2
-  firingRange: 50
+  firingRange: 1000
   bulletPrefab: {fileID: 4900100024533356526, guid: 58ea259098d3afc4e83fbcdadb427505,
     type: 3}
   groundLayer:
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36320e9193cfdf64e84de444cda2d8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPoints: 10
 --- !u!61 &7604407655762859173
 BoxCollider2D:
   m_ObjectHideFlags: 0
