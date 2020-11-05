@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     private float movementSpeed = 10;
 
     [SerializeField]
+    private float maxSpeed = 20;
+
+    [SerializeField]
     private float jumpForce = 10;
 
     [SerializeField]
@@ -87,12 +90,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
-            if (horizontalInput != 0)
-            {
-                Move();
-            }
             AimingDirection = Aim();
             if (Input.GetKeyDown("space") && IsOnGround())
             {
@@ -105,7 +102,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButton(1) && IsOnGround())
             {
                 locked = true;
-                Freeze();
+                //Freeze();
             }
             else
             {
@@ -115,7 +112,35 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(isJumping)
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        /*if (horizontalInput != 0)
+        {
+            Move();
+        }*/
+        if(Input.GetKey("left") || Input.GetKey("a"))
+        {
+            if (facingRight)
+            {
+                Flip();
+            }
+            if (rigidbody2D.velocity.x > -maxSpeed && !locked)
+            {
+                rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
+            }
+        }
+        if(Input.GetKey("right") || Input.GetKey("d"))
+        {
+            if(!facingRight)
+            {
+                Flip();
+            }
+            if (rigidbody2D.velocity.x < maxSpeed && !locked)
+            {
+                rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
+            }
+        }
+        if (isJumping)
         {
             Jump();
             isJumping = false;
@@ -129,8 +154,21 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
     }
+    private void Flip()
+    {
+        if (facingRight)
+        {
+            spriteRenderer.flipX = true;
+            facingRight = false;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+            facingRight = true;
+        }
+    }
 
-    private void Move()
+    /*private void Move()
     {
         if(facingRight && horizontalInput < 0)
         {
@@ -146,11 +184,11 @@ public class PlayerController : MonoBehaviour
         {
             rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
         }
-    }
-    private void Freeze()
+    }*/
+    /*private void Freeze()
     {
         rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
-    }
+    }*/
 
     private void Jump()
     {

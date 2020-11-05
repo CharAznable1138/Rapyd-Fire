@@ -123,7 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b45ceefea8b2fc40bbd7f89d89fca63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 8
+  movementSpeed: 75
+  maxSpeed: 8
   jumpForce: 700
   groundCheckDistance: 0.55
   cooldownTime: 0.2
