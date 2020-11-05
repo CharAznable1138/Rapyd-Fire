@@ -108,7 +108,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &5044158608656115670
 MonoBehaviour:
@@ -126,14 +126,13 @@ MonoBehaviour:
   jumpForce: 700
   groundCheckDistance: 0.55
   cooldownTime: 0.2
-  powerupStrength: 2
-  powerupTime: 8
+  shieldTime: 8
   bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
     type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  powerupPoints: 5
+  shieldGetPoints: 5
 --- !u!70 &5044158608656115665
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
