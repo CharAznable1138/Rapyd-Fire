@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 20
-  selfDestructCountdown: 1
+  selfDestructCountdown: 0.25
 --- !u!50 &-3872108116938524224
 Rigidbody2D:
   serializedVersion: 4
