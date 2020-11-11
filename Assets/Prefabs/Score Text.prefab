@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maximumHeight: 250
+  minimumHeight: 150
   moveSpeed: 50
