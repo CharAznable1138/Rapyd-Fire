@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
     private float shieldTime = 8;
 
     [SerializeField]
+    private float shieldExpiryFlashTime = 0.2f;
+
+    [SerializeField]
+    private int shieldExpiryFlashes = 10;
+
+    [SerializeField]
     private GameObject bulletPrefab;
 
     [SerializeField]
@@ -36,6 +42,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float shieldGetPoints = 5;
+
+    [SerializeField]
+    private Color32 powerupSpriteColor = new Color32(255, 25, 155, 255);
 
     private Vector2 jumpVector;
     private float horizontalInput;
@@ -46,6 +55,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
+    private Color32 normalSpriteColor;
     internal bool IsShielded { get; private set; }
     internal enum AimingDirectionState
     {
@@ -65,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        normalSpriteColor = spriteRenderer.color;
         facingRight = true;
         isJumping = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
@@ -206,16 +217,24 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator CherryShieldGet()
     {
-        Color32 normalSpriteColor = spriteRenderer.color;
         if (!IsShielded)
         {
-            spriteRenderer.color = new Color32(255, 25, 155, 255);
+            spriteRenderer.color = powerupSpriteColor;
             scoreTrackerScript.Score += shieldGetPoints;
             IsShielded = true;
         }
         yield return new WaitForSeconds(shieldTime);
-        IsShielded = false;
+        StartCoroutine("CherryShieldExpiry");
+    }
+    private IEnumerator CherryShieldExpiry()
+    {
+        for (int i = 0; i < shieldExpiryFlashes; i++)
+        {
+            SwitchColors();
+            yield return new WaitForSeconds(shieldExpiryFlashTime);
+        }
         spriteRenderer.color = normalSpriteColor;
+        IsShielded = false;
     }
 
     private AimingDirectionState Aim()
@@ -249,6 +268,17 @@ public class PlayerController : MonoBehaviour
             {
                 return AimingDirectionState.Left;
             }
+        }
+    }
+    private void SwitchColors()
+    {
+        if(spriteRenderer.color == normalSpriteColor)
+        {
+            spriteRenderer.color = powerupSpriteColor;
+        }
+        else if(spriteRenderer.color == powerupSpriteColor)
+        {
+            spriteRenderer.color = normalSpriteColor;
         }
     }
 }
