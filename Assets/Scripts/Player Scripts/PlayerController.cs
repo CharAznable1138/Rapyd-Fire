@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         float distance = groundCheckDistance;
 
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if(hit.collider != null)
+        if(hit.collider != null || rigidbody2D.velocity.y == 0)
         {
             return true;
         }
