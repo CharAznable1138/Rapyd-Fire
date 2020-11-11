@@ -37,7 +37,6 @@ public class ScoreTracker : Singleton<MonoBehaviour>
     {
         if(score != 0 && scoreChange != 0)
         {
-            Debug.Log($"Score just changed by {scoreChange} points.");
             var scoreTextInstance = Instantiate(scoreTextObject, canvas.transform.position, canvas.transform.rotation);
             scoreTextInstance.transform.SetParent(canvas.transform);
             scoreTextComponent = scoreTextInstance.GetComponent<TMP_Text>();
