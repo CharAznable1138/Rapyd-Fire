@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 180238002}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42404,6 +42404,12 @@ PrefabInstance:
       propertyPath: starterScore
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8065597941317765938, guid: efa043e9c7a6121438307bb710424e40,
+        type: 3}
+      propertyPath: scoreTextObject
+      value: 
+      objectReference: {fileID: 1071603837312487387, guid: d5b8f9ea86ed80a4ea22024ff212df11,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efa043e9c7a6121438307bb710424e40, type: 3}
 --- !u!222 &7078541591286359576
