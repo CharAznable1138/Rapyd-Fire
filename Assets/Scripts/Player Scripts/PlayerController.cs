@@ -57,6 +57,11 @@ public class PlayerController : MonoBehaviour
     private ScoreTracker scoreTrackerScript;
     private Color32 normalSpriteColor;
     internal bool IsShielded { get; private set; }
+    internal bool HasMoved { get; private set; }
+    internal bool HasJumped { get; private set; }
+    internal bool HasShot { get; private set; }
+    internal bool HasLocked { get; private set; }
+    internal bool HasAimed { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -80,6 +85,10 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+        HasMoved = false;
+        HasJumped = false;
+        HasShot = false;
+        HasLocked = false;
     }
 
     private bool IsOnGround()
@@ -102,6 +111,10 @@ public class PlayerController : MonoBehaviour
         if (Time.timeScale > 0)
         {
             AimingDirection = Aim();
+            if(AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left)
+            {
+                HasAimed = true;
+            }
             if (Input.GetKeyDown("space") && IsOnGround())
             {
                 isJumping = true;
@@ -113,6 +126,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButton(1) && IsOnGround())
             {
                 locked = true;
+                HasLocked = true;
                 //Freeze();
             }
             else
@@ -138,6 +152,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
+                HasMoved = true;
             }
         }
         if(Input.GetKey("right") || Input.GetKey("d"))
@@ -149,6 +164,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
+                HasMoved = true;
             }
         }
         if (isJumping)
@@ -161,6 +177,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
+        HasShot = true;
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
@@ -205,6 +222,7 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
+        HasJumped = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
