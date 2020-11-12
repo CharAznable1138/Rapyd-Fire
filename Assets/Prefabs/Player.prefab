@@ -128,9 +128,9 @@ MonoBehaviour:
   jumpForce: 700
   groundCheckDistance: 0.55
   cooldownTime: 0.2
-  shieldTime: 6
+  shieldTime: 5
   shieldExpiryFlashTime: 0.2
-  shieldExpiryFlashes: 10
+  shieldExpiryFlashes: 15
   bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
     type: 3}
   groundLayer:
