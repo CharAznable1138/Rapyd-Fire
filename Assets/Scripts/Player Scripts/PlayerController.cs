@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
     private float shieldTime = 8;
 
     [SerializeField]
+    private float shieldExpiryFlashTime = 0.2f;
+
+    [SerializeField]
+    private int shieldExpiryFlashes = 10;
+
+    [SerializeField]
     private GameObject bulletPrefab;
 
     [SerializeField]
@@ -36,6 +42,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float shieldGetPoints = 5;
+
+    [SerializeField]
+    private Color32 powerupSpriteColor = new Color32(255, 25, 155, 255);
 
     private Vector2 jumpVector;
     private float horizontalInput;
@@ -46,7 +55,13 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
+    private Color32 normalSpriteColor;
     internal bool IsShielded { get; private set; }
+    internal bool HasMoved { get; private set; }
+    internal bool HasJumped { get; private set; }
+    internal bool HasShot { get; private set; }
+    internal bool HasLocked { get; private set; }
+    internal bool HasAimed { get; private set; }
     internal enum AimingDirectionState
     {
         Up,
@@ -65,10 +80,15 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        normalSpriteColor = spriteRenderer.color;
         facingRight = true;
         isJumping = false;
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+        HasMoved = false;
+        HasJumped = false;
+        HasShot = false;
+        HasLocked = false;
     }
 
     private bool IsOnGround()
@@ -78,7 +98,7 @@ public class PlayerController : MonoBehaviour
         float distance = groundCheckDistance;
 
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if(hit.collider != null)
+        if(hit.collider != null || rigidbody2D.velocity.y == 0)
         {
             return true;
         }
@@ -91,6 +111,10 @@ public class PlayerController : MonoBehaviour
         if (Time.timeScale > 0)
         {
             AimingDirection = Aim();
+            if(AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left)
+            {
+                HasAimed = true;
+            }
             if (Input.GetKeyDown("space") && IsOnGround())
             {
                 isJumping = true;
@@ -102,6 +126,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButton(1) && IsOnGround())
             {
                 locked = true;
+                HasLocked = true;
                 //Freeze();
             }
             else
@@ -127,6 +152,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
+                HasMoved = true;
             }
         }
         if(Input.GetKey("right") || Input.GetKey("d"))
@@ -138,6 +164,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
+                HasMoved = true;
             }
         }
         if (isJumping)
@@ -150,6 +177,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
+        HasShot = true;
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
@@ -194,6 +222,7 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
+        HasJumped = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -206,16 +235,24 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator CherryShieldGet()
     {
-        Color32 normalSpriteColor = spriteRenderer.color;
         if (!IsShielded)
         {
-            spriteRenderer.color = new Color32(255, 25, 155, 255);
+            spriteRenderer.color = powerupSpriteColor;
             scoreTrackerScript.Score += shieldGetPoints;
             IsShielded = true;
         }
         yield return new WaitForSeconds(shieldTime);
-        IsShielded = false;
+        StartCoroutine("CherryShieldExpiry");
+    }
+    private IEnumerator CherryShieldExpiry()
+    {
+        for (int i = 0; i < shieldExpiryFlashes; i++)
+        {
+            SwitchColors();
+            yield return new WaitForSeconds(shieldExpiryFlashTime);
+        }
         spriteRenderer.color = normalSpriteColor;
+        IsShielded = false;
     }
 
     private AimingDirectionState Aim()
@@ -249,6 +286,17 @@ public class PlayerController : MonoBehaviour
             {
                 return AimingDirectionState.Left;
             }
+        }
+    }
+    private void SwitchColors()
+    {
+        if(spriteRenderer.color == normalSpriteColor)
+        {
+            spriteRenderer.color = powerupSpriteColor;
+        }
+        else if(spriteRenderer.color == powerupSpriteColor)
+        {
+            spriteRenderer.color = normalSpriteColor;
         }
     }
 }

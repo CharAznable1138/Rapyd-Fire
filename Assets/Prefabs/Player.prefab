@@ -103,7 +103,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0
   m_GravityScale: 4
   m_Material: {fileID: 0}
@@ -123,18 +123,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b45ceefea8b2fc40bbd7f89d89fca63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 55
+  movementSpeed: 75
   maxSpeed: 7.5
-  jumpForce: 700
+  jumpForce: 850
   groundCheckDistance: 0.55
   cooldownTime: 0.2
-  shieldTime: 8
+  shieldTime: 5
+  shieldExpiryFlashTime: 0.2
+  shieldExpiryFlashes: 15
   bulletPrefab: {fileID: 5738228252604263480, guid: 34ea734f96b0c064c81817c866b9926d,
     type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   shieldGetPoints: 5
+  powerupSpriteColor:
+    serializedVersion: 2
+    rgba: 4288354815
 --- !u!70 &5044158608656115665
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

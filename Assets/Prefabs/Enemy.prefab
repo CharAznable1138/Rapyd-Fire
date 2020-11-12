@@ -124,6 +124,7 @@ MonoBehaviour:
   groundCheckDistance: 1
   enemyContactCheckDistance: 1
   cooldownTime: 2
+  initialDelayTime: 0.5
   firingRange: 5
   bulletPrefab: {fileID: 4900100024533356526, guid: 58ea259098d3afc4e83fbcdadb427505,
     type: 3}

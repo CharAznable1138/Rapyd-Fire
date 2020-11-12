@@ -18,6 +18,9 @@ public class EnemyBehavior : MonoBehaviour
     private float cooldownTime = 0.5f;
 
     [SerializeField]
+    private float initialDelayTime = 0.1f;
+
+    [SerializeField]
     private float firingRange = 10;
 
     [SerializeField]
@@ -131,8 +134,9 @@ public class EnemyBehavior : MonoBehaviour
 
     private IEnumerator Shoot()
     {
-        Instantiate(bulletPrefab, gameObject.transform);
         canShoot = false;
+        yield return new WaitForSeconds(initialDelayTime);
+        Instantiate(bulletPrefab, gameObject.transform);
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
     }
