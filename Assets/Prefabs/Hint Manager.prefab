@@ -58,6 +58,7 @@ MonoBehaviour:
     down right click to lock your movement!
   lockHintDelay: 30
   aimHint: Did you know you can aim your weapon using WASD or the arrow keys, too?
+    (You can only aim downward while in midair, though..)
   aimHintDelay: 20
   hintTime: 5
   hintTextObject: {fileID: 0}
