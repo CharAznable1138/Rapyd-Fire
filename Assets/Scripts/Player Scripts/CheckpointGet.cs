@@ -9,6 +9,7 @@ public class CheckpointGet : MonoBehaviour
 
     private GameObject spawnPoint;
     internal bool IsClaimed { get; private set; }
+    internal float TextDisplayTime { get { return textDisplayTime; } }
     private void Start()
     {
         spawnPoint = GameObject.FindGameObjectWithTag("Spawnpoint");
