@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyDeath : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("The amount of points to be awarded to the player if an enemy is defeated.")]
+    [Tooltip("The amount of points to be awarded to the player if an enemy is defeated. (Float)")]
     private float enemyPoints = 10;
 
     [Tooltip("The empty game object which keeps track of the player's score.")]

@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyBulletBehavior : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("The speed at which enemy bullets travel.")]
+    [Tooltip("The speed at which enemy bullets travel. (Float)")]
     private float bulletSpeed = 50;
 
     [SerializeField]
-    [Tooltip("Time to wait until enemy bullet destroys itself.")]
+    [Tooltip("Time to wait until enemy bullet destroys itself. (Float)")]
     private float selfDestructCountdown = 1;
 
     [Tooltip("Rigidbody2D component attached to the enemy bullet prefab.")]
@@ -18,7 +18,7 @@ public class EnemyBulletBehavior : MonoBehaviour
     [Tooltip("EnemyBehavior script attached to the enemy prefab.")]
     private EnemyBehavior enemyBehavior;
 
-    [Tooltip("Direction in which enemy bullet will move.")]
+    [Tooltip("Direction in which enemy bullet will move. (Vector2)")]
     private Vector2 movementVector;
 
     private void Start()

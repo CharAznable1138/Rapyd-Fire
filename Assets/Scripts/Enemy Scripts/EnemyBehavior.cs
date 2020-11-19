@@ -6,43 +6,43 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("The speed at which enemies move.")]
+    [Tooltip("The speed at which enemies move. (Float)")]
     private float movementSpeed = 10;
 
     [SerializeField]
-    [Tooltip("Distance to check if enemy is on the ground.")]
+    [Tooltip("Distance to check if enemy is on the ground. (Float)")]
     private float groundCheckDistance = 1;
 
     [SerializeField]
-    [Tooltip("Distance to check for other enemies.")]
+    [Tooltip("Distance to check for other enemies. (Float)")]
     private float enemyContactCheckDistance = 1;
 
     [SerializeField]
-    [Tooltip("Time after shooting before enemy can shoot again.")]
+    [Tooltip("Time after shooting before enemy can shoot again. (Float)")]
     private float cooldownTime = 0.5f;
 
     [SerializeField]
-    [Tooltip("Time between when enemy detects player and when enemy can start shooting.")]
+    [Tooltip("Time between when enemy detects player and when enemy can start shooting. (Float)")]
     private float initialDelayTime = 0.1f;
 
     [SerializeField]
-    [Tooltip("Distance at which enemy can detect player.")]
+    [Tooltip("Distance at which enemy can detect player. (Float)")]
     private float firingRange = 10;
 
     [SerializeField]
-    [Tooltip("Bullet prefab to be fired.")]
+    [Tooltip("Bullet prefab to be instantiated.")]
     private GameObject bulletPrefab;
 
     [SerializeField]
-    [Tooltip("Layer on which to check for the ground object.")]
+    [Tooltip("Layer on which to check for the ground object. (LayerMask)")]
     private LayerMask groundLayer;
 
     [SerializeField]
-    [Tooltip("Layer on which to check for the player object.")]
+    [Tooltip("Layer on which to check for the player object. (LayerMask)")]
     private LayerMask playerLayer;
 
     [SerializeField]
-    [Tooltip("Layer on which to check for other enemies.")]
+    [Tooltip("Layer on which to check for other enemies. (LayerMask)")]
     private LayerMask enemyLayer;
 
     [Tooltip("True = enemy can shoot, False = enemy can't shoot.")]
