@@ -7,6 +7,7 @@ public class ShowCheckpointText : MonoBehaviour
 {
     private GameObject[] checkpoints;
     private CheckpointGet checkpointGet;
+    private GameObject player;
 
     [SerializeField]
     private GameObject checkpointText;
@@ -25,6 +26,10 @@ public class ShowCheckpointText : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(ShowText());
         }
+        if(!PlayerExists() && checkpointText.activeSelf)
+        {
+            checkpointText.SetActive(false);
+        }
     }
 
     private IEnumerator ShowText()
@@ -42,5 +47,18 @@ public class ShowCheckpointText : MonoBehaviour
             showTextCoroutineIsRunning = false;
         }
         yield break;
+    }
+
+    private bool PlayerExists()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
