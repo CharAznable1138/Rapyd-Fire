@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Isolator : MonoBehaviour
 {
+    [Tooltip("List of other game objects with the same tag as this game object.")]
     private GameObject[] clones;
     private void Start()
     {
@@ -13,7 +14,10 @@ public class Isolator : MonoBehaviour
             StartCoroutine("Isolate");
         }
     }
-
+    /// <summary>
+    /// Destroy all game objects with this game object's tag, except for this game object.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Isolate()
     {
         foreach (GameObject g in clones)
