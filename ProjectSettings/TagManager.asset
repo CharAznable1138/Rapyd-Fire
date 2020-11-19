@@ -18,6 +18,7 @@ TagManager:
   - Shield
   - Hazard
   - Canvas
+  - Shield Timer
   layers:
   - Default
   - TransparentFX

@@ -56,7 +56,9 @@ public class PlayerController : MonoBehaviour
     private GameObject scoreTrackerObject;
     private ScoreTracker scoreTrackerScript;
     private Color32 normalSpriteColor;
+    internal float ShieldTime { get { return shieldTime; } }
     internal bool IsShielded { get; private set; }
+    internal bool ShieldExpiryFlashIsOn { get; private set; }
     internal bool HasMoved { get; private set; }
     internal bool HasJumped { get; private set; }
     internal bool HasShot { get; private set; }
@@ -89,6 +91,8 @@ public class PlayerController : MonoBehaviour
         HasJumped = false;
         HasShot = false;
         HasLocked = false;
+        IsShielded = false;
+        ShieldExpiryFlashIsOn = false;
     }
 
     private bool IsOnGround()
@@ -293,10 +297,12 @@ public class PlayerController : MonoBehaviour
         if(spriteRenderer.color == normalSpriteColor)
         {
             spriteRenderer.color = powerupSpriteColor;
+            ShieldExpiryFlashIsOn = false;
         }
         else if(spriteRenderer.color == powerupSpriteColor)
         {
             spriteRenderer.color = normalSpriteColor;
+            ShieldExpiryFlashIsOn = true;
         }
     }
 }

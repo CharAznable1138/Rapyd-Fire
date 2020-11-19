@@ -621,6 +621,7 @@ GameObject:
   - component: {fileID: 5156713681850081378}
   - component: {fileID: 6587903330374932812}
   - component: {fileID: 5496692026605643041}
+  - component: {fileID: 1673140743}
   m_Layer: 5
   m_Name: HUD
   m_TagString: HUD
@@ -730,6 +731,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseText: {fileID: 5230686688695017334}
+--- !u!114 &1673140743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80767789579101603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb4ee0ab87061049b2bd0995211f4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldTimer: {fileID: 7176783725419144253, guid: dd27d900ee62e3a45878e91a1f5d3780,
+    type: 3}
+  canvas: {fileID: 0}
 --- !u!1 &152026181615050348
 GameObject:
   m_ObjectHideFlags: 0
