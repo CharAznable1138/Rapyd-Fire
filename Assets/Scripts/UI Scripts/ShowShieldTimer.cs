@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class ShowShieldTimer : MonoBehaviour
 {
+    [Tooltip("The Player's game object.")]
     private GameObject player;
+    [Tooltip("The PlayerController script attached to the Player's game object.")]
     private PlayerController playerController;
 
+    [Tooltip("The instantiated Shield Timer UI object.")]
     private GameObject createShieldTimer;
 
+    [Tooltip("List of UI objects tagged \"Shield Timer\".")]
     private GameObject[] shieldTimers;
 
     [SerializeField]
+    [Tooltip("The Shield Timer prefab to be instantiated.")]
     private GameObject shieldTimer;
 
 
@@ -29,7 +34,10 @@ public class ShowShieldTimer : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Check if other Shield Timer UI objects exist.
+    /// </summary>
+    /// <returns></returns>
     private bool ShieldTimerExists()
     {
         shieldTimers = GameObject.FindGameObjectsWithTag("Shield Timer");
@@ -42,7 +50,10 @@ public class ShowShieldTimer : MonoBehaviour
             return false;
         }
     }
-
+    /// <summary>
+    /// Check if the Player's game object exists, and assign the PlayerController if so.
+    /// </summary>
+    /// <returns></returns>
     private bool PlayerExists()
     {
         player = GameObject.FindGameObjectWithTag("Player");
