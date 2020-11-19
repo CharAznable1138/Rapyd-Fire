@@ -11,57 +11,108 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Speed at which the player moves. (Float)")]
     private float movementSpeed = 10;
 
     [SerializeField]
+    [Tooltip("Maximum speed at which the player can move. (Float)")]
     private float maxSpeed = 20;
 
     [SerializeField]
+    [Tooltip("Force with which the player jumps. (Float)")]
     private float jumpForce = 10;
 
     [SerializeField]
+    [Tooltip("Length of raycast that checks if the player is on the ground. (Float)")]
     private float groundCheckDistance = 1;
 
     [SerializeField]
+    [Tooltip("Amount of time after firing a bullet until player can fire another bullet. (Float)")]
     private float cooldownTime = 0.5f;
 
     [SerializeField]
+    [Tooltip("Amount of time that Shield powerup lasts. (Float)")]
     private float shieldTime = 8;
 
     [SerializeField]
+    [Tooltip("Amount of time for each flash to last during shield expiry. (Float)")]
     private float shieldExpiryFlashTime = 0.2f;
 
     [SerializeField]
+    [Tooltip("Amount of flashes to occur during shield expiry. (Integer)")]
     private int shieldExpiryFlashes = 10;
 
     [SerializeField]
+    [Tooltip("Bullet prefab to be instantiated when the player fires their weapon.")]
     private GameObject bulletPrefab;
 
     [SerializeField]
+    [Tooltip("Layer on which to check for the ground. (LayerMask)")]
     private LayerMask groundLayer;
 
     [SerializeField]
+    [Tooltip("Amount of points to be awarded to the player if a Shield powerup is collected.")]
     private float shieldGetPoints = 5;
 
     [SerializeField]
+    [Tooltip("Color the player will turn into while shielded.")]
     private Color32 powerupSpriteColor = new Color32(255, 25, 155, 255);
 
+    [Tooltip("Direction in which the player will jump. (Vector2)")]
     private Vector2 jumpVector;
+    [Tooltip("Positive number = player is inputting to the right, Negative number = player is inputting to the left. (Float)")]
     private float horizontalInput;
+    [Tooltip("Positive number = player is inputting upward, Negative number = player is inputting downward. (Float)")]
     private float verticalInput;
+    [Tooltip("True = Player can shoot, False = Player cannot shoot. (Bool)")]
     private bool canShoot = true;
+    [Tooltip("True = Player is facing right, False = Player is facing left. (Bool)")]
     private bool facingRight;
+    [Tooltip("True = Player's movement is locked, False = Player's movement is not locked. (Bool)")]
     private bool locked = false;
+    [Tooltip("True = Player is midjump, False = Player is not midjump. (Bool)")]
     private bool isJumping = false;
+    [Tooltip("The empty game object which tracks the Player's score.")]
     private GameObject scoreTrackerObject;
+    [Tooltip("The ScoreTracker script attached to the Score Tracker game object.")]
     private ScoreTracker scoreTrackerScript;
+    [Tooltip("The Player's default color scheme.")]
     private Color32 normalSpriteColor;
+    /// <summary>
+    /// The amount of time that the Player's Shield powerup lasts. (Float)
+    /// </summary>
+    internal float ShieldTime { get { return shieldTime; } }
+    /// <summary>
+    /// Check if the player is currently shielded. True = Yes, False = No. (Bool)
+    /// </summary>
     internal bool IsShielded { get; private set; }
+    /// <summary>
+    /// While Shield Expiry is flashing, check whether the flash is currently on or off. (Bool, Readonly)
+    /// </summary>
+    internal bool ShieldExpiryFlashIsOn { get; private set; }
+    /// <summary>
+    /// Check if the Player has already tried moving. (Bool, Readonly)
+    /// </summary>
     internal bool HasMoved { get; private set; }
+    /// <summary>
+    /// Check if the Player has already tried jumping. (Bool, Readonly)
+    /// </summary>
     internal bool HasJumped { get; private set; }
+    /// <summary>
+    /// Check if the Player has already tried shooting. (Bool, Readonly)
+    /// </summary>
     internal bool HasShot { get; private set; }
+    /// <summary>
+    /// Check if the Player has already tried locking their movement. (Bool, Readonly)
+    /// </summary>
     internal bool HasLocked { get; private set; }
+    /// <summary>
+    /// Check if the Player has already tried aiming their weapon. (Bool, Readonly)
+    /// </summary>
     internal bool HasAimed { get; private set; }
+    /// <summary>
+    /// The directions in which the Player can aim their weapon.
+    /// </summary>
     internal enum AimingDirectionState
     {
         Up,
@@ -71,9 +122,14 @@ public class PlayerController : MonoBehaviour
         UpLeft,
         UpRight
     }
+    /// <summary>
+    /// The direction in which the Player is currently aiming their weapon. (Readonly)
+    /// </summary>
     internal AimingDirectionState AimingDirection { get; private set; }
 
+    [Tooltip("The Rigidbody2D component attached to the Player's game object.")]
     private Rigidbody2D rigidbody2D;
+    [Tooltip("The SpriteRenderer component attached to the Player's game object.")]
     private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -89,8 +145,13 @@ public class PlayerController : MonoBehaviour
         HasJumped = false;
         HasShot = false;
         HasLocked = false;
+        IsShielded = false;
+        ShieldExpiryFlashIsOn = false;
     }
-
+    /// <summary>
+    /// Check whether the player is currently on the ground. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool IsOnGround()
     {
         Vector2 position = transform.position;
@@ -173,7 +234,10 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
     }
-
+    /// <summary>
+    /// Fire the Player's weapon.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
@@ -182,6 +246,9 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
     }
+    /// <summary>
+    /// Change which direction the Player is currently facing.
+    /// </summary>
     private void Flip()
     {
         if (facingRight)
@@ -217,7 +284,9 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
     }*/
-
+    /// <summary>
+    /// Make the Player jump.
+    /// </summary>
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
@@ -232,7 +301,10 @@ public class PlayerController : MonoBehaviour
             StartCoroutine("CherryShieldGet");
         }
     }
-
+    /// <summary>
+    /// Activate the Player's Shield powerup, and let other scripts know that the powerup is active.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CherryShieldGet()
     {
         if (!IsShielded)
@@ -244,6 +316,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(shieldTime);
         StartCoroutine("CherryShieldExpiry");
     }
+    /// <summary>
+    /// Flash the player's color scheme between normal and powered up in timed bursts a specified amount of times, then set colors to normal and let other scripts know that the powerup is no longer active.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CherryShieldExpiry()
     {
         for (int i = 0; i < shieldExpiryFlashes; i++)
@@ -254,7 +330,10 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.color = normalSpriteColor;
         IsShielded = false;
     }
-
+    /// <summary>
+    /// Aim the player's weapon in a specified direction.
+    /// </summary>
+    /// <returns></returns>
     private AimingDirectionState Aim()
     {
         if(verticalInput > 0)
@@ -288,15 +367,20 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Switch the player's color scheme from normal to powered up, or vice versa.
+    /// </summary>
     private void SwitchColors()
     {
         if(spriteRenderer.color == normalSpriteColor)
         {
             spriteRenderer.color = powerupSpriteColor;
+            ShieldExpiryFlashIsOn = false;
         }
         else if(spriteRenderer.color == powerupSpriteColor)
         {
             spriteRenderer.color = normalSpriteColor;
+            ShieldExpiryFlashIsOn = true;
         }
     }
 }

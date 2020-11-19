@@ -5,10 +5,19 @@ using UnityEngine;
 public class CheckpointGet : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Amoun of time to display Checkpoint Get text. (Float)")]
     private float textDisplayTime = 2;
 
+    [Tooltip("The SpawnPoint game object, which instantiates a new player object when the player clicks Retry.")]
     private GameObject spawnPoint;
+    /// <summary>
+    /// Check if the checkpoint has been claimed. True = yes, False = no. Readonly.
+    /// </summary>
     internal bool IsClaimed { get; private set; }
+    /// <summary>
+    /// Amount of time to display Checkpoint Get text. (Float)
+    /// </summary>
+    internal float TextDisplayTime { get { return textDisplayTime; } }
     private void Start()
     {
         spawnPoint = GameObject.FindGameObjectWithTag("Spawnpoint");
@@ -22,6 +31,10 @@ public class CheckpointGet : MonoBehaviour
             StartCoroutine("Claim");
         }
     }
+    /// <summary>
+    /// Display Checkpoint Get text for a specified amount of time, and let other scripts know that the checkpoint has been claimed.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Claim()
     {
         IsClaimed = true;

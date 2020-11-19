@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class AimingReticle : MonoBehaviour
 {
+    [Tooltip("The PlayerController component attached to the player object.")]
     private PlayerController playerController;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming to the right. (Vector3)")]
     private Vector3 aimingRightVector;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming to the left. (Vector3)")]
     private Vector3 aimingLeftVector;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming upward. (Vector3)")]
     private Vector3 aimingUpVector;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming downward. (Vector3)")]
     private Vector3 aimingDownVector;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming upward & to the right. (Vector3)")]
     private Vector3 aimingUpRightVector;
 
     [SerializeField]
+    [Tooltip("Reticle's position if player is aiming upward & to the left. (Vector3)")]
     private Vector3 aimingUpLeftVector;
 
     private void Start()
@@ -53,6 +60,10 @@ public class AimingReticle : MonoBehaviour
                 break;
         }
     }
+    /// <summary>
+    /// Change the reticle's position, relative to that of its parent object, to a specified destination.
+    /// </summary>
+    /// <param name="_target">Position to move the reticle to.</param>
     private void SetLocalPosition(Vector3 _target)
     {
         transform.localPosition = _target;

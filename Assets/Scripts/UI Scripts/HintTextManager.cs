@@ -6,112 +6,142 @@ using UnityEngine;
 public class HintTextManager : MonoBehaviour
 {
     [SerializeField]
-    private string movementHint = "Movement hint text will be here.";
+    [Tooltip("The text to display for movement hints. (String)")]
+    private string movementHintText = "Movement hint text will be here.";
     [SerializeField]
+    [Tooltip("The amount of time to wait before displaying movement hints. (Float)")]
     private float movementHintDelay = 1;
 
     [SerializeField]
-    private string shootHint = "Shooting hint text will be here.";
+    [Tooltip("The text to display for shooting hints. (String)")]
+    private string shootHintText = "Shooting hint text will be here.";
     [SerializeField]
+    [Tooltip("The amount of time to wait before displaying shooting hints. (Float)")]
     private float shootHintDelay = 10;
 
     [SerializeField]
-    private string jumpHint = "Jumping hint text will be here.";
+    [Tooltip("The text to display for jumping hints. (String)")]
+    private string jumpHintText = "Jumping hint text will be here.";
     [SerializeField]
+    [Tooltip("The amount of time to wait before displaying jumping hints. (Float)")]
     private float jumpHintDelay = 5;
 
     [SerializeField]
-    private string lockHint = "Movement locking hint text will be here.";
+    [Tooltip("The text to display for movement-locking hints. (String)")]
+    private string lockHintText = "Movement locking hint text will be here.";
     [SerializeField]
+    [Tooltip("The amount of time to wait before displaying movement-locking hints. (Float)")]
     private float lockHintDelay = 30;
 
     [SerializeField]
-    private string aimHint = "Aiming hint text will be here.";
+    [Tooltip("The text to display for aiming hints. (String)")]
+    private string aimHintText = "Aiming hint text will be here.";
     [SerializeField]
+    [Tooltip("The amount of time to wait before displaying aiming hints. (Float)")]
     private float aimHintDelay = 20;
 
     [SerializeField]
+    [Tooltip("The amount of time to show hints. (Float)")]
     private float hintTime = 5;
 
     [SerializeField]
+    [Tooltip("The UI object that displays hint text.")]
     private GameObject hintTextObject;
 
+    [Tooltip("The TextMeshPro Text component attached to the Hint Text UI object.")]
     private TMP_Text hintTextComponent;
 
+    [Tooltip("The Player's game object.")]
     private GameObject player;
+    [Tooltip("The PlayerController component attached to the Player's game object.")]
     private PlayerController playerController;
 
-    private bool playerHasSeenMoveHint = false;
-    private bool playerHasSeenShootHint = false;
-    private bool playerHasSeenJumpHint = false;
-    private bool playerHasSeenLockHint = false;
-    private bool playerHasSeenAimHint = false;
-    private enum HintType
-    {
-        Move,
-        Shoot,
-        Jump,
-        Lock,
-        Aim
-    }
-    private HintType hintToShow;
+    [Tooltip("True = Show Hint coroutine is currently running, False = Show Hint coroutine is not currently running. (Bool)")]
+    private bool showHintCoroutineIsRunning;
+
+    [Tooltip("List of hints to show to the Player.")]
+    private List<Hint> hints = new List<Hint>();
+
+    [Tooltip("List of hints the Player has already seen, and does not need to see again.")]
+    private List<Hint> noShowHints = new List<Hint>();
 
     private void Start()
     {
-        playerHasSeenMoveHint = false;
-        playerHasSeenShootHint = false;
-        playerHasSeenJumpHint = false;
-        playerHasSeenLockHint = false;
-        playerHasSeenAimHint = false;
+        showHintCoroutineIsRunning = false;
         hintTextComponent = hintTextObject.GetComponent<TMP_Text>();
         hintTextObject.SetActive(false);
+        hints.Add(new Hint(Hint.HintType.Move, movementHintText, movementHintDelay));
+        hints.Add(new Hint(Hint.HintType.Shoot, shootHintText, shootHintDelay));
+        hints.Add(new Hint(Hint.HintType.Jump, jumpHintText, jumpHintDelay));
+        hints.Add(new Hint(Hint.HintType.Lock, lockHintText, lockHintDelay));
+        hints.Add(new Hint(Hint.HintType.Aim, aimHintText, aimHintDelay));
     }
     private void Update()
     {
-        if(PlayerExists())
+        if(PlayerExists() && !showHintCoroutineIsRunning)
         {
-            if(!playerController.HasMoved && Time.timeSinceLevelLoad > movementHintDelay && !playerHasSeenMoveHint)
-            {
-                hintToShow = HintType.Move;
-                StopAllCoroutines();
-                StartCoroutine("ShowHint");
-                playerHasSeenMoveHint = true;
-                //Debug.Log("Player hasn't tried moving yet.");
-            }
-            if (!playerController.HasJumped && Time.timeSinceLevelLoad > jumpHintDelay && !playerHasSeenJumpHint)
-            {
-                hintToShow = HintType.Jump;
-                StopAllCoroutines();
-                StartCoroutine("ShowHint");
-                playerHasSeenJumpHint = true;
-                //Debug.Log("Player hasn't tried jumping yet.");
-            }
-            if (!playerController.HasShot && Time.timeSinceLevelLoad > shootHintDelay && !playerHasSeenShootHint)
-            {
-                hintToShow = HintType.Shoot;
-                StopAllCoroutines();
-                StartCoroutine("ShowHint");
-                playerHasSeenShootHint = true;
-                //Debug.Log("Player hasn't tried shooting yet.");
-            }
-            if (!playerController.HasAimed && Time.timeSinceLevelLoad > aimHintDelay && !playerHasSeenAimHint)
-            {
-                hintToShow = HintType.Aim;
-                StopAllCoroutines();
-                StartCoroutine("ShowHint");
-                playerHasSeenAimHint = true;
-                //Debug.Log("Player hasn't tried aiming yet.");
-            }
-            if (!playerController.HasLocked && Time.timeSinceLevelLoad > lockHintDelay && !playerHasSeenLockHint)
-            {
-                hintToShow = HintType.Lock;
-                StopAllCoroutines();
-                StartCoroutine("ShowHint");
-                playerHasSeenLockHint = true;
-                //Debug.Log("Player hasn't tried locking yet.");
-            }
+            StopAllCoroutines();
+            StartCoroutine(ShowHint());
         }
     }
+    /// <summary>
+    /// Show the player a hint, and add said hint to the list of hints the player has already seen.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ShowHint()
+    {
+        showHintCoroutineIsRunning = true;
+        foreach(Hint h in hints)
+        {
+            switch(h.hintType)
+            {
+                case Hint.HintType.Move:
+                    if(playerController.HasMoved)
+                    {
+                        noShowHints.Add(h);
+                    }
+                    break;
+                case Hint.HintType.Jump:
+                    if(playerController.HasJumped)
+                    {
+                        noShowHints.Add(h);
+                    }
+                    break;
+                case Hint.HintType.Shoot:
+                    if (playerController.HasShot)
+                    {
+                        noShowHints.Add(h);
+                    }
+                    break;
+                case Hint.HintType.Aim:
+                    if (playerController.HasAimed)
+                    {
+                        noShowHints.Add(h);
+                    }
+                    break;
+                case Hint.HintType.Lock:
+                    if (playerController.HasLocked)
+                    {
+                        noShowHints.Add(h);
+                    }
+                    break;
+            }
+            if(Time.timeSinceLevelLoad > h.hintDelay && !h.playerHasAlreadySeen && !noShowHints.Contains(h))
+            {
+                hintTextComponent.text = h.hintText;
+                hintTextObject.SetActive(true);
+                h.playerHasAlreadySeen = true;
+                yield return new WaitForSeconds(hintTime);
+                hintTextObject.SetActive(false);
+            }
+        }
+        showHintCoroutineIsRunning = false;
+        yield break;
+    }
+    /// <summary>
+    /// Check if the Player's game object exists. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool PlayerExists()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -124,33 +154,5 @@ public class HintTextManager : MonoBehaviour
         {
             return false;
         }
-    }
-    private IEnumerator ShowHint()
-    {
-        hintTextObject.SetActive(true);
-        switch(hintToShow)
-        {
-            case HintType.Move:
-                SetHintText(movementHint);
-                break;
-            case HintType.Jump:
-                SetHintText(jumpHint);
-                break;
-            case HintType.Shoot:
-                SetHintText(shootHint);
-                break;
-            case HintType.Lock:
-                SetHintText(lockHint);
-                break;
-            case HintType.Aim:
-                SetHintText(aimHint);
-                break;
-        }
-        yield return new WaitForSeconds(hintTime);
-        hintTextObject.SetActive(false);
-    }
-    private void SetHintText(string hint)
-    {
-        hintTextComponent.text = hint;
     }
 }
