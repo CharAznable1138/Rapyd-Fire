@@ -6,40 +6,59 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("The speed at which enemies move.")]
     private float movementSpeed = 10;
 
     [SerializeField]
+    [Tooltip("Distance to check if enemy is on the ground.")]
     private float groundCheckDistance = 1;
 
     [SerializeField]
+    [Tooltip("Distance to check for other enemies.")]
     private float enemyContactCheckDistance = 1;
 
     [SerializeField]
+    [Tooltip("Time after shooting before enemy can shoot again.")]
     private float cooldownTime = 0.5f;
 
     [SerializeField]
+    [Tooltip("Time between when enemy detects player and when enemy can start shooting.")]
     private float initialDelayTime = 0.1f;
 
     [SerializeField]
+    [Tooltip("Distance at which enemy can detect player.")]
     private float firingRange = 10;
 
     [SerializeField]
+    [Tooltip("Bullet prefab to be fired.")]
     private GameObject bulletPrefab;
 
     [SerializeField]
+    [Tooltip("Layer on which to check for the ground object.")]
     private LayerMask groundLayer;
 
     [SerializeField]
+    [Tooltip("Layer on which to check for the player object.")]
     private LayerMask playerLayer;
 
     [SerializeField]
+    [Tooltip("Layer on which to check for other enemies.")]
     private LayerMask enemyLayer;
 
+    [Tooltip("True = enemy can shoot, False = enemy can't shoot.")]
     private bool canShoot = true;
+    /// <summary>
+    /// True = enemy is facing right, False = enemy is facing left
+    /// </summary>
     internal bool FacingRight { get; private set; }
+    /// <summary>
+    /// True = enemy is aiming upward, False = enemy is not aiming upward
+    /// </summary>
     internal bool AimingUp { get; private set; }
 
+    [Tooltip("The Rigidbody2D component attached to the Enemy prefab.")]
     private Rigidbody2D rigidbody2D;
+    [Tooltip("The SpriteRenderer component attached to the Enemy prefab.")]
     private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -57,6 +76,10 @@ public class EnemyBehavior : MonoBehaviour
             StartCoroutine("Shoot");
         }
     }
+    /// <summary>
+    /// Check if the enemy is on the ground. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool IsOnGround()
     {
         Vector2 position = transform.position;
@@ -71,6 +94,10 @@ public class EnemyBehavior : MonoBehaviour
         return false;
 
     }
+    /// <summary>
+    /// Check if the enemy can see the player. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool CanSeePlayer()
     {
         Vector2 position = transform.position;
@@ -92,6 +119,10 @@ public class EnemyBehavior : MonoBehaviour
         }
         return false;
     }
+    /// <summary>
+    /// Check if the enemy is on the edge of its current platform. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool IsOnEdge()
     {
         Vector2 position = transform.position;
@@ -112,6 +143,10 @@ public class EnemyBehavior : MonoBehaviour
         }
         return false;
     }
+    /// <summary>
+    /// Check if the enemy is touching another enemy. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool IsTouchingOtherEnemy()
     {
         Vector2 position = transform.position;
@@ -131,7 +166,10 @@ public class EnemyBehavior : MonoBehaviour
         }
         return false;
     }
-
+    /// <summary>
+    /// Fire the enemy's weapon.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Shoot()
     {
         canShoot = false;
@@ -140,7 +178,9 @@ public class EnemyBehavior : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
     }
-
+    /// <summary>
+    /// Move the enemy.
+    /// </summary>
     private void Move()
     {
         if(!IsOnEdge() && !IsTouchingOtherEnemy())
@@ -159,6 +199,9 @@ public class EnemyBehavior : MonoBehaviour
             Flip();
         }
     }
+    /// <summary>
+    /// Change which direction the enemy is facing.
+    /// </summary>
     private void Flip()
     {
         if (FacingRight)
