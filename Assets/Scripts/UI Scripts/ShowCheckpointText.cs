@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class ShowCheckpointText : MonoBehaviour
 {
+    [Tooltip("List of game objects tagged \"Checkpoint\".")]
     private GameObject[] checkpoints;
+    [Tooltip("The CheckpointGet script attached to the Checkpoint game object.")]
     private CheckpointGet checkpointGet;
+    [Tooltip("The Player's game object.")]
     private GameObject player;
 
     [SerializeField]
+    [Tooltip("The UI object which displays the Checkpoint Get text.")]
     private GameObject checkpointText;
 
+    [Tooltip("True = Show Text coroutine is currently running, False = Show Text coroutine is not currently running. (Bool)")]
     private bool showTextCoroutineIsRunning;
 
     private void Start()
@@ -31,7 +36,10 @@ public class ShowCheckpointText : MonoBehaviour
             checkpointText.SetActive(false);
         }
     }
-
+    /// <summary>
+    /// Show Checkpoint Get text to the player when a Checkpoint is claimed, and let the script know that this coroutine is running.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ShowText()
     {
         foreach (GameObject g in checkpoints)
@@ -48,7 +56,10 @@ public class ShowCheckpointText : MonoBehaviour
         }
         yield break;
     }
-
+    /// <summary>
+    /// Check if the Player's game object exists. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool PlayerExists()
     {
         player = GameObject.FindGameObjectWithTag("Player");
