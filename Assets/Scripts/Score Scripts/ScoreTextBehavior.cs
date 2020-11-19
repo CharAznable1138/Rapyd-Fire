@@ -6,14 +6,18 @@ using UnityEngine;
 public class ScoreTextBehavior : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("The maximum height Score Text can reach before it is destroyed. (Float)")]
     private float maximumHeight;
 
     [SerializeField]
+    [Tooltip("The minimum height Score Text can reach before it is destroyed. (Float)")]
     private float minimumHeight;
 
     [SerializeField]
+    [Tooltip("Speed at which Score Text goes up or down.")]
     private float moveSpeed;
 
+    [Tooltip("The TextMeshPro Text component attached to the Score Text game object.")]
     private TMP_Text text;
 
     private void Start()
