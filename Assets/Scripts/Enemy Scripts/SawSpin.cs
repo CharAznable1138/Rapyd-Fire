@@ -5,6 +5,7 @@ using UnityEngine;
 public class SawSpin : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Speed at which saws spin.")]
     private float spinningSpeed;
 
     private void FixedUpdate()
