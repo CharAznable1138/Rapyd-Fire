@@ -63,19 +63,43 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        AssignScripts();
+        InitializeBools();
+    }
+    /// <summary>
+    /// Assign initial values for the boolean variables of this script.
+    /// </summary>
+    private void InitializeBools()
+    {
         FacingRight = true;
         AimingUp = false;
     }
+
+    /// <summary>
+    /// Get values for the scripts this script needs to communicate with.
+    /// </summary>
+    private void AssignScripts()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void Update()
     {
         Move();
-        if(canShoot && CanSeePlayer())
+        Attack();
+    }
+    /// <summary>
+    /// Fire the enemy's weapon if the player is detected.
+    /// </summary>
+    private void Attack()
+    {
+        if (canShoot && CanSeePlayer())
         {
             StartCoroutine("Shoot");
         }
     }
+
     /// <summary>
     /// Check if the enemy is on the ground. True = yes, False = no.
     /// </summary>
