@@ -20,19 +20,52 @@ public class PlayerDeath : MonoBehaviour
     private bool playerIsDead;
     private void Start()
     {
-        playerController = GetComponent<PlayerController>();
+        FindPlayerController();
+        SetPlayerIsDeadToFalse();
+        FindScoreTracker();
+    }
+    /// <summary>
+    /// Set PlayerIsDead to its default value, false.
+    /// </summary>
+    private void SetPlayerIsDeadToFalse()
+    {
         playerIsDead = false;
+    }
+
+    /// <summary>
+    /// Find the Score Tracker game object and its attached Score Tracker script.
+    /// </summary>
+    private void FindScoreTracker()
+    {
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
 
+    /// <summary>
+    /// Find the PlayerController component that this script needs to communicate with.
+    /// </summary>
+    private void FindPlayerController()
+    {
+        playerController = GetComponent<PlayerController>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        KillPlayerOnContact(collision);
+    }
+    /// <summary>
+    /// Check if the object the player just touched was an enemy bullet, a hazard, or the boundaries.
+    /// If so, kill the player.
+    /// </summary>
+    /// <param name="collision">The collider that the player just touched.</param>
+    private void KillPlayerOnContact(Collider2D collision)
     {
         if (((collision.gameObject.CompareTag("Enemy Bullet") || collision.gameObject.CompareTag("Hazard")) && !playerController.IsShielded) || collision.gameObject.CompareTag("Bounds"))
         {
             KillPlayer();
         }
     }
+
     /// <summary>
     /// Destroy the Player's game object and take away points from the Player's score accordingly. If the player's score is negative, set it to 0.
     /// </summary>
