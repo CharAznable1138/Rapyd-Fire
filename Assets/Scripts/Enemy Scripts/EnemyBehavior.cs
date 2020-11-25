@@ -63,7 +63,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
-        AssignScripts();
+        AssignComponents();
         InitializeBools();
     }
     /// <summary>
@@ -76,9 +76,9 @@ public class EnemyBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Get values for the scripts this script needs to communicate with.
+    /// Get values for the components this script needs to communicate with.
     /// </summary>
-    private void AssignScripts()
+    private void AssignComponents()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
