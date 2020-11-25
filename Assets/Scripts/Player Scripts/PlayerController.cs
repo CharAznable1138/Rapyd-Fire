@@ -131,16 +131,23 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidbody2D;
     [Tooltip("The SpriteRenderer component attached to the Player's game object.")]
     private SpriteRenderer spriteRenderer;
+    [Tooltip("The UI object that shows how much time is left for the Player's current shield powerup.")]
+    private GameObject shieldTimer;
 
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        normalSpriteColor = spriteRenderer.color;
+        AssignComponents();
+        SetNormalColorScheme();
+        InitializeBools();
+        FindScoreTracker();
+    }
+    /// <summary>
+    /// Set initival values for all boolean variables attached to this script.
+    /// </summary>
+    private void InitializeBools()
+    {
         facingRight = true;
         isJumping = false;
-        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
-        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
         HasMoved = false;
         HasJumped = false;
         HasShot = false;
@@ -148,6 +155,33 @@ public class PlayerController : MonoBehaviour
         IsShielded = false;
         ShieldExpiryFlashIsOn = false;
     }
+
+    /// <summary>
+    /// Set the player's normal color scheme to whatever color scheme is currently being used by the player prefab.
+    /// </summary>
+    private void SetNormalColorScheme()
+    {
+        normalSpriteColor = spriteRenderer.color;
+    }
+
+    /// <summary>
+    /// Find the Score Tracker game object and its attached Score Tracker script.
+    /// </summary>
+    private void FindScoreTracker()
+    {
+        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
+        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+    }
+
+    /// <summary>
+    /// Set values for the components this script needs to communicate with.
+    /// </summary>
+    private void AssignComponents()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     /// <summary>
     /// Check whether the player is currently on the ground. True = yes, False = no.
     /// </summary>
@@ -169,42 +203,100 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale > 0)
+        if (!GameIsPaused())
         {
-            AimingDirection = Aim();
-            if(AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left)
-            {
-                HasAimed = true;
-            }
-            if (Input.GetKeyDown("space") && IsOnGround())
-            {
-                isJumping = true;
-            }
-            if (Input.GetMouseButtonDown(0) && canShoot)
-            {
-                StartCoroutine("Shoot");
-            }
-            if (Input.GetMouseButton(1) && IsOnGround())
-            {
-                locked = true;
-                HasLocked = true;
-                //Freeze();
-            }
-            else
-            {
-                locked = false;
-            }
+            SetAimingDirection();
+            HandleJumpInput();
+            HandleShootInput();
+            HandleLockMovementInput();
         }
     }
+    /// <summary>
+    /// Returns true if the game is currently paused, otherwise returns false.
+    /// </summary>
+    /// <returns></returns>
+    private bool GameIsPaused()
+    {
+        if(Time.timeScale > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+    /// <summary>
+    /// Lock the player's movement if the player right-clicks and is on the ground.
+    /// </summary>
+    private void HandleLockMovementInput()
+    {
+        if (Input.GetMouseButton(1) && IsOnGround())
+        {
+            locked = true;
+            HasLocked = true;
+        }
+        else
+        {
+            locked = false;
+        }
+    }
+
+    /// <summary>
+    /// Fire the player's weapon if the player left-clicks and canShoot is true.
+    /// </summary>
+    private void HandleShootInput()
+    {
+        if (Input.GetMouseButtonDown(0) && canShoot)
+        {
+            StartCoroutine("Shoot");
+        }
+    }
+
+    /// <summary>
+    /// Set "isJumping" to true if the player presses space and is currently on the ground.
+    /// </summary>
+    private void HandleJumpInput()
+    {
+        if (Input.GetKeyDown("space") && IsOnGround())
+        {
+            isJumping = true;
+        }
+    }
+
+    /// <summary>
+    /// Set the player's aiming direction and, if it isn't left or right and HasAimed is false, set HasAimed to true.
+    /// </summary>
+    private void SetAimingDirection()
+    {
+        AimingDirection = Aim();
+        if (AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left && !HasAimed)
+        {
+            HasAimed = true;
+        }
+    }
+
     private void FixedUpdate()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        /*if (horizontalInput != 0)
+        HandleDirectionalInput();
+        MovePlayer();
+        MakePlayerJump();
+    }
+    /// <summary>
+    /// Call the Jump method if isJumping is true, then set isJumping to false.
+    /// </summary>
+    private void MakePlayerJump()
+    {
+        if (isJumping)
         {
-            Move();
-        }*/
-        if(Input.GetKey("left") || Input.GetKey("a"))
+            Jump();
+            isJumping = false;
+        }
+    }
+
+    /// <summary>
+    /// Apply directional force to the player's game object according to the player's directional input.
+    /// </summary>
+    private void MovePlayer()
+    {
+        if (Input.GetKey("left") || Input.GetKey("a"))
         {
             if (facingRight)
             {
@@ -213,27 +305,38 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
-                HasMoved = true;
+                if (!HasMoved)
+                {
+                    HasMoved = true;
+                }
             }
         }
-        if(Input.GetKey("right") || Input.GetKey("d"))
+        if (Input.GetKey("right") || Input.GetKey("d"))
         {
-            if(!facingRight)
+            if (!facingRight)
             {
                 Flip();
             }
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
-                HasMoved = true;
+                if (!HasMoved)
+                {
+                    HasMoved = true;
+                }
             }
         }
-        if (isJumping)
-        {
-            Jump();
-            isJumping = false;
-        }
     }
+
+    /// <summary>
+    /// Set the values of horizontalInput and verticalInput according to which directional buttons the player currently is (or isn't) pressing.
+    /// </summary>
+    private void HandleDirectionalInput()
+    {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+    }
+
     /// <summary>
     /// Fire the Player's weapon.
     /// </summary>
@@ -241,7 +344,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
-        HasShot = true;
+        if (!HasShot)
+        {
+            HasShot = true;
+        }
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
@@ -262,28 +368,6 @@ public class PlayerController : MonoBehaviour
             facingRight = true;
         }
     }
-
-    /*private void Move()
-    {
-        if(facingRight && horizontalInput < 0)
-        {
-            spriteRenderer.flipX = true;
-            facingRight = false;
-        }
-        if(!facingRight && horizontalInput > 0)
-        {
-            spriteRenderer.flipX = false;
-            facingRight = true;
-        }
-        if (!locked)
-        {
-            rigidbody2D.velocity = new Vector2(horizontalInput * movementSpeed, rigidbody2D.velocity.y);
-        }
-    }*/
-    /*private void Freeze()
-    {
-        rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
-    }*/
     /// <summary>
     /// Make the Player jump.
     /// </summary>
@@ -291,16 +375,58 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
-        HasJumped = true;
+        if (!HasJumped)
+        {
+            HasJumped = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Shield"))
+        StartShieldCoroutineIfTouchingShield(collision);
+    }
+    /// <summary>
+    /// Check if the player just touched a shield powerup, and start the shield coroutine if so.
+    /// </summary>
+    /// <param name="collision">The collider that the player just touched.</param>
+    private void StartShieldCoroutineIfTouchingShield(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Shield"))
         {
+            ResetShield();
             StartCoroutine("CherryShieldGet");
         }
     }
+    /// <summary>
+    /// Forces all functions related to player's shield powerup to shut down.
+    /// Useful for handling complications that can arise when player grabs a shield powerup while another shield powerup is still counting down.
+    /// </summary>
+    private void ResetShield()
+    {
+        spriteRenderer.color = normalSpriteColor;
+        ShieldExpiryFlashIsOn = false;
+        IsShielded = false;
+        if(ShieldTimerExists())
+        {
+            Destroy(shieldTimer);
+        }
+        StopAllCoroutines();
+
+    }
+    /// <summary>
+    /// Returns true if a shield timer exists in the scene, otherwise returns false.
+    /// </summary>
+    /// <returns></returns>
+    private bool ShieldTimerExists()
+    {
+        shieldTimer = GameObject.FindGameObjectWithTag("Shield Timer");
+        if(shieldTimer != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
     /// <summary>
     /// Activate the Player's Shield powerup, and let other scripts know that the powerup is active.
     /// </summary>
