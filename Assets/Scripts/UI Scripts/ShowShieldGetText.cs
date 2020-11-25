@@ -15,6 +15,14 @@ public class ShowShieldGetText : MonoBehaviour
 
     private void Update()
     {
+        ShowOrHideShieldGetText();
+    }
+    /// <summary>
+    /// Hide the Shield Get text unless the player exists, in which case
+    /// show the Shield Get text unless the player isn't shielded.
+    /// </summary>
+    private void ShowOrHideShieldGetText()
+    {
         if (PlayerExists())
         {
             if (playerController.IsShielded)
@@ -31,6 +39,7 @@ public class ShowShieldGetText : MonoBehaviour
             shieldGetText.SetActive(false);
         }
     }
+
     /// <summary>
     /// Check if the Player's game object exists, and assign the PlayerController if so.
     /// </summary>
