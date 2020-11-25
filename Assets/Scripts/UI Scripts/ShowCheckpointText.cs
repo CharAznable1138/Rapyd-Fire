@@ -21,21 +21,54 @@ public class ShowCheckpointText : MonoBehaviour
 
     private void Start()
     {
-        showTextCoroutineIsRunning = false;
+        SetShowTextCoroutineIsRunningToFalse();
+        FindCheckpoints();
+    }
+    /// <summary>
+    /// Find checkpoints in the scene.
+    /// </summary>
+    private void FindCheckpoints()
+    {
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
     }
+
+    /// <summary>
+    /// Set showTextCoroutineIsRunning bool to its default value, false.
+    /// </summary>
+    private void SetShowTextCoroutineIsRunningToFalse()
+    {
+        showTextCoroutineIsRunning = false;
+    }
+
     private void Update()
     {
-        if(checkpoints.Length > 0 && !showTextCoroutineIsRunning)
-        {
-            StopAllCoroutines();
-            StartCoroutine(ShowText());
-        }
-        if(!PlayerExists() && checkpointText.activeSelf)
+        RunShowTextCoroutine();
+        HideCheckpointTextIfPlayerDies();
+    }
+    /// <summary>
+    /// If checkpoint text is showing when the player is dead, hide the checkpoint text.
+    /// </summary>
+    private void HideCheckpointTextIfPlayerDies()
+    {
+        if (!PlayerExists() && checkpointText.activeSelf)
         {
             checkpointText.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// If there are checkpoints in the scene and the Show Text coroutine isn't already running, 
+    /// stop all coroutines, then start the Show Text coroutine.
+    /// </summary>
+    private void RunShowTextCoroutine()
+    {
+        if (checkpoints.Length > 0 && !showTextCoroutineIsRunning)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShowText());
+        }
+    }
+
     /// <summary>
     /// Show Checkpoint Get text to the player when a Checkpoint is claimed, and let the script know that this coroutine is running.
     /// </summary>
