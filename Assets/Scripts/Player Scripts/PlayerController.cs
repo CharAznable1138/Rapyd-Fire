@@ -91,25 +91,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     internal bool ShieldExpiryFlashIsOn { get; private set; }
     /// <summary>
-    /// Check if the Player has already tried moving. (Bool, Readonly)
+    /// List of possible player actions.
     /// </summary>
-    internal bool HasMoved { get; private set; }
+    internal enum PlayerActions
+    {
+        Move,
+        Jump,
+        Shoot,
+        Aim,
+        Lock
+    }
     /// <summary>
-    /// Check if the Player has already tried jumping. (Bool, Readonly)
+    /// List of actions the player has already taken. (Readonly)
     /// </summary>
-    internal bool HasJumped { get; private set; }
-    /// <summary>
-    /// Check if the Player has already tried shooting. (Bool, Readonly)
-    /// </summary>
-    internal bool HasShot { get; private set; }
-    /// <summary>
-    /// Check if the Player has already tried locking their movement. (Bool, Readonly)
-    /// </summary>
-    internal bool HasLocked { get; private set; }
-    /// <summary>
-    /// Check if the Player has already tried aiming their weapon. (Bool, Readonly)
-    /// </summary>
-    internal bool HasAimed { get; private set; }
+    internal readonly List<PlayerActions> PlayerHasAlreadyDone = new List<PlayerActions>();
     /// <summary>
     /// The directions in which the Player can aim their weapon.
     /// </summary>
@@ -148,10 +143,6 @@ public class PlayerController : MonoBehaviour
     {
         facingRight = true;
         isJumping = false;
-        HasMoved = false;
-        HasJumped = false;
-        HasShot = false;
-        HasLocked = false;
         IsShielded = false;
         ShieldExpiryFlashIsOn = false;
     }
@@ -231,7 +222,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1) && IsOnGround())
         {
             locked = true;
-            HasLocked = true;
+            if (!PlayerHasAlreadyDone.Contains(PlayerActions.Lock))
+            {
+                PlayerHasAlreadyDone.Add(PlayerActions.Lock);
+            }
         }
         else
         {
@@ -267,9 +261,9 @@ public class PlayerController : MonoBehaviour
     private void SetAimingDirection()
     {
         AimingDirection = Aim();
-        if (AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left && !HasAimed)
+        if (AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left && !PlayerHasAlreadyDone.Contains(PlayerActions.Aim))
         {
-            HasAimed = true;
+            PlayerHasAlreadyDone.Add(PlayerActions.Aim);
         }
     }
 
@@ -305,9 +299,9 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
-                if (!HasMoved)
+                if (!PlayerHasAlreadyDone.Contains(PlayerActions.Move))
                 {
-                    HasMoved = true;
+                    PlayerHasAlreadyDone.Add(PlayerActions.Move);
                 }
             }
         }
@@ -320,9 +314,9 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
-                if (!HasMoved)
+                if (!PlayerHasAlreadyDone.Contains(PlayerActions.Move))
                 {
-                    HasMoved = true;
+                    PlayerHasAlreadyDone.Add(PlayerActions.Move);
                 }
             }
         }
@@ -344,9 +338,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
-        if (!HasShot)
+        if (!PlayerHasAlreadyDone.Contains(PlayerActions.Shoot))
         {
-            HasShot = true;
+            PlayerHasAlreadyDone.Add(PlayerActions.Shoot);
         }
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
@@ -375,9 +369,9 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
-        if (!HasJumped)
+        if (!PlayerHasAlreadyDone.Contains(PlayerActions.Jump))
         {
-            HasJumped = true;
+            PlayerHasAlreadyDone.Add(PlayerActions.Jump);
         }
     }
 

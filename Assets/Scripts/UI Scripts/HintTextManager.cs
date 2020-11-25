@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -125,7 +126,7 @@ public class HintTextManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Show the player a hint, and add said hint to the list of hints the player has already seen.
+    /// Show the player a hint, and add said hint to the list of hints the player has already seen (if said hint isn't in said list already).
     /// </summary>
     /// <returns></returns>
     private IEnumerator ShowHint()
@@ -133,38 +134,12 @@ public class HintTextManager : MonoBehaviour
         showHintCoroutineIsRunning = true;
         foreach(Hint h in hints)
         {
-            switch(h.hintType)
+            foreach(PlayerController.PlayerActions a in playerController.PlayerHasAlreadyDone)
             {
-                case Hint.HintType.Move:
-                    if(playerController.HasMoved)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Jump:
-                    if(playerController.HasJumped)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Shoot:
-                    if (playerController.HasShot)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Aim:
-                    if (playerController.HasAimed)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Lock:
-                    if (playerController.HasLocked)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
+                if(a.ToString() == h.hintType.ToString() && !noShowHints.Contains(h))
+                {
+                    noShowHints.Add(h);
+                }
             }
             if(Time.timeSinceLevelLoad > h.hintDelay && !h.playerHasAlreadySeen && !noShowHints.Contains(h))
             {
