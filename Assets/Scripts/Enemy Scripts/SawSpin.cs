@@ -10,6 +10,13 @@ public class SawSpin : MonoBehaviour
 
     private void FixedUpdate()
     {
+        RotateGameObject();
+    }
+    /// <summary>
+    /// Rotate this game object about the Z-axis by the value of spinningSpeed.
+    /// </summary>
+    private void RotateGameObject()
+    {
         gameObject.transform.Rotate(new Vector3(0, 0, spinningSpeed));
     }
 }
