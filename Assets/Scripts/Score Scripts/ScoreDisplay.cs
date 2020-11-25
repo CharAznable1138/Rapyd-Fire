@@ -15,12 +15,34 @@ public class ScoreDisplay : MonoBehaviour
 
     private void Start()
     {
-        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
-        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+        FindScoreTracker();
+        FindTMPTextComponent();
+    }
+    /// <summary>
+    /// Find the score display's TMP Text component.
+    /// </summary>
+    private void FindTMPTextComponent()
+    {
         scoreText = GetComponent<TMP_Text>();
     }
 
+    /// <summary>
+    /// Find the score tracker game object and its attached score tracker script.
+    /// </summary>
+    private void FindScoreTracker()
+    {
+        scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
+        scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+    }
+
     private void Update()
+    {
+        SetScoreText();
+    }
+    /// <summary>
+    /// Set the text to be displayed in the score display.
+    /// </summary>
+    private void SetScoreText()
     {
         scoreText.text = $"Score: {scoreTrackerScript.Score}";
     }
