@@ -222,10 +222,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1) && IsOnGround())
         {
             locked = true;
-            if (!PlayerHasAlreadyDone.Contains(PlayerActions.Lock))
-            {
-                PlayerHasAlreadyDone.Add(PlayerActions.Lock);
-            }
+            AddToPlayerHasAlreadyDoneList(PlayerActions.Lock);
         }
         else
         {
@@ -261,9 +258,9 @@ public class PlayerController : MonoBehaviour
     private void SetAimingDirection()
     {
         AimingDirection = Aim();
-        if (AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left && !PlayerHasAlreadyDone.Contains(PlayerActions.Aim))
+        if (AimingDirection != AimingDirectionState.Right && AimingDirection != AimingDirectionState.Left)
         {
-            PlayerHasAlreadyDone.Add(PlayerActions.Aim);
+            AddToPlayerHasAlreadyDoneList(PlayerActions.Aim);
         }
     }
 
@@ -299,10 +296,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
-                if (!PlayerHasAlreadyDone.Contains(PlayerActions.Move))
-                {
-                    PlayerHasAlreadyDone.Add(PlayerActions.Move);
-                }
+                AddToPlayerHasAlreadyDoneList(PlayerActions.Move);
             }
         }
         if (Input.GetKey("right") || Input.GetKey("d"))
@@ -314,10 +308,7 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
-                if (!PlayerHasAlreadyDone.Contains(PlayerActions.Move))
-                {
-                    PlayerHasAlreadyDone.Add(PlayerActions.Move);
-                }
+                AddToPlayerHasAlreadyDoneList(PlayerActions.Move);
             }
         }
     }
@@ -338,10 +329,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         Instantiate(bulletPrefab, gameObject.transform);
-        if (!PlayerHasAlreadyDone.Contains(PlayerActions.Shoot))
-        {
-            PlayerHasAlreadyDone.Add(PlayerActions.Shoot);
-        }
+        AddToPlayerHasAlreadyDoneList(PlayerActions.Shoot);
         canShoot = false;
         yield return new WaitForSeconds(cooldownTime);
         canShoot = true;
@@ -369,9 +357,18 @@ public class PlayerController : MonoBehaviour
     {
         jumpVector = new Vector2(0, jumpForce);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
-        if (!PlayerHasAlreadyDone.Contains(PlayerActions.Jump))
+        AddToPlayerHasAlreadyDoneList(PlayerActions.Jump);
+    }
+    /// <summary>
+    /// Add a player action to the list of actions the player has already taken,
+    /// unless said list already contains said player action.
+    /// </summary>
+    /// <param name="_playerAction">The player action to be added to the list.</param>
+    private void AddToPlayerHasAlreadyDoneList(PlayerActions _playerAction)
+    {
+        if(!PlayerHasAlreadyDone.Contains(_playerAction))
         {
-            PlayerHasAlreadyDone.Add(PlayerActions.Jump);
+            PlayerHasAlreadyDone.Add(_playerAction);
         }
     }
 
