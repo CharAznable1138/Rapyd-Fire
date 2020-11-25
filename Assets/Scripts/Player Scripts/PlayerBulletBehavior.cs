@@ -22,14 +22,22 @@ public class PlayerBulletBehavior : MonoBehaviour
 
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-
-        playerController = GetComponentInParent<PlayerController>();
+        AssignComponents();
 
         Shoot();
 
         StartCoroutine("SelfDestruct");
     }
+    /// <summary>
+    /// Set values for the components this script needs to communicate with.
+    /// </summary>
+    private void AssignComponents()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+
+        playerController = GetComponentInParent<PlayerController>();
+    }
+
     /// <summary>
     /// Instantiate a player bullet then launch it in a specified direction.
     /// </summary>
@@ -69,6 +77,14 @@ public class PlayerBulletBehavior : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        SelfDestructOnContact(collision);
+    }
+    /// <summary>
+    /// Destroy the player bullet on contact with any other game object, except the player or the boundaries.
+    /// </summary>
+    /// <param name="collision">The collider that the player bullet just touched.</param>
+    private void SelfDestructOnContact(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Bounds"))
         {
