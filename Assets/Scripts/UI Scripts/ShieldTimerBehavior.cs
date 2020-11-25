@@ -27,15 +27,46 @@ public class ShieldTimerBehavior : MonoBehaviour
 
     private void Start()
     {
-        timePassed = 0;
-        timerText = GetComponent<TMP_Text>();
-        if(PlayerExists())
+        ResetTimePassed();
+        FindTMPTextComponent();
+        SetStartingTime();
+    }
+    /// <summary>
+    /// If the player exists, set the starting time equal to the player's shield time.
+    /// </summary>
+    private void SetStartingTime()
+    {
+        if (PlayerExists())
         {
             startingTime = playerController.ShieldTime;
         }
     }
 
+    /// <summary>
+    /// Find the TMP Text component attached to this game object.
+    /// </summary>
+    private void FindTMPTextComponent()
+    {
+        timerText = GetComponent<TMP_Text>();
+    }
+
+    /// <summary>
+    /// Set timePassed to its default value, 0.
+    /// </summary>
+    private void ResetTimePassed()
+    {
+        timePassed = 0;
+    }
+
     private void Update()
+    {
+        SetTimerText();
+    }
+    /// <summary>
+    /// If there's still time remaining, set the timer text accordingly.
+    /// Otherwise, set the timer text to "WARNING" then flash it on and off as the player's colors flash.
+    /// </summary>
+    private void SetTimerText()
     {
         if (timeRemaining >= 0)
         {
@@ -56,6 +87,7 @@ public class ShieldTimerBehavior : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Check if the Player's game object exists, and assign the PlayerController if it does.
     /// </summary>
