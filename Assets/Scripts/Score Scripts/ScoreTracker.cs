@@ -40,12 +40,37 @@ public class ScoreTracker : Singleton<MonoBehaviour>
 
     private void Start()
     {
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        FindCanvas();
+        ResetScore();
+    }
+    /// <summary>
+    /// Set score to starter score.
+    /// </summary>
+    private void ResetScore()
+    {
         score = starterScore;
     }
+
+    /// <summary>
+    /// Find the Canvas game object which houses all UI elements.
+    /// </summary>
+    private void FindCanvas()
+    {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
+
     private void Update()
     {
-        if(score != 0 && scoreChange != 0)
+        ShowScoreChange();
+    }
+    /// <summary>
+    /// Check if the score has been changed.
+    /// If so, instantiate a new score text object and set its text accordingly,
+    /// then set scoreChange to 0.
+    /// </summary>
+    private void ShowScoreChange()
+    {
+        if (score != 0 && scoreChange != 0)
         {
             var scoreTextInstance = Instantiate(scoreTextObject, canvas.transform.position, canvas.transform.rotation);
             scoreTextInstance.transform.SetParent(canvas.transform);
