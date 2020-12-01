@@ -269,6 +269,10 @@ public class EnemyBehavior : MonoBehaviour
         }
         return false;
     }
+    /// <summary>
+    /// Check if the enemy is touching a wall. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
     private bool IsTouchingWall()
     {
         Vector2 position = transform.position;
@@ -361,6 +365,10 @@ public class EnemyBehavior : MonoBehaviour
         }
         StartCoroutine(FlipCooldown());
     }
+    /// <summary>
+    /// Stop the enemy from flipping if it has already flipped within a specified timeframe.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FlipCooldown()
     {
         canFlip = false;
