@@ -317,29 +317,21 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     Flip();
                 }
-                if (FacingRight)
-                {
-                    rigidbody2D.velocity = new Vector2(movementSpeed, rigidbody2D.velocity.y);
-                }
-                else
-                {
-                    rigidbody2D.velocity = new Vector2(-movementSpeed, rigidbody2D.velocity.y);
-                }
                 break;
             case true:
                 if (HasReachedMaximumFlightDistance() || IsTouchingOtherEnemy() || IsTouchingWall())
                 {
                     Flip();
                 }
-                if (FacingRight)
-                {
-                    rigidbody2D.velocity = new Vector2(movementSpeed, rigidbody2D.velocity.y);
-                }
-                else
-                {
-                    rigidbody2D.velocity = new Vector2(-movementSpeed, rigidbody2D.velocity.y);
-                }
                 break;
+        }
+        if (FacingRight)
+        {
+            rigidbody2D.velocity = new Vector2(movementSpeed, rigidbody2D.velocity.y);
+        }
+        else
+        {
+            rigidbody2D.velocity = new Vector2(-movementSpeed, rigidbody2D.velocity.y);
         }
     }
     /// <summary>
