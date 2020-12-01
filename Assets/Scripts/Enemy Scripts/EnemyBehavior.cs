@@ -306,24 +306,12 @@ public class EnemyBehavior : MonoBehaviour
     }
     /// <summary>
     /// Move the enemy.
-    /// NOTE: This method behaves differently depending on whether or not the enemy is a Flier.
     /// </summary>
     private void Move()
     {
-        switch (IsFlier())
+        if((!IsFlier() && IsOnEdge()) || (IsFlier() && HasReachedMaximumFlightDistance()) || IsTouchingOtherEnemy() || IsTouchingWall())
         {
-            case false:
-                if (IsOnEdge() || IsTouchingOtherEnemy() || IsTouchingWall())
-                {
-                    Flip();
-                }
-                break;
-            case true:
-                if (HasReachedMaximumFlightDistance() || IsTouchingOtherEnemy() || IsTouchingWall())
-                {
-                    Flip();
-                }
-                break;
+            Flip();
         }
         if (FacingRight)
         {
