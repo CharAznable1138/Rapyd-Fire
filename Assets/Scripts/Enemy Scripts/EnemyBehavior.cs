@@ -305,7 +305,12 @@ public class EnemyBehavior : MonoBehaviour
         canShoot = true;
     }
     /// <summary>
-    /// Move the enemy.
+    /// Move the enemy horizontally.
+    /// Flip the enemy's facing direction if any of the following conditions are met:
+    /// 1) Enemy is not a Flier & is on an edge.
+    /// 2) Enemy is a Flier & has reached maximum flight distance.
+    /// 3) Enemy is touching another enemy.
+    /// 4) Enemy is touching a wall.
     /// </summary>
     private void Move()
     {
