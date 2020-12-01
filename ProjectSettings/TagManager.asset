@@ -19,6 +19,7 @@ TagManager:
   - Hazard
   - Canvas
   - Shield Timer
+  - Jetpack
   layers:
   - Default
   - TransparentFX
