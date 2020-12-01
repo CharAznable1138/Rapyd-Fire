@@ -313,24 +313,21 @@ public class EnemyBehavior : MonoBehaviour
         switch (IsFlier())
         {
             case false:
-                if (!IsOnEdge() && !IsTouchingOtherEnemy() && !IsTouchingWall())
-                {
-                    if (FacingRight)
-                    {
-                        rigidbody2D.velocity = new Vector2(movementSpeed, rigidbody2D.velocity.y);
-                    }
-                    else
-                    {
-                        rigidbody2D.velocity = new Vector2(-movementSpeed, rigidbody2D.velocity.y);
-                    }
-                }
-                else
+                if (IsOnEdge() || IsTouchingOtherEnemy() || IsTouchingWall())
                 {
                     Flip();
                 }
+                if (FacingRight)
+                {
+                    rigidbody2D.velocity = new Vector2(movementSpeed, rigidbody2D.velocity.y);
+                }
+                else
+                {
+                    rigidbody2D.velocity = new Vector2(-movementSpeed, rigidbody2D.velocity.y);
+                }
                 break;
             case true:
-                if (IsTouchingOtherEnemy() || HasReachedMaximumFlightDistance() || IsTouchingWall())
+                if (HasReachedMaximumFlightDistance() || IsTouchingOtherEnemy() || IsTouchingWall())
                 {
                     Flip();
                 }
