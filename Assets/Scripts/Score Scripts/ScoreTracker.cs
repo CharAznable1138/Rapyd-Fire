@@ -82,8 +82,19 @@ public class ScoreTracker : Singleton<MonoBehaviour>
             if (scoreChange < 0)
             {
                 scoreTextComponent.text = $"{scoreChange} points";
+                ResetScoreIfScoreIsNegative();
             }
             scoreChange = 0;
+        }
+    }
+    /// <summary>
+    /// Reset the Player's score to 0 if the Player's score is a negative number.
+    /// </summary>
+    private void ResetScoreIfScoreIsNegative()
+    {
+        if (score < 0)
+        {
+            score = 0;
         }
     }
 }

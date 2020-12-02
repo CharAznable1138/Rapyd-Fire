@@ -75,10 +75,6 @@ public class PlayerDeath : MonoBehaviour
         {
             playerIsDead = true;
             scoreTrackerScript.Score -= playerDeathDemerits;
-            if (scoreTrackerScript.Score < 0)
-            {
-                scoreTrackerScript.Score = 0;
-            }
         }
         Destroy(gameObject);
     }
