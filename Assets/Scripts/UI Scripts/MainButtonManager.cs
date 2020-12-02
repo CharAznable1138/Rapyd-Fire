@@ -15,6 +15,15 @@ public class MainButtonManager : MonoBehaviour
     [Tooltip("The PlayerSpawner script attached to the Spawn Point game object.")]
     private PlayerSpawner playerSpawner;
 
+    [Tooltip("The game object that handles spawning objects other than the player.")]
+    private GameObject spawnManager;
+
+    [Tooltip("The EnemySpawner script attached to the Spawn Manager game object.")]
+    private EnemySpawner enemySpawner;
+
+    [Tooltip("The PowerupSpawner script attached to the Spawn Manager game object.")]
+    private PowerupSpawner powerupSpawner;
+
     [Tooltip("The empty game object which keeps track of the Player's score.")]
     private GameObject scoreTracker;
     /// <summary>
@@ -42,6 +51,8 @@ public class MainButtonManager : MonoBehaviour
     public void Retry()
     {
         SpawnPlayer();
+        SpawnEnemies();
+        SpawnPowerups();
     }
     /// <summary>
     /// Load the next scene in the Build hierarchy.
@@ -66,6 +77,31 @@ public class MainButtonManager : MonoBehaviour
         spawnPoint = GameObject.FindGameObjectWithTag("Spawnpoint");
         playerSpawner = spawnPoint.GetComponent<PlayerSpawner>();
         playerSpawner.SpawnPlayer();
+    }
+    /// <summary>
+    /// Respawn all enemies in the level.
+    /// </summary>
+    private void SpawnEnemies()
+    {
+        FindSpawnManager();
+        enemySpawner = spawnManager.GetComponent<EnemySpawner>();
+        enemySpawner.SpawnEnemies();
+    }
+    /// <summary>
+    /// Respawn all powerups in the level.
+    /// </summary>
+    private void SpawnPowerups()
+    {
+        FindSpawnManager();
+        powerupSpawner = spawnManager.GetComponent<PowerupSpawner>();
+        powerupSpawner.SpawnPowerups();
+    }
+    /// <summary>
+    /// Find the game object tagged "Spawn Manager" and assign it to the spawnManager variable.
+    /// </summary>
+    private void FindSpawnManager()
+    {
+        spawnManager = GameObject.FindGameObjectWithTag("Spawn Manager");
     }
     /// <summary>
     /// Find the Score Tracker game object and, if it exists, destroy it.
