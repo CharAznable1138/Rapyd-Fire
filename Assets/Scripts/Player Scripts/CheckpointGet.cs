@@ -52,7 +52,7 @@ public class CheckpointGet : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             spawnPoint.transform.position = gameObject.transform.position;
-            StartCoroutine("Claim");
+            StartCoroutine(Claim());
         }
     }
 
