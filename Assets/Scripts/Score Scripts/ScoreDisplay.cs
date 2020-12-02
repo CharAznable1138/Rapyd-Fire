@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class ScoreDisplay : MonoBehaviour
 {
@@ -44,6 +46,26 @@ public class ScoreDisplay : MonoBehaviour
     /// </summary>
     private void SetScoreText()
     {
-        scoreText.text = $"Score: {scoreTrackerScript.Score}";
+        switch(CurrentSceneIsFinalResults())
+        {
+            case false:
+                scoreText.text = $"Score: {scoreTrackerScript.Score}";
+                break;
+            case true:
+                scoreText.text = scoreTrackerScript.Score.ToString();
+                break;
+        }
+    }
+    /// <summary>
+    /// Return true if the currently loaded scene is the Final Results screen, otherwise return false.
+    /// </summary>
+    /// <returns></returns>
+    private bool CurrentSceneIsFinalResults()
+    {
+        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
+        {
+            return true;
+        }
+        return false;
     }
 }
