@@ -20,6 +20,7 @@ TagManager:
   - Canvas
   - Shield Timer
   - Jetpack
+  - Spawn Manager
   layers:
   - Default
   - TransparentFX
