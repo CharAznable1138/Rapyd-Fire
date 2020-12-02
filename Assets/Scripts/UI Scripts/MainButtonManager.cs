@@ -29,12 +29,11 @@ public class MainButtonManager : MonoBehaviour
         #endif
     }
     /// <summary>
-    /// Destroy the Score Tracker and return to the Main Menu.
+    /// Return to the Main Menu.
     /// </summary>
     public void QuitToTitle()
     {
-        scoreTracker = GameObject.FindGameObjectWithTag("Score Tracker");
-        Destroy(scoreTracker);
+        DestroyScoreTracker();
         SceneManager.LoadScene(0);
     }
     /// <summary>
@@ -52,6 +51,14 @@ public class MainButtonManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     /// <summary>
+    /// Return to Level 1.
+    /// </summary>
+    public void RestartAtLevel1()
+    {
+        DestroyScoreTracker();
+        SceneManager.LoadScene(1);
+    }
+    /// <summary>
     /// Instantiate a new Player game object at the current location of the Spawnpoint game object.
     /// </summary>
     private void SpawnPlayer()
@@ -59,5 +66,16 @@ public class MainButtonManager : MonoBehaviour
         spawnPoint = GameObject.FindGameObjectWithTag("Spawnpoint");
         playerSpawner = spawnPoint.GetComponent<PlayerSpawner>();
         playerSpawner.SpawnPlayer();
+    }
+    /// <summary>
+    /// Find the Score Tracker game object and, if it exists, destroy it.
+    /// </summary>
+    private void DestroyScoreTracker()
+    {
+        scoreTracker = GameObject.FindGameObjectWithTag("Score Tracker");
+        if (scoreTracker != null)
+        {
+            Destroy(scoreTracker);
+        }
     }
 }
