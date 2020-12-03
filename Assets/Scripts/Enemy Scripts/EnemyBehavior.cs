@@ -89,13 +89,13 @@ public class EnemyBehavior : MonoBehaviour
     private void Start()
     {
         AssignComponents();
-        InitializeBool();
+        SetFacingRightToTrue();
         GetStartingPositionX();
     }
     /// <summary>
-    /// Assign initial value for the boolean variable of this script.
+    /// Let the script know that the enemy is facing right. (Note: This necessitates that all enemies begin the level facing right)
     /// </summary>
-    private void InitializeBool()
+    private void SetFacingRightToTrue()
     {
         FacingRight = true;
     }
