@@ -16,6 +16,15 @@ public class PauseGame : MonoBehaviour
 
     private void Update()
     {
+        HandlePauseInput();
+    }
+    /// <summary>
+    /// If player presses the Escape key and isn't dead,
+    /// Unpause the game if it is paused,
+    /// otherwise Pause the game.
+    /// </summary>
+    private void HandlePauseInput()
+    {
         if (Input.GetKeyDown("escape") && PlayerExists())
         {
             if (isPaused)
@@ -30,6 +39,7 @@ public class PauseGame : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Pause the game by setting the time scale to 0, display pause text.
     /// </summary>

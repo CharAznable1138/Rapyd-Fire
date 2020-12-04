@@ -19,10 +19,27 @@ public class EnemyDeath : MonoBehaviour
 
     private void Start()
     {
+        FindScoreTracker();
+    }
+    /// <summary>
+    /// Assign values to the Score Tracker game object and its attached Score Tracker script.
+    /// </summary>
+    private void FindScoreTracker()
+    {
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        KillEnemyIfHitByPlayerBullet(collision);
+    }
+    /// <summary>
+    /// Check if this enemy game object has just collided with a game object tagged "Player Bullet".
+    /// If so, kill this enemy and increase the player's score accordingly.
+    /// </summary>
+    /// <param name="collision">The collider that this game object has just collided with.</param>
+    private void KillEnemyIfHitByPlayerBullet(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player Bullet"))
         {

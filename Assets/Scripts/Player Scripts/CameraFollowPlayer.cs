@@ -9,11 +9,19 @@ public class CameraFollowPlayer : MonoBehaviour
 
     private void Update()
     {
+        SetCameraPosition();
+    }
+    /// <summary>
+    /// If the player's game object currently exists, set the camera's position to match that of the player's game object.
+    /// </summary>
+    private void SetCameraPosition()
+    {
         if (PlayerExists())
         {
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
         }
     }
+
     /// <summary>
     /// Check if the player's game object exists.
     /// </summary>

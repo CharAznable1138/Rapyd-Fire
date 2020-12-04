@@ -22,18 +22,27 @@ public class ShowShieldTimer : MonoBehaviour
 
     private void Update()
     {
-        if(PlayerExists())
+        CreateOrDestroyShieldTimer();
+    }
+    /// <summary>
+    /// If the player exists, create a Shield Timer if the player is shielded and a Shield Timer doesn't exist yet.
+    /// If the player isn't shielded and a Shield Timer exists, destroy that Shield Timer.
+    /// </summary>
+    private void CreateOrDestroyShieldTimer()
+    {
+        if (PlayerExists())
         {
-            if(playerController.IsShielded && !ShieldTimerExists())
+            if (playerController.IsShielded && !ShieldTimerExists())
             {
                 createShieldTimer = Instantiate(shieldTimer, gameObject.transform);
             }
-            if(!playerController.IsShielded && ShieldTimerExists())
+            if (!playerController.IsShielded && ShieldTimerExists())
             {
                 Destroy(createShieldTimer.gameObject);
             }
         }
     }
+
     /// <summary>
     /// Check if other Shield Timer UI objects exist.
     /// </summary>

@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 2
   groundCheckDistance: 1
+  wallCheckDistance: 0.5
   enemyContactCheckDistance: 1
   cooldownTime: 2
   initialDelayTime: 0.5
@@ -137,6 +138,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  maximumFlightDistance: 10
+  flipCooldown: 0.1
 --- !u!70 &4955129411682980159
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -33,12 +33,26 @@ public class AimingReticle : MonoBehaviour
 
     private void Start()
     {
+        AssignPlayerController();
+    }
+    /// <summary>
+    /// Assign a value to the PlayerController script found in this game object's parent object.
+    /// </summary>
+    private void AssignPlayerController()
+    {
         playerController = GetComponentInParent<PlayerController>();
     }
 
     private void Update()
     {
-        switch(playerController.AimingDirection)
+        AlignReticleWithPlayerAimingDirection();
+    }
+    /// <summary>
+    /// Check what direction the player is currently aiming in, then position the aiming reticle accordingly.
+    /// </summary>
+    private void AlignReticleWithPlayerAimingDirection()
+    {
+        switch (playerController.AimingDirection)
         {
             case PlayerController.AimingDirectionState.Up:
                 SetLocalPosition(aimingUpVector);
@@ -60,6 +74,7 @@ public class AimingReticle : MonoBehaviour
                 break;
         }
     }
+
     /// <summary>
     /// Change the reticle's position, relative to that of its parent object, to a specified destination.
     /// </summary>

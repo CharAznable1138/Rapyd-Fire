@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9403781eacb526049ae1186f178a54d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeathDemerits: 1
+  playerDeathDemerits: 50
 --- !u!61 &5044158608656115668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -220,8 +220,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.011068106, y: -0.11289507}
-  m_Size: {x: 0.6591011, y: 0.6591011}
+  m_Offset: {x: 0.011068106, y: -0.13650066}
+  m_Size: {x: 0.6591011, y: 0.7063123}
   m_Direction: 0
 --- !u!1 &5044158609819909493
 GameObject:

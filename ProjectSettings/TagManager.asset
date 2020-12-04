@@ -19,6 +19,10 @@ TagManager:
   - Hazard
   - Canvas
   - Shield Timer
+  - Jetpack
+  - Spawn Manager
+  - Enemy Set
+  - Powerup Set
   layers:
   - Default
   - TransparentFX

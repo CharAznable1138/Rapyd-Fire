@@ -14,11 +14,28 @@ public class LevelComplete : MonoBehaviour
     internal bool LevelIsComplete { get; private set; }
     private void Start()
     {
+        SetLevelIsCompleteToFalse();
+    }
+    /// <summary>
+    /// Set LevelIsComplete to its default value, false.
+    /// </summary>
+    private void SetLevelIsCompleteToFalse()
+    {
         LevelIsComplete = false;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        EndLevelIfPlayerTouchesFinishLine(collision);
+    }
+    /// <summary>
+    /// Check if the player just touched the finish line.
+    /// If so, start the Destroy All Enemies coroutine, end the level, then destroy the player.
+    /// </summary>
+    /// <param name="collision">The collider that just touched the finish line.</param>
+    private void EndLevelIfPlayerTouchesFinishLine(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
             enemyBullets = GameObject.FindGameObjectsWithTag("Enemy Bullet");
@@ -28,6 +45,7 @@ public class LevelComplete : MonoBehaviour
 
         }
     }
+
     /// <summary>
     /// Destroy all Enemy and Enemy Bullet game objects.
     /// </summary>

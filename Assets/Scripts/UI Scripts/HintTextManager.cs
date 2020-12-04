@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -67,25 +68,65 @@ public class HintTextManager : MonoBehaviour
 
     private void Start()
     {
+        SetShowHintCoroutineIsRunningToFalse();
+        FindHintTextComponent();
+        HideHintText();
+        CreateHints();
+    }
+    /// <summary>
+    /// Set showHintCoroutineIsRunning bool to its default value, false.
+    /// </summary>
+    private void SetShowHintCoroutineIsRunningToFalse()
+    {
         showHintCoroutineIsRunning = false;
+    }
+
+    /// <summary>
+    /// Find the TMP Text component attached to the hint text UI object.
+    /// </summary>
+    private void FindHintTextComponent()
+    {
         hintTextComponent = hintTextObject.GetComponent<TMP_Text>();
+    }
+
+    /// <summary>
+    /// Hide hint text from player.
+    /// </summary>
+    private void HideHintText()
+    {
         hintTextObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Populate list of hints with new hints related to all possible player actions.
+    /// </summary>
+    private void CreateHints()
+    {
         hints.Add(new Hint(Hint.HintType.Move, movementHintText, movementHintDelay));
         hints.Add(new Hint(Hint.HintType.Shoot, shootHintText, shootHintDelay));
         hints.Add(new Hint(Hint.HintType.Jump, jumpHintText, jumpHintDelay));
         hints.Add(new Hint(Hint.HintType.Lock, lockHintText, lockHintDelay));
         hints.Add(new Hint(Hint.HintType.Aim, aimHintText, aimHintDelay));
     }
+
     private void Update()
     {
-        if(PlayerExists() && !showHintCoroutineIsRunning)
+        RunHintCoroutine();
+    }
+    /// <summary>
+    /// Stops all coroutines then starts the ShowHint coroutine if the player exists and the ShowHint coroutine isn't already running.
+    /// </summary>
+    private void RunHintCoroutine()
+    {
+        if (PlayerExists() && !showHintCoroutineIsRunning)
         {
             StopAllCoroutines();
             StartCoroutine(ShowHint());
         }
     }
+
     /// <summary>
-    /// Show the player a hint, and add said hint to the list of hints the player has already seen.
+    /// Show the player a hint, and add said hint to the list of hints the player has already seen (if said hint isn't in said list already).
     /// </summary>
     /// <returns></returns>
     private IEnumerator ShowHint()
@@ -93,38 +134,12 @@ public class HintTextManager : MonoBehaviour
         showHintCoroutineIsRunning = true;
         foreach(Hint h in hints)
         {
-            switch(h.hintType)
+            foreach(PlayerController.PlayerActions a in playerController.PlayerHasAlreadyDone)
             {
-                case Hint.HintType.Move:
-                    if(playerController.HasMoved)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Jump:
-                    if(playerController.HasJumped)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Shoot:
-                    if (playerController.HasShot)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Aim:
-                    if (playerController.HasAimed)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
-                case Hint.HintType.Lock:
-                    if (playerController.HasLocked)
-                    {
-                        noShowHints.Add(h);
-                    }
-                    break;
+                if(a.ToString() == h.hintType.ToString() && !noShowHints.Contains(h))
+                {
+                    noShowHints.Add(h);
+                }
             }
             if(Time.timeSinceLevelLoad > h.hintDelay && !h.playerHasAlreadySeen && !noShowHints.Contains(h))
             {

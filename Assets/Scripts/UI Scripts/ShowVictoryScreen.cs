@@ -15,10 +15,34 @@ public class ShowVictoryScreen : MonoBehaviour
 
     private void Start()
     {
-        finishLine = GameObject.FindGameObjectWithTag("Finish Line");
+        FindFinishLine();
+        FindLevelCompleteComponent();
+    }
+    /// <summary>
+    /// Find the Level Complete component attached to the finish line in the scene.
+    /// </summary>
+    private void FindLevelCompleteComponent()
+    {
         levelComplete = finishLine.GetComponent<LevelComplete>();
     }
+
+    /// <summary>
+    /// Find the finish line in the scene.
+    /// </summary>
+    private void FindFinishLine()
+    {
+        finishLine = GameObject.FindGameObjectWithTag("Finish Line");
+    }
+
     private void Update()
+    {
+        ShowOrHideVictoryPanel();
+    }
+    /// <summary>
+    /// If the level is completed, show the victory panel.
+    /// Otherwise, hide the victory panel.
+    /// </summary>
+    private void ShowOrHideVictoryPanel()
     {
         if (levelComplete.LevelIsComplete)
         {

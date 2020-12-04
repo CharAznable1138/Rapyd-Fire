@@ -17,6 +17,14 @@ public class ShowGameOverScreen : MonoBehaviour
 
     private void Update()
     {
+        ShowOrHideGameOverPanel();
+    }
+    /// <summary>
+    /// Hide the Game Over panel unless the player exists, in which case
+    /// show the Game Over panel unless the Victory panel is showing.
+    /// </summary>
+    private void ShowOrHideGameOverPanel()
+    {
         if (PlayerExists())
         {
             gameOverPanel.SetActive(false);
@@ -33,6 +41,7 @@ public class ShowGameOverScreen : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Check if the Player's game object exists. True = yes, False = no.
     /// </summary>

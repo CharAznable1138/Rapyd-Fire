@@ -8,12 +8,28 @@ public class Isolator : MonoBehaviour
     private GameObject[] clones;
     private void Start()
     {
-        clones = GameObject.FindGameObjectsWithTag(tag);
+        FindClones();
+        RunIsolateCoroutine();
+    }
+    /// <summary>
+    /// If clones are found in the scene, start the Isolate coroutine.
+    /// </summary>
+    private void RunIsolateCoroutine()
+    {
         if (clones.Length > 0)
         {
             StartCoroutine("Isolate");
         }
     }
+
+    /// <summary>
+    /// Find all game objects in the scene with the same tag as this game object.
+    /// </summary>
+    private void FindClones()
+    {
+        clones = GameObject.FindGameObjectsWithTag(tag);
+    }
+
     /// <summary>
     /// Destroy all game objects with this game object's tag, except for this game object.
     /// </summary>

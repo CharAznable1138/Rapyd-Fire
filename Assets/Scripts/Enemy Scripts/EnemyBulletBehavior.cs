@@ -23,33 +23,49 @@ public class EnemyBulletBehavior : MonoBehaviour
 
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-
-        enemyBehavior = GetComponentInParent<EnemyBehavior>();
+        AssignScripts();
 
         Shoot();
 
-        StartCoroutine("SelfDestruct");
+        StartCoroutine(SelfDestruct());
     }
+    /// <summary>
+    /// Get values for the scripts this script needs to communicate with.
+    /// </summary>
+    private void AssignScripts()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+
+        enemyBehavior = GetComponentInParent<EnemyBehavior>();
+    }
+
     /// <summary>
     /// Creates an enemy bullet and fires it in a specified direction.
     /// </summary>
     private void Shoot()
     {
-        if (enemyBehavior.AimingUp)
+        switch (enemyBehavior.EnemyTypeIsFlier)
         {
-            movementVector = new Vector2(rigidbody2D.velocity.x, bulletSpeed);
-        }
-        else
-        {
-            if (enemyBehavior.FacingRight)
-            {
-                movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
-            }
-            else
-            {
-                movementVector = new Vector2(-bulletSpeed, rigidbody2D.velocity.y);
-            }
+            case false:
+                if (enemyBehavior.FacingRight)
+                {
+                    movementVector = new Vector2(bulletSpeed, rigidbody2D.velocity.y);
+                }
+                else
+                {
+                    movementVector = new Vector2(-bulletSpeed, rigidbody2D.velocity.y);
+                }
+                break;
+            case true:
+                if (enemyBehavior.FacingRight)
+                {
+                    movementVector = new Vector2(bulletSpeed, -bulletSpeed);
+                }
+                else
+                {
+                    movementVector = new Vector2(-bulletSpeed, -bulletSpeed);
+                }
+                break;
         }
         rigidbody2D.velocity = movementVector;
     }
@@ -63,6 +79,14 @@ public class EnemyBulletBehavior : MonoBehaviour
         Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        DestroyOnContact(collision);
+    }
+    /// <summary>
+    /// Destroy the game object on contact with any other game object, except for those tagged "Enemy" or "Bounds".
+    /// </summary>
+    /// <param name="collision">The collider that this game object has just collided with.</param>
+    private void DestroyOnContact(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("Bounds"))
         {
