@@ -136,6 +136,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   shieldGetPoints: 5
   powerupSpriteColor:
     serializedVersion: 2
