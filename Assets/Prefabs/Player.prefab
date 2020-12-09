@@ -136,6 +136,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  groundCheckPeripheralDistance: 0.4
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048

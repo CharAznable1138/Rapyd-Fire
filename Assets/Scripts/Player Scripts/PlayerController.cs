@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
+    [Tooltip("The horizontal distance between the player's central ground check raycast and its two peripheral ground check raycasts (one on each side).")]
+    private float groundCheckPeripheralDistance = 1;
+
+    [SerializeField]
     [Tooltip("Layer on which to check for enemies. (LayerMask)")]
     private LayerMask enemyLayer;
 
@@ -187,8 +191,14 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = Vector2.down;
         float distance = groundCheckDistance;
 
+        Vector2 position2 = new Vector2(transform.position.x + groundCheckPeripheralDistance, transform.position.y);
+
+        Vector2 position3 = new Vector2(transform.position.x - groundCheckPeripheralDistance, transform.position.y);
+
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if(hit.collider != null)
+        RaycastHit2D hit2 = Physics2D.Raycast(position2, direction, distance, groundLayer);
+        RaycastHit2D hit3 = Physics2D.Raycast(position3, direction, distance, groundLayer);
+        if (hit.collider != null || hit2.collider != null || hit3.collider != null)
         {
             return true;
         }
