@@ -8,7 +8,6 @@ public class PlayerSpawner : MonoBehaviour
     [Tooltip("The Player's game object.")]
     private GameObject player;
 
-    [SerializeField]
     [Tooltip("The Canvas containing all UI objects in the scene.")]
     private GameObject canvas;
 
@@ -18,7 +17,12 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Start()
     {
+        FindCanvas();
         SpawnPlayer();
+    }
+    private void FindCanvas()
+    {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
     }
     /// <summary>
     /// Create a new Player game object and a new HUD UI object.
