@@ -67,7 +67,8 @@ public class EnemyBulletBehavior : MonoBehaviour
                 }
                 break;
         }
-        rigidbody2D.velocity = movementVector;
+        rigidbody2D.AddForce(movementVector, ForceMode2D.Impulse);
+
     }
     /// <summary>
     /// Makes enemy bullet destroy itself.
