@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
+    [Tooltip("Layer on which to check for enemies. (LayerMask)")]
+    private LayerMask enemyLayer;
+
+    [SerializeField]
     [Tooltip("Amount of points to be awarded to the player if a Shield powerup is collected.")]
     private float shieldGetPoints = 5;
 
@@ -192,6 +196,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Check whether the player is currently standing atop an enemy. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsOnEnemy()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = groundCheckDistance;
+
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, enemyLayer);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
     private void Update()
     {
         if (!GameIsPaused())
@@ -219,7 +242,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleLockMovementInput()
     {
-        if (Input.GetMouseButton(1) && IsOnGround())
+        if (Input.GetMouseButton(1) && (IsOnGround() || IsOnEnemy()))
         {
             locked = true;
             AddToPlayerHasAlreadyDoneList(PlayerActions.Lock);
@@ -246,7 +269,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleJumpInput()
     {
-        if (Input.GetKeyDown("space") && IsOnGround())
+        if (Input.GetKeyDown("space") && (IsOnGround() || IsOnEnemy()))
         {
             isJumping = true;
         }
@@ -468,7 +491,7 @@ public class PlayerController : MonoBehaviour
                 return AimingDirectionState.Up;
             }
         }
-        else if(verticalInput < 0 && !IsOnGround())
+        else if(verticalInput < 0 && (!IsOnGround() || !IsOnEnemy()))
         {
             return AimingDirectionState.Down;
         }
