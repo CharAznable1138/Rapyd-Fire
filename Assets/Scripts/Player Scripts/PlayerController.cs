@@ -66,6 +66,14 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Color the player will turn into while shielded.")]
     private Color32 powerupSpriteColor = new Color32(255, 25, 155, 255);
 
+    [SerializeField]
+    [Tooltip("The sound to be played when the Player jumps.")]
+    private AudioClip jumpSound;
+
+    [Tooltip("The Sound Manager game object.")]
+    private GameObject soundManagerObject;
+    [Tooltip("The SoundManager script attached to the Sound Manager game object.")]
+    private SoundManager soundManagerScript;
     [Tooltip("Direction in which the player will jump. (Vector2)")]
     private Vector2 jumpVector;
     [Tooltip("Positive number = player is inputting to the right, Negative number = player is inputting to the left. (Float)")]
@@ -170,6 +178,8 @@ public class PlayerController : MonoBehaviour
     {
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
 
     /// <summary>
@@ -389,6 +399,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
+        soundManagerScript.PlaySound(jumpSound);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
         AddToPlayerHasAlreadyDoneList(PlayerActions.Jump);
     }

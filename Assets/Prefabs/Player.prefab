@@ -144,6 +144,7 @@ MonoBehaviour:
   powerupSpriteColor:
     serializedVersion: 2
     rgba: 4288354815
+  jumpSound: {fileID: 8300000, guid: f74b4d781cb05374eb1caf198080be62, type: 3}
 --- !u!70 &5044158608656115665
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
