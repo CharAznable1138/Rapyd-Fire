@@ -51,6 +51,14 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
+    [Tooltip("The horizontal distance between the player's central ground check raycast and its two peripheral ground check raycasts (one on each side).")]
+    private float groundCheckPeripheralDistance = 1;
+
+    [SerializeField]
+    [Tooltip("Layer on which to check for enemies. (LayerMask)")]
+    private LayerMask enemyLayer;
+
+    [SerializeField]
     [Tooltip("Amount of points to be awarded to the player if a Shield powerup is collected.")]
     private float shieldGetPoints = 5;
 
@@ -58,6 +66,14 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Color the player will turn into while shielded.")]
     private Color32 powerupSpriteColor = new Color32(255, 25, 155, 255);
 
+    [SerializeField]
+    [Tooltip("The sound to be played when the Player jumps.")]
+    private AudioClip jumpSound;
+
+    [Tooltip("The Sound Manager game object.")]
+    private GameObject soundManagerObject;
+    [Tooltip("The SoundManager script attached to the Sound Manager game object.")]
+    private SoundManager soundManagerScript;
     [Tooltip("Direction in which the player will jump. (Vector2)")]
     private Vector2 jumpVector;
     [Tooltip("Positive number = player is inputting to the right, Negative number = player is inputting to the left. (Float)")]
@@ -162,6 +178,8 @@ public class PlayerController : MonoBehaviour
     {
         scoreTrackerObject = GameObject.FindGameObjectWithTag("Score Tracker");
         scoreTrackerScript = scoreTrackerObject.GetComponent<ScoreTracker>();
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
 
     /// <summary>
@@ -183,8 +201,33 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = Vector2.down;
         float distance = groundCheckDistance;
 
+        Vector2 position2 = new Vector2(transform.position.x + groundCheckPeripheralDistance, transform.position.y);
+
+        Vector2 position3 = new Vector2(transform.position.x - groundCheckPeripheralDistance, transform.position.y);
+
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if(hit.collider != null)
+        RaycastHit2D hit2 = Physics2D.Raycast(position2, direction, distance, groundLayer);
+        RaycastHit2D hit3 = Physics2D.Raycast(position3, direction, distance, groundLayer);
+        if (hit.collider != null || hit2.collider != null || hit3.collider != null)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
+    /// <summary>
+    /// Check whether the player is currently standing atop an enemy. True = yes, False = no.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsOnEnemy()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = groundCheckDistance;
+
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, enemyLayer);
+        if (hit.collider != null)
         {
             return true;
         }
@@ -219,7 +262,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleLockMovementInput()
     {
-        if (Input.GetMouseButton(1) && IsOnGround())
+        if (Input.GetMouseButton(1) && (IsOnGround() || IsOnEnemy()))
         {
             locked = true;
             AddToPlayerHasAlreadyDoneList(PlayerActions.Lock);
@@ -246,7 +289,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleJumpInput()
     {
-        if (Input.GetKeyDown("space") && IsOnGround())
+        if (Input.GetKeyDown("space") && (IsOnGround() || IsOnEnemy()))
         {
             isJumping = true;
         }
@@ -356,6 +399,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
+        soundManagerScript.PlaySound(jumpSound);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
         AddToPlayerHasAlreadyDoneList(PlayerActions.Jump);
     }
@@ -468,7 +512,7 @@ public class PlayerController : MonoBehaviour
                 return AimingDirectionState.Up;
             }
         }
-        else if(verticalInput < 0 && !IsOnGround())
+        else if(verticalInput < 0 && (!IsOnGround() || !IsOnEnemy()))
         {
             return AimingDirectionState.Down;
         }

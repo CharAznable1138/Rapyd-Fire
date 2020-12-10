@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreTracker : Singleton<MonoBehaviour>
@@ -14,7 +15,6 @@ public class ScoreTracker : Singleton<MonoBehaviour>
     [Tooltip("The UI object which shows how many points the player has just gained or lost.")]
     private GameObject scoreTextObject;
 
-    [SerializeField]
     [Tooltip("The Canvas on which all UI objects display.")]
     private GameObject canvas;
     
@@ -56,11 +56,15 @@ public class ScoreTracker : Singleton<MonoBehaviour>
     /// </summary>
     private void FindCanvas()
     {
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        if (canvas == null)
+        {
+            canvas = GameObject.FindGameObjectWithTag("Canvas");
+        }
     }
 
     private void Update()
     {
+        FindCanvas();
         ShowScoreChange();
     }
     /// <summary>
@@ -92,9 +96,13 @@ public class ScoreTracker : Singleton<MonoBehaviour>
     /// </summary>
     private void ResetScoreIfScoreIsNegative()
     {
-        if (score < 0)
+        if (score <= 0)
         {
             score = 0;
+        }
+        if(Score <= 0)
+        {
+            Score = 0;
         }
     }
 }

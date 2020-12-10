@@ -23,6 +23,7 @@ TagManager:
   - Spawn Manager
   - Enemy Set
   - Powerup Set
+  - Sound Manager
   layers:
   - Default
   - TransparentFX

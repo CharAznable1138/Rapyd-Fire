@@ -14,11 +14,21 @@ public class PlayerBulletBehavior : MonoBehaviour
     [Tooltip("The Rigidbody2D component attached to the player bullet prefab.")]
     private Rigidbody2D rigidbody2D;
 
-    [Tooltip("The PlayerController component attached to the player's game obhect.")]
+    [Tooltip("The PlayerController component attached to the player's game object.")]
     private PlayerController playerController;
 
     [Tooltip("Direction in which to fire player bullet. (Vector2)")]
     private Vector2 movementVector;
+
+    [SerializeField]
+    [Tooltip("The sound to play when the player fires a bullet.")]
+    private AudioClip bulletSound;
+
+    [Tooltip("The Sound Manager game object.")]
+    private GameObject soundManagerObject;
+
+    [Tooltip("The SoundManager script attached to the Sound Manager game object.")]
+    private SoundManager soundManagerScript;
 
     private void Start()
     {
@@ -36,6 +46,10 @@ public class PlayerBulletBehavior : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
 
         playerController = GetComponentInParent<PlayerController>();
+
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
 
     /// <summary>
@@ -64,7 +78,8 @@ public class PlayerBulletBehavior : MonoBehaviour
                 movementVector = new Vector2(bulletSpeed, bulletSpeed);
                 break;
         }
-        rigidbody2D.velocity = movementVector;
+        soundManagerScript.PlaySound(bulletSound);
+        rigidbody2D.AddForce(movementVector, ForceMode2D.Impulse);
     }
     /// <summary>
     /// Make the instantiated player bullet destroy itself.

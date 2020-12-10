@@ -96,6 +96,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 5044158608656115661, guid: c9e62590e0424564b999cdd4ee6e8459, type: 3}
   canvas: {fileID: 0}
-  HUD: {fileID: 0}
-  mainCamera: {fileID: 1637398929296204381, guid: 53c66f88a0090e54a9e070c09b7af1a4,
-    type: 3}
+  HUD: {fileID: 80767789579101603, guid: d407c116db611b146826bc4ff344c353, type: 3}

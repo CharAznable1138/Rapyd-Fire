@@ -136,10 +136,15 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  groundCheckPeripheralDistance: 0.4
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   shieldGetPoints: 5
   powerupSpriteColor:
     serializedVersion: 2
     rgba: 4288354815
+  jumpSound: {fileID: 8300000, guid: f74b4d781cb05374eb1caf198080be62, type: 3}
 --- !u!70 &5044158608656115665
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

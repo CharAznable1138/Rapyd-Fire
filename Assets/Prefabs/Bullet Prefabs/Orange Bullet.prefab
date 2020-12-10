@@ -104,7 +104,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &-4951755958741564916
 MonoBehaviour:
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   selfDestructCountdown: 0.25
+  bulletSound: {fileID: 8300000, guid: afd9f5508293e644e935e6cf7a355531, type: 3}
 --- !u!61 &2896095495337103174
 BoxCollider2D:
   m_ObjectHideFlags: 0

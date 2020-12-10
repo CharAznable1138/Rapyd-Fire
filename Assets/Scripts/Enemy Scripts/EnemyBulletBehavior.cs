@@ -21,6 +21,16 @@ public class EnemyBulletBehavior : MonoBehaviour
     [Tooltip("Direction in which enemy bullet will move. (Vector2)")]
     private Vector2 movementVector;
 
+    [SerializeField]
+    [Tooltip("The sound to play when the enemy fires a bullet.")]
+    private AudioClip bulletSound;
+
+    [Tooltip("The Sound Manager game object.")]
+    private GameObject soundManagerObject;
+
+    [Tooltip("The SoundManager script attached to the Sound Manager game object.")]
+    private SoundManager soundManagerScript;
+
     private void Start()
     {
         AssignScripts();
@@ -37,6 +47,10 @@ public class EnemyBulletBehavior : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
 
         enemyBehavior = GetComponentInParent<EnemyBehavior>();
+
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
 
     /// <summary>
@@ -67,7 +81,9 @@ public class EnemyBulletBehavior : MonoBehaviour
                 }
                 break;
         }
-        rigidbody2D.velocity = movementVector;
+        soundManagerScript.PlaySoundLowPitch(bulletSound);
+        rigidbody2D.AddForce(movementVector, ForceMode2D.Impulse);
+
     }
     /// <summary>
     /// Makes enemy bullet destroy itself.

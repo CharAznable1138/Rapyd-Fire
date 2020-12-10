@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   selfDestructCountdown: 0.3
+  bulletSound: {fileID: 8300000, guid: afd9f5508293e644e935e6cf7a355531, type: 3}
 --- !u!50 &-3872108116938524224
 Rigidbody2D:
   serializedVersion: 4
@@ -118,7 +119,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &62812233257016461
 BoxCollider2D:
