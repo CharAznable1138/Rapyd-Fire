@@ -14,7 +14,7 @@ public class PlayerBulletBehavior : MonoBehaviour
     [Tooltip("The Rigidbody2D component attached to the player bullet prefab.")]
     private Rigidbody2D rigidbody2D;
 
-    [Tooltip("The PlayerController component attached to the player's game obhect.")]
+    [Tooltip("The PlayerController component attached to the player's game object.")]
     private PlayerController playerController;
 
     [Tooltip("Direction in which to fire player bullet. (Vector2)")]
