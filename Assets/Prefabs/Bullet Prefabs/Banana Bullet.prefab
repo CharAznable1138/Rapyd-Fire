@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   selfDestructCountdown: 0.3
+  bulletSound: {fileID: 8300000, guid: afd9f5508293e644e935e6cf7a355531, type: 3}
 --- !u!50 &-3872108116938524224
 Rigidbody2D:
   serializedVersion: 4
