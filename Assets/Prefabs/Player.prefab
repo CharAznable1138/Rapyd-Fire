@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7570078210494402649}
   m_Layer: 10
   m_Name: Player Feet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,6 +247,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDeathDemerits: 50
+  explosion: {fileID: 8638385611762543470, guid: 3d5268a42c3088148babdd20aadab122,
+    type: 3}
 --- !u!61 &5044158608656115668
 BoxCollider2D:
   m_ObjectHideFlags: 0

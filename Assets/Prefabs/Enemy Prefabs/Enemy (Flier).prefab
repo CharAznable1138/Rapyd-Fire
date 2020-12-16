@@ -170,6 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPoints: 10
+  explosion: {fileID: 8638385611762543470, guid: 3d5268a42c3088148babdd20aadab122,
+    type: 3}
 --- !u!61 &6630987008834603012
 BoxCollider2D:
   m_ObjectHideFlags: 0

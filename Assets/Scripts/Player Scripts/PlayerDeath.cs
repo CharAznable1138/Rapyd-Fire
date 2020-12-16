@@ -8,6 +8,10 @@ public class PlayerDeath : MonoBehaviour
     [Tooltip("The amount of points to be subtracted from the Player's score if the Player is defeated. (Float)")]
     private float playerDeathDemerits = 1;
 
+    [SerializeField]
+    [Tooltip("The explosion game object to create when the player is defeated.")]
+    private GameObject explosion;
+
     [Tooltip("The empty game object which tracks the Player's score.")]
     private GameObject scoreTrackerObject;
     [Tooltip("The ScoreTracker script attached to the Score Tracker game object.")]
@@ -76,6 +80,7 @@ public class PlayerDeath : MonoBehaviour
             playerIsDead = true;
             scoreTrackerScript.Score -= playerDeathDemerits;
         }
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

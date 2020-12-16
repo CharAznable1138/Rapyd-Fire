@@ -8,6 +8,10 @@ public class EnemyDeath : MonoBehaviour
     [Tooltip("The amount of points to be awarded to the player if an enemy is defeated. (Float)")]
     private float enemyPoints = 10;
 
+    [SerializeField]
+    [Tooltip("The explosion game object to be created when an enemy is defeated.")]
+    private GameObject explosion;
+
     [Tooltip("The empty game object which keeps track of the player's score.")]
     private GameObject scoreTrackerObject;
 
@@ -48,6 +52,7 @@ public class EnemyDeath : MonoBehaviour
                 scoreTrackerScript.Score += enemyPoints;
                 enemyIsDead = true;
             }
+            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }
