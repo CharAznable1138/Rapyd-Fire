@@ -24,6 +24,7 @@ TagManager:
   - Enemy Set
   - Powerup Set
   - Sound Manager
+  - Player Feet
   layers:
   - Default
   - TransparentFX
