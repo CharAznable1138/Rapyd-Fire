@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.382109, y: 0.34561783}
   m_AnchorMax: {x: 0.6148365, y: 0.42149734}
-  m_AnchoredPosition: {x: 1.0370026, y: 0}
+  m_AnchoredPosition: {x: 1.0369873, y: 0}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &74035245
@@ -287,7 +287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38369077, y: 0.026}
   m_AnchorMax: {x: 0.61800003, y: 0.09714661}
-  m_AnchoredPosition: {x: -0.5, y: -0.30004883}
+  m_AnchoredPosition: {x: -0.5, y: -0.3000183}
   m_SizeDelta: {x: 1, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172697985
@@ -714,7 +714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38369077, y: 0.026}
   m_AnchorMax: {x: 0.61800003, y: 0.09714661}
-  m_AnchoredPosition: {x: -0.5, y: -0.30004883}
+  m_AnchoredPosition: {x: -0.5, y: -0.3000183}
   m_SizeDelta: {x: 1, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &437703686
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.3
+  m_fontSize: 71.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1184,7 +1184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.382109, y: 0.23323561}
   m_AnchorMax: {x: 0.6148365, y: 0.3117644}
-  m_AnchoredPosition: {x: 1.0110168, y: 0.1000061}
+  m_AnchoredPosition: {x: 1.0110168, y: 0.099975586}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &683274516
@@ -1445,7 +1445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.023217967, y: 0.1495288}
   m_AnchorMax: {x: 0.9785273, y: 0.6674711}
-  m_AnchoredPosition: {x: -0.42596436, y: 0.1000061}
+  m_AnchoredPosition: {x: -0.4260254, y: 0.099975586}
   m_SizeDelta: {x: 0.3334961, y: -0.048736572}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &849741915
@@ -1467,7 +1467,34 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pixel Adventure assets by Pixel Frog - https://pixelfrog-store.itch.io/pixel-adventure-1
+  m_text: 'All art/sprites and animations from Pixel Adventure
+
+    Pixel Adventure
+    assets by Pixel Frog - https://pixelfrog-store.itch.io/pixel-adventure-1
+
+
+    Weapon
+    Discharge Sound by Shaun105 - https://freesound.org/people/Shaun105/
+
+
+    Jump
+    Sound by n_audioman: https://freesound.org/people/n_audioman/
+
+
+    Landing Sound
+    by TheDweebMan: https://freesound.org/people/TheDweebMan/
+
+
+    Explosion Sound
+    by AceOfSpadesProduc100: https://freesound.org/people/ProjectsU012/
+
+
+    Checkpoint
+    Sound by Daniel Noronha: https://freesound.org/people/Mrthenoronha/
+
+
+    Powerup
+    Sound by StudioCopsey: https://freesound.org/people/StudioCopsey/'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1494,7 +1521,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 58.05
+  m_fontSize: 34.8
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1661,7 +1688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.21470682}
   m_AnchorMax: {x: 0.799, y: 0.78223556}
-  m_AnchoredPosition: {x: 0.66052246, y: 0.5090027}
+  m_AnchoredPosition: {x: 0.66052246, y: 0.50897217}
   m_SizeDelta: {x: 1.192749, y: 1.5491333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277433545
@@ -1863,7 +1890,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.9
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1996,7 +2023,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69
+  m_fontSize: 68.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
