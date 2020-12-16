@@ -15,6 +15,9 @@ public class ShowGameOverScreen : MonoBehaviour
     [Tooltip("The UI panel that displays if the Player completes the level.")]
     private GameObject victoryPanel;
 
+    [Tooltip("The UI text that displays while the Player is shielded.")]
+    private GameObject shieldTimer;
+
     private void Update()
     {
         ShowOrHideGameOverPanel();
@@ -34,6 +37,7 @@ public class ShowGameOverScreen : MonoBehaviour
             if (victoryPanel.activeSelf == false)
             {
                 gameOverPanel.SetActive(true);
+                FindAndHideShieldTimer();
             }
             else
             {
@@ -56,6 +60,18 @@ public class ShowGameOverScreen : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Determine if there is currently a Shield Timer active. If so, hide it.
+    /// </summary>
+    private void FindAndHideShieldTimer()
+    {
+        shieldTimer = GameObject.FindGameObjectWithTag("Shield Timer");
+        if (shieldTimer != null)
+        {
+            shieldTimer.SetActive(false);
         }
     }
 }

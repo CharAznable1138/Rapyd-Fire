@@ -13,6 +13,9 @@ public class ShowVictoryScreen : MonoBehaviour
     [Tooltip("The UI panel that displays if the Player completes the level.")]
     private GameObject victoryPanel;
 
+    [Tooltip("The UI text that displays while the Player is shielded.")]
+    private GameObject shieldTimer;
+
     private void Start()
     {
         FindFinishLine();
@@ -47,10 +50,22 @@ public class ShowVictoryScreen : MonoBehaviour
         if (levelComplete.LevelIsComplete)
         {
             victoryPanel.SetActive(true);
+            FindAndHideShieldTimer();
         }
         else
         {
             victoryPanel.SetActive(false);
+        }
+    }
+    /// <summary>
+    /// Determine if there is currently a Shield Timer active. If so, hide it.
+    /// </summary>
+    private void FindAndHideShieldTimer()
+    {
+        shieldTimer = GameObject.FindGameObjectWithTag("Shield Timer");
+        if(shieldTimer != null)
+        {
+            shieldTimer.SetActive(false);
         }
     }
 }
