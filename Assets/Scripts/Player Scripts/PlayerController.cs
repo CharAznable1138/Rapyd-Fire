@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("The sound to be played when the Player jumps.")]
     private AudioClip jumpSound;
 
+    private Animator animator;
     [Tooltip("The Sound Manager game object.")]
     private GameObject soundManagerObject;
     [Tooltip("The SoundManager script attached to the Sound Manager game object.")]
@@ -189,6 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -243,6 +245,7 @@ public class PlayerController : MonoBehaviour
             HandleJumpInput();
             HandleShootInput();
             HandleLockMovementInput();
+            AnimateFalling();
         }
     }
     /// <summary>
@@ -251,7 +254,7 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private bool GameIsPaused()
     {
-        if(Time.timeScale > 0)
+        if (Time.timeScale > 0)
         {
             return false;
         }
@@ -270,6 +273,39 @@ public class PlayerController : MonoBehaviour
         else
         {
             locked = false;
+        }
+    }
+
+    private void AnimateIdle()
+    {
+        if (IsOnGround() || IsOnEnemy())
+        {
+            animator.SetBool("IsMoving", false);
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsFalling", false);
+        }
+    }
+    private void AnimateRunning()
+    {
+        if (IsOnGround() || IsOnEnemy())
+        {
+            animator.SetBool("IsMoving", true);
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsFalling", false);
+        }
+    }
+    private void AnimateJumping()
+    {
+        animator.SetBool("IsJumping", true);
+        animator.SetBool("IsFalling", false);
+    }
+
+    private void AnimateFalling()
+    {
+        if (!(IsOnGround() || IsOnEnemy()) && rigidbody2D.velocity.y < 0)
+        {
+            animator.SetBool("IsFalling", true);
+            animator.SetBool("IsJumping", false);
         }
     }
 
@@ -339,10 +375,11 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x > -maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.left * movementSpeed * Mathf.Abs(horizontalInput));
+                AnimateRunning();
                 AddToPlayerHasAlreadyDoneList(PlayerActions.Move);
             }
         }
-        if (Input.GetKey("right") || Input.GetKey("d"))
+        else if (Input.GetKey("right") || Input.GetKey("d"))
         {
             if (!facingRight)
             {
@@ -351,7 +388,15 @@ public class PlayerController : MonoBehaviour
             if (rigidbody2D.velocity.x < maxSpeed && !locked)
             {
                 rigidbody2D.AddForce(Vector2.right * movementSpeed * Mathf.Abs(horizontalInput));
+                AnimateRunning();
                 AddToPlayerHasAlreadyDoneList(PlayerActions.Move);
+            }
+        }
+        else
+        {
+            if (IsOnGround() || IsOnEnemy())
+            {
+                AnimateIdle();
             }
         }
     }
@@ -401,6 +446,7 @@ public class PlayerController : MonoBehaviour
         jumpVector = new Vector2(0, jumpForce);
         soundManagerScript.PlaySound(jumpSound);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
+        AnimateJumping();
         AddToPlayerHasAlreadyDoneList(PlayerActions.Jump);
     }
     /// <summary>
@@ -410,7 +456,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="_playerAction">The player action to be added to the list.</param>
     private void AddToPlayerHasAlreadyDoneList(PlayerActions _playerAction)
     {
-        if(!PlayerHasAlreadyDone.Contains(_playerAction))
+        if (!PlayerHasAlreadyDone.Contains(_playerAction))
         {
             PlayerHasAlreadyDone.Add(_playerAction);
         }
@@ -441,7 +487,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.color = normalSpriteColor;
         ShieldExpiryFlashIsOn = false;
         IsShielded = false;
-        if(ShieldTimerExists())
+        if (ShieldTimerExists())
         {
             Destroy(shieldTimer);
         }
@@ -455,7 +501,7 @@ public class PlayerController : MonoBehaviour
     private bool ShieldTimerExists()
     {
         shieldTimer = GameObject.FindGameObjectWithTag("Shield Timer");
-        if(shieldTimer != null)
+        if (shieldTimer != null)
         {
             return true;
         }
@@ -497,13 +543,13 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private AimingDirectionState Aim()
     {
-        if(verticalInput > 0)
+        if (verticalInput > 0)
         {
-            if(horizontalInput > 0)
+            if (horizontalInput > 0)
             {
                 return AimingDirectionState.UpRight;
             }
-            else if(horizontalInput < 0)
+            else if (horizontalInput < 0)
             {
                 return AimingDirectionState.UpLeft;
             }
@@ -512,13 +558,13 @@ public class PlayerController : MonoBehaviour
                 return AimingDirectionState.Up;
             }
         }
-        else if(verticalInput < 0 && (!IsOnGround() || !IsOnEnemy()))
+        else if (verticalInput < 0 && (!IsOnGround() || !IsOnEnemy()))
         {
             return AimingDirectionState.Down;
         }
         else
         {
-            if(facingRight)
+            if (facingRight)
             {
                 return AimingDirectionState.Right;
             }
@@ -533,12 +579,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void SwitchColors()
     {
-        if(spriteRenderer.color == normalSpriteColor)
+        if (spriteRenderer.color == normalSpriteColor)
         {
             spriteRenderer.color = powerupSpriteColor;
             ShieldExpiryFlashIsOn = false;
         }
-        else if(spriteRenderer.color == powerupSpriteColor)
+        else if (spriteRenderer.color == powerupSpriteColor)
         {
             spriteRenderer.color = normalSpriteColor;
             ShieldExpiryFlashIsOn = true;
