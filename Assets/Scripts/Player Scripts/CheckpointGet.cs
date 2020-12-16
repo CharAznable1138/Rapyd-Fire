@@ -8,6 +8,13 @@ public class CheckpointGet : MonoBehaviour
     [Tooltip("Amoun of time to display Checkpoint Get text. (Float)")]
     private float textDisplayTime = 2;
 
+    [SerializeField]
+    private AudioClip checkpointSound;
+
+    private GameObject soundManagerObject;
+
+    private SoundManager soundManagerScript;
+
     [Tooltip("The SpawnPoint game object, which instantiates a new player object when the player clicks Retry.")]
     private GameObject spawnPoint;
     /// <summary>
@@ -21,7 +28,13 @@ public class CheckpointGet : MonoBehaviour
     private void Start()
     {
         FindSpawnpointGameObject();
+        FindSoundManager();
         SetIsClaimedToFalse();
+    }
+    private void FindSoundManager()
+    {
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
     /// <summary>
     /// Initialize "IsClaimed" boolean as false.
@@ -63,6 +76,7 @@ public class CheckpointGet : MonoBehaviour
     private IEnumerator Claim()
     {
         IsClaimed = true;
+        soundManagerScript.PlaySound(checkpointSound, 1.0f);
         yield return new WaitForSeconds(textDisplayTime);
         IsClaimed = false;
         gameObject.SetActive(false);
