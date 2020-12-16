@@ -41161,11 +41161,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4129766394288533967, guid: 30de9cbe623dbe247864d6d204b5e4fe,
-        type: 3}
-      propertyPath: checkpointSound
-      value: 
-      objectReference: {fileID: 8300000, guid: e757d30d061b124499664c97eb6735e7, type: 3}
     - target: {fileID: 4129766394288533971, guid: 30de9cbe623dbe247864d6d204b5e4fe,
         type: 3}
       propertyPath: m_Name
