@@ -81,7 +81,7 @@ public class EnemyBulletBehavior : MonoBehaviour
                 }
                 break;
         }
-        soundManagerScript.PlaySound(bulletSound);
+        soundManagerScript.PlaySound(bulletSound, 1.0f);
         rigidbody2D.AddForce(movementVector, ForceMode2D.Impulse);
 
     }

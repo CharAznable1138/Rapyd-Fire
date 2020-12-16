@@ -455,7 +455,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         jumpVector = new Vector2(0, jumpForce);
-        soundManagerScript.PlaySound(jumpSound);
+        soundManagerScript.PlaySound(jumpSound, 0.5f);
         rigidbody2D.AddForce(jumpVector, ForceMode2D.Force);
         AnimateJumping();
         AddToPlayerHasAlreadyDoneList(PlayerActions.Jump);

@@ -78,7 +78,7 @@ public class PlayerBulletBehavior : MonoBehaviour
                 movementVector = new Vector2(bulletSpeed, bulletSpeed);
                 break;
         }
-        soundManagerScript.PlaySound(bulletSound);
+        soundManagerScript.PlaySound(bulletSound, 1.0f);
         rigidbody2D.AddForce(movementVector, ForceMode2D.Impulse);
     }
     /// <summary>

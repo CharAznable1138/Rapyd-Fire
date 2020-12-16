@@ -19,11 +19,13 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
     /// <summary>
-    /// Read in a sound, then play it at a normal pitch.
+    /// Read in a sound, then play it at the specified volume.
     /// </summary>
     /// <param name="_sound">The sound to be played.</param>
-    internal void PlaySound(AudioClip _sound)
+    /// <param name="_volume">The volume at which to play the sound (min. 0.0, max. 1.0)</param>
+    internal void PlaySound(AudioClip _sound, float _volume)
     {
+        audioSource.volume = _volume;
         audioSource.PlayOneShot(_sound);
     }
 }

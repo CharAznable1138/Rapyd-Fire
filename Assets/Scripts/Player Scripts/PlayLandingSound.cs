@@ -39,7 +39,7 @@ public class PlayLandingSound : MonoBehaviour
     {
         if (_collision.CompareTag("Ground") || _collision.CompareTag("Enemy"))
         {
-            soundManagerScript.PlaySound(landingSound);
+            soundManagerScript.PlaySound(landingSound, 0.5f);
         }
     }
 }
