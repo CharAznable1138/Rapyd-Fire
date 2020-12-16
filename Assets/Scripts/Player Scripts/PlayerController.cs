@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("The sound to be played when the Player jumps.")]
     private AudioClip jumpSound;
 
+    [Tooltip("The Animator component attached to this game object.")]
     private Animator animator;
     [Tooltip("The Sound Manager game object.")]
     private GameObject soundManagerObject;
@@ -275,7 +276,9 @@ public class PlayerController : MonoBehaviour
             locked = false;
         }
     }
-
+    /// <summary>
+    /// Set the player's animator to the Idle state, provided the player is grounded.
+    /// </summary>
     private void AnimateIdle()
     {
         if (IsOnGround() || IsOnEnemy())
@@ -285,6 +288,9 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsFalling", false);
         }
     }
+    /// <summary>
+    /// Set the player's animator to the Running state, provided the player is grounded.
+    /// </summary>
     private void AnimateRunning()
     {
         if (IsOnGround() || IsOnEnemy())
@@ -294,12 +300,17 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsFalling", false);
         }
     }
+    /// <summary>
+    /// Set the player's animator to the Jumping state.
+    /// </summary>
     private void AnimateJumping()
     {
         animator.SetBool("IsJumping", true);
         animator.SetBool("IsFalling", false);
     }
-
+    /// <summary>
+    /// Set the player's animator to the Falling state, provided the player isn't grounded and has a negative y-velocity.
+    /// </summary>
     private void AnimateFalling()
     {
         if (!(IsOnGround() || IsOnEnemy()) && rigidbody2D.velocity.y < 0)
