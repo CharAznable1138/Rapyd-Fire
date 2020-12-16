@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class PowerupCollect : MonoBehaviour
 {
+    private GameObject soundManagerObject;
+
+    private SoundManager soundManagerScript;
+
+    [SerializeField]
+    private AudioClip powerupCollectSound;
+
+    private void Start()
+    {
+        FindSoundManager();
+    }
+    private void FindSoundManager()
+    {
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SelfDestructOnContactWithPlayer(collision);
@@ -16,6 +32,7 @@ public class PowerupCollect : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            soundManagerScript.PlaySound(powerupCollectSound, 0.5f);
             Destroy(gameObject);
         }
     }

@@ -144,4 +144,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d18bc091522fb419d752ebfd77babe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfDestructDelay: 0.2
+  powerupCollectSound: {fileID: 8300000, guid: 072380cf28ab6134aae58bb719196c5b, type: 3}
