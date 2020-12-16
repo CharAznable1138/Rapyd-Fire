@@ -121,3 +121,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8b0ae2a01b61964ba1cc5c24ba2b178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victorySound: {fileID: 8300000, guid: b3bda1c6cf637434cbb462def7d8c1c3, type: 3}

@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class LevelComplete : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip victorySound;
+
     [Tooltip("List of Enemy game objects in scene.")]
     private GameObject[] enemies;
     [Tooltip("List of Enemy Bullet game objects in scene.")]
     private GameObject[] enemyBullets;
+
+    private GameObject soundManagerObject;
+    private GameObject musicManagerObject;
+    private SoundManager soundManagerScript;
+    private MusicManager musicManagerScript;
     /// <summary>
     /// True = level is complete, False = level is not complete. (Bool, Readonly)
     /// </summary>
@@ -15,6 +23,7 @@ public class LevelComplete : MonoBehaviour
     private void Start()
     {
         SetLevelIsCompleteToFalse();
+        FindSoundAndMusicManagers();
     }
     /// <summary>
     /// Set LevelIsComplete to its default value, false.
@@ -23,7 +32,13 @@ public class LevelComplete : MonoBehaviour
     {
         LevelIsComplete = false;
     }
-
+    private void FindSoundAndMusicManagers()
+    {
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        musicManagerObject = GameObject.FindGameObjectWithTag("Music Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
+        musicManagerScript = musicManagerObject.GetComponent<MusicManager>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EndLevelIfPlayerTouchesFinishLine(collision);
@@ -41,6 +56,8 @@ public class LevelComplete : MonoBehaviour
             enemyBullets = GameObject.FindGameObjectsWithTag("Enemy Bullet");
             StartCoroutine("DestroyAllEnemies");
             LevelIsComplete = true;
+            musicManagerScript.StopMusic();
+            soundManagerScript.PlaySound(victorySound, 1.0f);
             Destroy(collision.gameObject);
 
         }

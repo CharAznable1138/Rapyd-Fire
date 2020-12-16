@@ -25,6 +25,7 @@ TagManager:
   - Powerup Set
   - Sound Manager
   - Player Feet
+  - Music Manager
   layers:
   - Default
   - TransparentFX
