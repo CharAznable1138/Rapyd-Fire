@@ -9,10 +9,13 @@ public class CheckpointGet : MonoBehaviour
     private float textDisplayTime = 2;
 
     [SerializeField]
+    [Tooltip("The sound to be played when the Player claims a checkpoint.")]
     private AudioClip checkpointSound;
 
+    [Tooltip("The game object responsible for playing sounds.")]
     private GameObject soundManagerObject;
 
+    [Tooltip("The script that lets the sound manager game object play sounds.")]
     private SoundManager soundManagerScript;
 
     [Tooltip("The SpawnPoint game object, which instantiates a new player object when the player clicks Retry.")]
@@ -31,6 +34,9 @@ public class CheckpointGet : MonoBehaviour
         FindSoundManager();
         SetIsClaimedToFalse();
     }
+    /// <summary>
+    /// Get references to the Sound Manager game object and its matching script.
+    /// </summary>
     private void FindSoundManager()
     {
         soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
