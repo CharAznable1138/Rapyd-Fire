@@ -101,7 +101,7 @@ public class PlayerBulletBehavior : MonoBehaviour
     /// <param name="collision">The collider that the player bullet just touched.</param>
     private void SelfDestructOnContact(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Bounds"))
+        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Player Feet") && !collision.gameObject.CompareTag("Bounds"))
         {
             Destroy(gameObject);
         }
