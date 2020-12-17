@@ -51,10 +51,6 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
-    [Tooltip("The horizontal distance between the player's central ground check raycast and its two peripheral ground check raycasts (one on each side).")]
-    private float groundCheckPeripheralDistance = 1;
-
-    [SerializeField]
     [Tooltip("Layer on which to check for enemies. (LayerMask)")]
     private LayerMask enemyLayer;
 
@@ -96,6 +92,8 @@ public class PlayerController : MonoBehaviour
     private ScoreTracker scoreTrackerScript;
     [Tooltip("The Player's default color scheme.")]
     private Color32 normalSpriteColor;
+    [Tooltip("The 2D Collider component attached to the Player game object.")]
+    private Collider2D collider2D;
     /// <summary>
     /// The amount of time that the Player's Shield powerup lasts. (Float)
     /// </summary>
@@ -192,6 +190,7 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        collider2D = GetComponent<Collider2D>();
     }
 
     /// <summary>
@@ -204,9 +203,11 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = Vector2.down;
         float distance = groundCheckDistance;
 
-        Vector2 position2 = new Vector2(transform.position.x + groundCheckPeripheralDistance, transform.position.y);
+        //Shoutout to Brendan Lienau for teaching me how to use collider2D.bounds to get the exact proportions of the collider rather than guessing
 
-        Vector2 position3 = new Vector2(transform.position.x - groundCheckPeripheralDistance, transform.position.y);
+        Vector2 position2 = collider2D.bounds.min;
+
+        Vector2 position3 = new Vector2(collider2D.bounds.max.x, collider2D.bounds.min.y);
 
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         RaycastHit2D hit2 = Physics2D.Raycast(position2, direction, distance, groundLayer);
