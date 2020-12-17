@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseText: {fileID: 5230686688695017334}
+  pauseSound: {fileID: 8300000, guid: 520fa3fc5dd4049468763ca09640fea2, type: 3}
 --- !u!114 &1673140743
 MonoBehaviour:
   m_ObjectHideFlags: 0

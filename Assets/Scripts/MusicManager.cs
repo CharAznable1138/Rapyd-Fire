@@ -59,4 +59,18 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = musicTracks[SceneManager.GetActiveScene().buildIndex];
         audioSource.Play();
     }
+    /// <summary>
+    /// Pause the current music track.
+    /// </summary>
+    internal void PauseMusic()
+    {
+        audioSource.Pause();
+    }
+    /// <summary>
+    /// Play whatever music track is currently loaded into the music manager's AudioSource.
+    /// </summary>
+    internal void PlayCurrentMusic()
+    {
+        audioSource.Play();
+    }
 }

@@ -417,7 +417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38369077, y: 0.026}
   m_AnchorMax: {x: 0.61800003, y: 0.09714661}
-  m_AnchoredPosition: {x: -0.5, y: -0.2992859}
+  m_AnchoredPosition: {x: -0.5, y: -0.29916382}
   m_SizeDelta: {x: 1, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172697985
@@ -978,7 +978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38369077, y: 0.026}
   m_AnchorMax: {x: 0.61800003, y: 0.09714661}
-  m_AnchoredPosition: {x: -0.5, y: -0.2992859}
+  m_AnchoredPosition: {x: -0.5, y: -0.29916382}
   m_SizeDelta: {x: 1, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &437703686
@@ -4745,7 +4745,11 @@ MonoBehaviour:
 
 
     Explosion
-    Sound by AceOfSpadesProduc100: https://freesound.org/people/ProjectsU012/'
+    Sound by AceOfSpadesProduc100: https://freesound.org/people/ProjectsU012/
+
+
+    Pause
+    Sound by Phenala: https://freesound.org/people/Phenala/'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3f46ced040dcd5140b74b33735bcdf13, type: 2}
   m_sharedMaterial: {fileID: 5925230365493185270, guid: 3f46ced040dcd5140b74b33735bcdf13,

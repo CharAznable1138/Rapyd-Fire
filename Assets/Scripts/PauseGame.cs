@@ -14,9 +14,28 @@ public class PauseGame : MonoBehaviour
     [Tooltip("The Player's game object.")]
     private GameObject player;
 
+    [SerializeField]
+    private AudioClip pauseSound;
+
+    private GameObject musicManagerObject;
+    private MusicManager musicManagerScript;
+    private GameObject soundManagerObject;
+    private SoundManager soundManagerScript;
+
+    private void Start()
+    {
+        FindSoundAndMusicManagers();
+    }
     private void Update()
     {
         HandlePauseInput();
+    }
+    private void FindSoundAndMusicManagers()
+    {
+        musicManagerObject = GameObject.FindGameObjectWithTag("Music Manager");
+        musicManagerScript = musicManagerObject.GetComponent<MusicManager>();
+        soundManagerObject = GameObject.FindGameObjectWithTag("Sound Manager");
+        soundManagerScript = soundManagerObject.GetComponent<SoundManager>();
     }
     /// <summary>
     /// If player presses the Escape key and isn't dead,
@@ -30,11 +49,13 @@ public class PauseGame : MonoBehaviour
             if (isPaused)
             {
                 Unpause();
+                ResumeMusic();
                 isPaused = false;
             }
             else
             {
                 Pause();
+                PauseMusic();
                 isPaused = true;
             }
         }
@@ -47,6 +68,16 @@ public class PauseGame : MonoBehaviour
     {
         Time.timeScale = 0;
         pauseText.SetActive(true);
+    }
+    private void PauseMusic()
+    {
+        musicManagerScript.PauseMusic();
+        soundManagerScript.PlaySound(pauseSound, 1.0f);
+    }
+    private void ResumeMusic()
+    {
+        soundManagerScript.PlaySound(pauseSound, 1.0f);
+        musicManagerScript.PlayCurrentMusic();
     }
     /// <summary>
     /// Resume the game by setting the time scale to 1, hide pause text.
