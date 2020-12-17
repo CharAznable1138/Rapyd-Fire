@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("A list of music tracks to use in the game. For best results, arrange in the following order: Main Menu, Level 1, Level 2, Level 3, Final Results")]
+    private AudioClip[] musicTracks;
+
     [Tooltip("The Audio Source component attached to this game object.")]
     private AudioSource audioSource;
 
     private void Start()
     {
         GetAudioSource();
+        SetLevelMusic();
     }
     /// <summary>
     /// Find the AudioSource component attached to this game object and assign it to a variable.
@@ -35,5 +42,21 @@ public class MusicManager : MonoBehaviour
     internal void StopMusic()
     {
         audioSource.Stop();
+    }
+    /// <summary>
+    /// Check which music is currently playing.
+    /// </summary>
+    /// <returns></returns>
+    internal AudioClip CurrentMusic()
+    {
+        return audioSource.clip;
+    }
+    /// <summary>
+    /// Check the build index of the current scene, then play its corresponding music track.
+    /// </summary>
+    private void SetLevelMusic()
+    {
+        audioSource.clip = musicTracks[SceneManager.GetActiveScene().buildIndex];
+        audioSource.Play();
     }
 }
