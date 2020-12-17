@@ -1477,16 +1477,16 @@ MonoBehaviour:
     Discharge Sound by Shaun105 - https://freesound.org/people/Shaun105/
 
 
-    Jump
-    Sound by n_audioman: https://freesound.org/people/n_audioman/
+    Player
+    Jump & Enemy Jetpack Sounds by n_audioman: https://freesound.org/people/n_audioman/
 
 
-    Landing Sound
-    by TheDweebMan: https://freesound.org/people/TheDweebMan/
+    Landing
+    Sound by TheDweebMan: https://freesound.org/people/TheDweebMan/
 
 
-    Explosion Sound
-    by AceOfSpadesProduc100: https://freesound.org/people/ProjectsU012/
+    Explosion
+    Sound by AceOfSpadesProduc100: https://freesound.org/people/ProjectsU012/
 
 
     Checkpoint
@@ -1849,7 +1849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35456252, y: 0.8407461}
   m_AnchorMax: {x: 0.6455818, y: 0.97151643}
-  m_AnchoredPosition: {x: -1.0000916, y: 1.5}
+  m_AnchoredPosition: {x: -1.0001221, y: 1.5}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282613463
