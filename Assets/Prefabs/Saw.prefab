@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5073198361814007888}
   - component: {fileID: 5073198361814007889}
-  - component: {fileID: 5073198361814007903}
   - component: {fileID: 7980758923581266946}
+  - component: {fileID: -3126204912287257891}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Hazard
@@ -83,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5073198361814007903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5073198361814007900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f8d892ae4412df43a5824579da36800, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spinningSpeed: 10
 --- !u!58 &7980758923581266946
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -112,3 +99,22 @@ CircleCollider2D:
   m_Offset: {x: -0.0062921047, y: 0}
   serializedVersion: 2
   m_Radius: 0.364722
+--- !u!95 &-3126204912287257891
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073198361814007900}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14443e88e8d240b4d9bc38cc943e09ba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
