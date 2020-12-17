@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class ShieldTimerBehavior : MonoBehaviour
 {
+    [Tooltip("The game object responsible for playing music.")]
     private GameObject musicManagerObject;
+    [Tooltip("The script that lets the Music Manager game object play music.")]
     private MusicManager musicManagerScript;
     private AudioClip normalMusic;
     [Tooltip("The amount of time at which to start the shield timer. (Float)")]
@@ -23,7 +25,9 @@ public class ShieldTimerBehavior : MonoBehaviour
     private PlayerController playerController;
     [Tooltip("The TextMeshPro Text component attached to the this game object.")]
     private TMP_Text timerText;
+    [Tooltip("The game object which, if touched by the Player, ends the level.")]
     private GameObject finishLine;
+    [Tooltip("The script which lets the Finish Line game object end the level if touched by the Player.")]
     private LevelComplete levelComplete;
 
     [SerializeField]
@@ -31,6 +35,7 @@ public class ShieldTimerBehavior : MonoBehaviour
     private int decimalPlaces = 2;
 
     [SerializeField]
+    [Tooltip("The music to be played when the Player collects a powerup.")]
     private AudioClip powerupMusic;
 
     private void Start()
@@ -43,16 +48,25 @@ public class ShieldTimerBehavior : MonoBehaviour
         SetStartingTime();
         PlayPowerupMusic();
     }
+    /// <summary>
+    /// Get a reference to the Music Manager game object and its matching script.
+    /// </summary>
     private void FindMusicManager()
     {
         musicManagerObject = GameObject.FindGameObjectWithTag("Music Manager");
         musicManagerScript = musicManagerObject.GetComponent<MusicManager>();
     }
+    /// <summary>
+    /// Get a reference to the Finish Line game object and its LevelComplete script.
+    /// </summary>
     private void FindLevelComplete()
     {
         finishLine = GameObject.FindGameObjectWithTag("Finish Line");
         levelComplete = finishLine.GetComponent<LevelComplete>();
     }
+    /// <summary>
+    /// Get a reference to the current scene's default music.
+    /// </summary>
     private void SetNormalMusic()
     {
         normalMusic = musicManagerScript.CurrentMusic();
@@ -67,13 +81,17 @@ public class ShieldTimerBehavior : MonoBehaviour
             startingTime = playerController.ShieldTime;
         }
     }
-
+    /// <summary>
+    /// Stop all music tracks, then play the Powerup music.
+    /// </summary>
     private void PlayPowerupMusic()
     {
         musicManagerScript.StopMusic();
         musicManagerScript.PlayMusic(powerupMusic, 1.0f);
     }
-
+    /// <summary>
+    /// Stop all music tracks, then, if the level isn't complete, play the normal stage music.
+    /// </summary>
     private void StopPowerupMusic()
     {
         musicManagerScript.StopMusic();
