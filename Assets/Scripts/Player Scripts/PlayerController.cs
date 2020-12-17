@@ -269,6 +269,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1) && (IsOnGround() || IsOnEnemy()))
         {
             locked = true;
+            AnimateIdle();
             AddToPlayerHasAlreadyDoneList(PlayerActions.Lock);
         }
         else
