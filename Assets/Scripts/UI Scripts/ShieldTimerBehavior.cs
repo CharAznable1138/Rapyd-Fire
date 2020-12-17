@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class ShieldTimerBehavior : MonoBehaviour
 {
+    private GameObject musicManagerObject;
+    private MusicManager musicManagerScript;
+    private AudioClip normalMusic;
     [Tooltip("The amount of time at which to start the shield timer. (Float)")]
     private double startingTime;
     [Tooltip("The amuont of time left before the shield timer expires. (Float)")]
@@ -20,16 +23,39 @@ public class ShieldTimerBehavior : MonoBehaviour
     private PlayerController playerController;
     [Tooltip("The TextMeshPro Text component attached to the this game object.")]
     private TMP_Text timerText;
+    private GameObject finishLine;
+    private LevelComplete levelComplete;
 
     [SerializeField]
     [Tooltip("The amount of decimal places to which to round up remaining time. (Integer)")]
     private int decimalPlaces = 2;
 
+    [SerializeField]
+    private AudioClip powerupMusic;
+
     private void Start()
     {
         ResetTimePassed();
         FindTMPTextComponent();
+        FindMusicManager();
+        FindLevelComplete();
+        SetNormalMusic();
         SetStartingTime();
+        PlayPowerupMusic();
+    }
+    private void FindMusicManager()
+    {
+        musicManagerObject = GameObject.FindGameObjectWithTag("Music Manager");
+        musicManagerScript = musicManagerObject.GetComponent<MusicManager>();
+    }
+    private void FindLevelComplete()
+    {
+        finishLine = GameObject.FindGameObjectWithTag("Finish Line");
+        levelComplete = finishLine.GetComponent<LevelComplete>();
+    }
+    private void SetNormalMusic()
+    {
+        normalMusic = musicManagerScript.CurrentMusic();
     }
     /// <summary>
     /// If the player exists, set the starting time equal to the player's shield time.
@@ -42,6 +68,20 @@ public class ShieldTimerBehavior : MonoBehaviour
         }
     }
 
+    private void PlayPowerupMusic()
+    {
+        musicManagerScript.StopMusic();
+        musicManagerScript.PlayMusic(powerupMusic, 1.0f);
+    }
+
+    private void StopPowerupMusic()
+    {
+        musicManagerScript.StopMusic();
+        if (!levelComplete.LevelIsComplete)
+        {
+            musicManagerScript.PlayMusic(normalMusic, 1.0f);
+        }
+    }
     /// <summary>
     /// Find the TMP Text component attached to this game object.
     /// </summary>
@@ -86,6 +126,11 @@ public class ShieldTimerBehavior : MonoBehaviour
                 timerText.text = null;
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        StopPowerupMusic();
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ public class ShowGameOverScreen : MonoBehaviour
             if (victoryPanel.activeSelf == false)
             {
                 gameOverPanel.SetActive(true);
-                FindAndHideShieldTimer();
+                FindAndDestroyShieldTimer();
             }
             else
             {
@@ -64,14 +64,14 @@ public class ShowGameOverScreen : MonoBehaviour
     }
 
     /// <summary>
-    /// Determine if there is currently a Shield Timer active. If so, hide it.
+    /// Determine if there is currently a Shield Timer active. If so, destroy it.
     /// </summary>
-    private void FindAndHideShieldTimer()
+    private void FindAndDestroyShieldTimer()
     {
         shieldTimer = GameObject.FindGameObjectWithTag("Shield Timer");
         if (shieldTimer != null)
         {
-            shieldTimer.SetActive(false);
+            Destroy(shieldTimer);
         }
     }
 }

@@ -160,3 +160,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decimalPlaces: 2
+  powerupMusic: {fileID: 8300000, guid: a60e977b71d10a746b129fc87611bf05, type: 3}
