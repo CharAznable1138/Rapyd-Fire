@@ -15,11 +15,16 @@ public class PauseGame : MonoBehaviour
     private GameObject player;
 
     [SerializeField]
+    [Tooltip("The sound to play when the game is paused or unpaused.")]
     private AudioClip pauseSound;
 
+    [Tooltip("The game object responsible for playing music.")]
     private GameObject musicManagerObject;
+    [Tooltip("The script that lets the Music Manager game object play music.")]
     private MusicManager musicManagerScript;
+    [Tooltip("The game object responsible for playing sounds.")]
     private GameObject soundManagerObject;
+    [Tooltip("The script that lets the Sound Manager game object play sounds.")]
     private SoundManager soundManagerScript;
 
     private void Start()
@@ -30,6 +35,9 @@ public class PauseGame : MonoBehaviour
     {
         HandlePauseInput();
     }
+    /// <summary>
+    /// Get references to the Sound Manager and Music Manager game objects and their matching scripts.
+    /// </summary>
     private void FindSoundAndMusicManagers()
     {
         musicManagerObject = GameObject.FindGameObjectWithTag("Music Manager");
@@ -69,11 +77,17 @@ public class PauseGame : MonoBehaviour
         Time.timeScale = 0;
         pauseText.SetActive(true);
     }
+    /// <summary>
+    /// Pause the current music track.
+    /// </summary>
     private void PauseMusic()
     {
         musicManagerScript.PauseMusic();
         soundManagerScript.PlaySound(pauseSound, 1.0f);
     }
+    /// <summary>
+    /// Resume playing the current music track.
+    /// </summary>
     private void ResumeMusic()
     {
         soundManagerScript.PlaySound(pauseSound, 1.0f);
