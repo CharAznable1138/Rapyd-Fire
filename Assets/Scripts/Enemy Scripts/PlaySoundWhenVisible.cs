@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayJetpackSoundWhenVisible : MonoBehaviour
+public class PlaySoundWhenVisible : MonoBehaviour
 {
     private AudioSource audioSource;
 
@@ -16,17 +16,17 @@ public class PlayJetpackSoundWhenVisible : MonoBehaviour
     }
     private void OnBecameVisible()
     {
-        PlayJetpackSound();
+        PlaySound();
     }
     private void OnBecameInvisible()
     {
-        StopJetpackSound();
+        StopSound();
     }
-    private void PlayJetpackSound()
+    private void PlaySound()
     {
         audioSource.Play();
     }
-    private void StopJetpackSound()
+    private void StopSound()
     {
         audioSource.Stop();
     }
