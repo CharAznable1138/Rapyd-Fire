@@ -199,7 +199,7 @@ MonoBehaviour:
   movementSpeed: 75
   maxSpeed: 7.5
   jumpForce: 850
-  groundCheckDistance: 0.55
+  groundCheckDistance: 0.1
   cooldownTime: 0.2
   shieldTime: 5
   shieldExpiryFlashTime: 0.2
@@ -209,7 +209,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  groundCheckPeripheralDistance: 0.4
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
